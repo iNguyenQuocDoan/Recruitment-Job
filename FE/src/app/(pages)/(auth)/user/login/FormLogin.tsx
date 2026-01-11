@@ -67,6 +67,7 @@ export default function FormLogin() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(dataFinal),
+          credentials: "include",
         })
           .then((response) => response.json())
           .then((data) => {

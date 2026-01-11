@@ -1,6 +1,11 @@
 import { Request, Response } from "express";
-import AccountUser from "../models/account-user.model";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+import AccountUser from "../models/account-user.model";
+
+dotenv.config();
 
 const registerPostController = async (req: Request, res: Response) => {
   console.log("Received registration data:", req.body);
@@ -38,4 +43,45 @@ const registerPostController = async (req: Request, res: Response) => {
   }
 };
 
-export { registerPostController };
+const loginPostController = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+    const existAccount = await AccountUser.findOne({ email });
+
+    if (!existAccount) {
+      return res
+        .status(400)
+        .json({ code: "error", message: "Không tồn tại trong hệ thống" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      `${existAccount.password}`
+    );
+
+    const token = jwt.sign(
+      {
+        id: existAccount._id,
+        email: existAccount.email,
+      },
+      `${process.env.JWT_SECRET}`,
+      {
+        expiresIn: "7d",
+      }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false, // https = true, http = false
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      sameSite: "lax", // Cho phép gửi cookie giữa các tên miền
+    });
+  } catch (error) {
+    console.error("Error during user login:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+
+  return res.json({ code: "success", message: "Login success" });
+};
+
+export { registerPostController, loginPostController };

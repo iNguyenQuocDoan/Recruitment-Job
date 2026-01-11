@@ -16,7 +16,8 @@ connectDb();
 
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:3000", // chỉ định tên miền cụ thể,
+    credentials: true, // cho phép gửi cookie
   })
 ); // Enable CORS for all routes
 
