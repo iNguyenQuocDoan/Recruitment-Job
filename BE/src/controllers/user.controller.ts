@@ -28,7 +28,10 @@ const registerPostController = async (req: Request, res: Response) => {
 
     await newUser.save();
 
-    return res.json({ message: "User registered successfully" });
+    return res.json({
+      code: "success",
+      message: "User registered successfully",
+    });
   } catch (error) {
     console.error("Error during user registration:", error);
     return res.status(500).json({ message: "Internal server error" });
