@@ -1,42 +1,26 @@
 "use client";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import JustValidate from "just-validate";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
-export default function FormRegister() {
+export default function FormLogin() {
   const router = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const validatorRef = useRef<any>(null);
 
   useEffect(() => {
-    const formElement = document.querySelector("#registerForm");
+    const formElement = document.querySelector("#loginForm");
     if (!formElement) return;
 
     if (validatorRef.current) {
       validatorRef.current.destroy();
     }
 
-    const validator = new JustValidate("#registerForm");
+    const validator = new JustValidate("#loginForm");
     validatorRef.current = validator;
 
     validator
-      .addField("#fullName", [
-        {
-          rule: "required",
-          errorMessage: "Họ tên không được để trống",
-        },
-        {
-          rule: "minLength",
-          value: 3,
-          errorMessage: "Họ tên phải có ít nhất 3 ký tự",
-        },
-        {
-          rule: "maxLength",
-          value: 50,
-          errorMessage: "Họ tên không được vượt quá 50 ký tự",
-        },
-      ])
       .addField("#email", [
         {
           rule: "required",
@@ -63,22 +47,21 @@ export default function FormRegister() {
           errorMessage: "Mật khẩu không được vượt quá 30 ký tự",
         },
       ])
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .onSuccess((event: any) => {
         event.preventDefault();
 
-        const fullName = event.target.fullName.value;
         const email = event.target.email.value;
         const password = event.target.password.value;
 
         const dataFinal = {
-          fullName,
           email,
           password,
         };
 
         console.log("Data to submit:", dataFinal);
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/register`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -88,10 +71,10 @@ export default function FormRegister() {
           .then((response) => response.json())
           .then((data) => {
             if (data.code === "success") {
-              alert(data.message || "Đăng ký thành công!");
-              router.push("/user/login");
+              alert(data.message || "Đăng nhập thành công!");
+              router.push("/");
             } else {
-              alert(data.message || "Đăng ký thất bại!");
+              alert(data.message || "Đăng nhập thất bại!");
             }
           })
           .catch((error) => {
@@ -108,21 +91,7 @@ export default function FormRegister() {
   }, [router]);
 
   return (
-    <form id="registerForm" className="grid grid-cols-1 gap-y-[15px]">
-      <div className="">
-        <label
-          htmlFor="fullName"
-          className="block font-[500] text-[14px] text-black mb-[5px]"
-        >
-          Họ tên *
-        </label>
-        <input
-          type="text"
-          name="fullName"
-          id="fullName"
-          className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-        />
-      </div>
+    <form id="loginForm" action="" className="grid grid-cols-1 gap-y-[15px]">
       <div className="">
         <label
           htmlFor="email"
@@ -152,11 +121,8 @@ export default function FormRegister() {
         />
       </div>
       <div className="">
-        <button
-          type="submit"
-          className="bg-[#0088FF] rounded-[4px] w-[100%] h-[48px] px-[20px] font-[700] text-[16px] text-white"
-        >
-          Đăng ký
+        <button className="bg-[#0088FF] rounded-[4px] w-[100%] h-[48px] px-[20px] font-[700] text-[16px] text-white">
+          Đăng nhập
         </button>
       </div>
     </form>
