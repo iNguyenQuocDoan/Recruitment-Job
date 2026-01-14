@@ -53,3 +53,15 @@ export const check = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const logout = async (req: Request, res: Response) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+  });
+  return res.json({
+    code: "success",
+    message: "User logged out successfully",
+  });
+};
