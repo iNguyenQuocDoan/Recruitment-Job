@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 import routes from "./src/routes/index.routes";
 import { connectDb } from "./src/config/database.config";
@@ -22,6 +23,8 @@ app.use(
 ); // Enable CORS for all routes
 
 app.use(express.json()); // Middleware to parse JSON bodies
+
+app.use(cookieParser()); // Middleware to parse cookies
 
 app.use("/", routes);
 
