@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -6,6 +7,7 @@ export const useAuth = () => {
   const [isLogin, setIsLogin] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [infoUser, setInfoUser] = useState<any>(null);
+  const [infoCompany, setInfoCompany] = useState<any>(null);
   const pathName = usePathname();
 
   useEffect(() => {
@@ -16,7 +18,15 @@ export const useAuth = () => {
       .then((data) => {
         if (data.code == "success") {
           setIsLogin(true);
-          setInfoUser(data.infoUser);
+          if (data.infoUser) {
+            setInfoUser(data.infoUser);
+            setInfoCompany(null);
+          }
+
+          if (data.infoCompany) {
+            setInfoCompany(data.infoCompany);
+            setInfoUser(null);
+          }
         }
 
         if (data.code == "unauthenticated") {
@@ -25,5 +35,5 @@ export const useAuth = () => {
       });
   }, [pathName]);
 
-  return { isLogin, infoUser };
+  return { isLogin, infoUser, infoCompany };
 };

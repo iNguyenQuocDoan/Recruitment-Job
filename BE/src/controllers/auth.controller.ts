@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 
 import { Request, Response } from "express";
 import AccountUser from "../models/account-user.model";
+import AccountCompany from "../models/account-company.model";
 
 export const check = async (req: Request, res: Response) => {
   try {
@@ -25,25 +26,44 @@ export const check = async (req: Request, res: Response) => {
       email: email,
     });
 
-    if (!existUser) {
-      res.clearCookie("token");
+    if (existUser) {
+      const infoUser = {
+        id: existUser._id,
+        email: existUser.email,
+        fullName: existUser.fullName,
+      };
+      res.locals.account = existUser;
+
       return res.json({
-        code: "Error",
-        message: "User not found",
+        code: "success",
+        message: "User is authenticated",
+        infoUser: infoUser,
       });
     }
 
-    const infoUser = {
-      id: existUser._id,
-      email: existUser.email,
-      fullName: existUser.fullName,
-    };
-    res.locals.account = existUser;
+    const existAccountCompany = await AccountCompany.findOne({
+      _id: id,
+      email: email,
+    });
+
+    if (existAccountCompany) {
+      const infoCompany = {
+        id: existAccountCompany._id,
+        email: existAccountCompany.email,
+        companyName: existAccountCompany.companyName,
+      };
+      res.locals.account = existAccountCompany;
+
+      return res.json({
+        code: "success",
+        message: "User is authenticated",
+        infoCompany: infoCompany,
+      });
+    }
 
     return res.json({
-      code: "success",
-      message: "User is authenticated",
-      infoUser: infoUser,
+      code: "unauthenticated",
+      message: "User is not authenticated",
     });
   } catch (error) {
     console.log("Error in auth check:", error);

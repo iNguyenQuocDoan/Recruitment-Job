@@ -10,4 +10,10 @@ router.post(
   companyController.registerPostController
 );
 
+router.post(
+  "/login",
+  companyValidate.loginPost,
+  companyController.loginPostController
+);
+
 export default router;
