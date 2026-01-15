@@ -31,6 +31,8 @@ export const check = async (req: Request, res: Response) => {
         id: existUser._id,
         email: existUser.email,
         fullName: existUser.fullName,
+        phone: existUser.phone,
+        avatar: existUser.avatar,
       };
       res.locals.account = existUser;
 

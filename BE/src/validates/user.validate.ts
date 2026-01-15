@@ -98,4 +98,32 @@ const loginPost = async (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
-export { registerPost, loginPost };
+const profilePatch = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const schema = Joi.object({
+    fullName: Joi.string().min(3).max(50).required().messages({
+      "string.empty": "Vui lòng nhập họ và tên!",
+      "string.min": "Vui lòng nhập họ và tên ít nhất 3 ký tự!",
+      "string.max": "Vui lòng nhập họ và tên dưới 50 ký tự",
+    }),
+    email: Joi.string().required().email().messages({
+      "string.empty": "Vui lòng nhập email",
+      "string.email": "Vui lòng nhập đúng định dạng email",
+    }),
+    phone: Joi.string().optional().allow(""),
+  }).unknown(true);
+  const { error } = schema.validate(req.body);
+  if (error) {
+    const errMessage = error.details[0].message;
+    return res.json({
+      code: "error",
+      message: errMessage,
+    });
+  }
+  next();
+};
+
+export { registerPost, loginPost, profilePatch };

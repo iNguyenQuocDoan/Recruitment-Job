@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 import AccountUser from "../models/account-user.model";
+import { AccountRequest } from "../interfaces/request.interface";
 
 dotenv.config();
 
@@ -84,4 +85,20 @@ const loginPostController = async (req: Request, res: Response) => {
   return res.json({ code: "success", message: "Login success" });
 };
 
-export { registerPostController, loginPostController };
+const profilePatchController = async (req: AccountRequest, res: Response) => {
+  if (req.file) {
+    req.body.avatar = req.file.path;
+  } else {
+    delete req.body.avatar;
+  }
+
+  await AccountUser.updateOne(
+    {
+      _id: req.account._id,
+    },
+    req.body
+  );
+
+  return res.json({ code: "success", message: "Profile updated successfully" });
+};
+export { registerPostController, loginPostController, profilePatchController };
