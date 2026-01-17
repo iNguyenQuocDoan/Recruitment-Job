@@ -3,6 +3,7 @@
 import JustValidate from "just-validate";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { toast } from "sonner";
 
 export default function FormLogin() {
   const router = useRouter();
@@ -73,16 +74,16 @@ export default function FormLogin() {
           .then((data) => {
             console.log("Response from server:", data);
             if (data.code === "success") {
-              alert(data.message || "Đăng nhập thành công!");
+              toast.success(data.message || "Đăng nhập thành công!");
               console.log("Redirecting to home...");
               router.push("/");
             } else {
-              alert(data.message || "Đăng nhập thất bại!");
+              toast.error(data.message || "Đăng nhập thất bại!");
             }
           })
           .catch((error) => {
             console.error("Error:", error);
-            alert("Đã có lỗi xảy ra. Vui lòng thử lại.");
+            toast.error("Đã có lỗi xảy ra. Vui lòng thử lại.");
           });
       });
 

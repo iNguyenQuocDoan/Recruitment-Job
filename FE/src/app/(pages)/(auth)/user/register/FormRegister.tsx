@@ -4,6 +4,7 @@
 import JustValidate from "just-validate";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { toast } from "sonner";
 
 export default function FormRegister() {
   const router = useRouter();
@@ -88,15 +89,15 @@ export default function FormRegister() {
           .then((response) => response.json())
           .then((data) => {
             if (data.code === "success") {
-              alert(data.message || "Đăng ký thành công!");
+              toast.success(data.message || "Đăng ký thành công!");
               router.push("/user/login");
             } else {
-              alert(data.message || "Đăng ký thất bại!");
+              toast.error(data.message || "Đăng ký thất bại!");
             }
           })
           .catch((error) => {
             console.error("Error:", error);
-            alert("Đã có lỗi xảy ra. Vui lòng thử lại.");
+            toast.error("Đã có lỗi xảy ra. Vui lòng thử lại.");
           });
       });
 
