@@ -53,6 +53,15 @@ export const check = async (req: Request, res: Response) => {
         id: existAccountCompany._id,
         email: existAccountCompany.email,
         companyName: existAccountCompany.companyName,
+        logo: existAccountCompany.logo,
+        phone: existAccountCompany.phone,
+        city: existAccountCompany.city,
+        address: existAccountCompany.address,
+        companyModel: existAccountCompany.companyModel,
+        companyEmployees: existAccountCompany.companyEmployees,
+        workingTime: existAccountCompany.workingTime,
+        workOvertime: existAccountCompany.workOvertime,
+        description: existAccountCompany.description,
       };
       res.locals.account = existAccountCompany;
 

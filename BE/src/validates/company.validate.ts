@@ -98,4 +98,54 @@ const loginPost = async (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
-export { registerPost, loginPost };
+const profilePatch = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const schema = Joi.object({
+    companyName: Joi.string().min(3).max(50).required().messages({
+      "string.empty": "Vui lòng nhập tên công ty!",
+      "string.min": "Vui lòng nhập tên công ty ít nhất 3 ký tự!",
+      "string.max": "Vui lòng nhập tên công ty dưới 50 ký tự",
+    }),
+    email: Joi.string().required().email().messages({
+      "string.empty": "Vui lòng nhập email",
+      "string.email": "Vui lòng nhập đúng định dạng email",
+    }),
+    phone: Joi.string().min(10).max(15).optional().allow("").messages({
+      "string.min": "Số điện thoại phải có ít nhất 10 ký tự",
+      "string.max": "Số điện thoại không được vượt quá 15 ký tự",
+    }),
+    city: Joi.string().optional().allow(""),
+    address: Joi.string().min(5).required().messages({
+      "string.empty": "Vui lòng nhập địa chỉ!",
+      "string.min": "Địa chỉ phải có ít nhất 5 ký tự",
+    }),
+    companyModel: Joi.string().required().messages({
+      "string.empty": "Vui lòng nhập mô hình công ty!",
+    }),
+    companyEmployees: Joi.string().required().messages({
+      "string.empty": "Vui lòng nhập quy mô công ty!",
+    }),
+    workingTime: Joi.string().required().messages({
+      "string.empty": "Vui lòng nhập thời gian làm việc!",
+    }),
+    workOvertime: Joi.string().optional().allow(""),
+    description: Joi.string().min(20).required().messages({
+      "string.empty": "Vui lòng nhập mô tả chi tiết!",
+      "string.min": "Mô tả chi tiết phải có ít nhất 20 ký tự",
+    }),
+  }).unknown(true);
+  const { error } = schema.validate(req.body);
+  if (error) {
+    const errMessage = error.details[0].message;
+    return res.json({
+      code: "error",
+      message: errMessage,
+    });
+  }
+  next();
+};
+
+export { registerPost, loginPost, profilePatch };
