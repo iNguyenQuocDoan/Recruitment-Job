@@ -83,13 +83,12 @@ export const HeaderAccount = () => {
             )}
 
             {/* Đã đăng nhập tài khoản company*/}
-            {/* Đã đăng nhập tài khoản user*/}
             {infoCompany && (
               <>
                 {" "}
-                <Link href="/company-manage/profile" className="">
+                <span className="cursor-pointer">
                   {infoCompany?.companyName}
-                </Link>
+                </span>
                 <ul className="absolute top-[100%] right-[0px] w-[200px] bg-[#000065] hidden group-hover/sub-1:block z-[999]">
                   <li className="py-[10px] px-[16px] rounded-[4px] flex items-center justify-between hover:bg-[#000096] relative group/sub-2">
                     <Link
@@ -101,7 +100,10 @@ export const HeaderAccount = () => {
                   </li>
 
                   <li className="py-[10px] px-[16px] rounded-[4px] flex items-center justify-between hover:bg-[#000096] relative group/sub-2">
-                    <Link href="" className="text-white font-[600] text-[16px]">
+                    <Link
+                      href="/company-manage/cv/list"
+                      className="text-white font-[600] text-[16px]"
+                    >
                       Quản lí CV đã gửi
                     </Link>
                   </li>
