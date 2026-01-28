@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { FilePond, registerPlugin } from "react-filepond";
@@ -6,15 +7,23 @@ import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import { Toaster, toast } from "sonner";
+import { Editor } from "@tinymce/tinymce-react";
 
 import { useAuth } from "@/hooks/useAuth";
 import JustValidate from "just-validate";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 //filepond
 registerPlugin(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
 export const FormProfile = () => {
+  const editorRef = useRef(null);
+  const log = () => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+    }
+  };
+
   const { infoCompany } = useAuth();
 
   // lay avatar
@@ -131,17 +140,6 @@ export const FormProfile = () => {
             rule: "required",
             errorMessage: "Thời gian làm việc không được để trống",
           },
-        ])
-        .addField("#description", [
-          {
-            rule: "required",
-            errorMessage: "Mô tả chi tiết không được để trống",
-          },
-          {
-            rule: "minLength",
-            value: 20,
-            errorMessage: "Mô tả chi tiết phải có ít nhất 20 ký tự",
-          },
         ]);
     }
   }, [infoCompany]);
@@ -158,7 +156,18 @@ export const FormProfile = () => {
     const companyEmployees = event.target.companyEmployees.value;
     const workingTime = event.target.workingTime.value;
     const workOvertime = event.target.workOvertime.value;
-    const description = event.target.description.value;
+
+    // Lấy nội dung từ TinyMCE Editor
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const description = editorRef.current
+      ? (editorRef.current as any).getContent()
+      : "";
+
+    // Validate description
+    if (!description || description.trim().length < 20) {
+      toast.error("Mô tả chi tiết phải có ít nhất 20 ký tự");
+      return;
+    }
 
     let logoFile = null;
     if (logo.length > 0) {
@@ -250,11 +259,12 @@ export const FormProfile = () => {
               className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
               defaultValue={infoCompany.city}
             >
-              {cityList && cityList.map((city) => (
-                <option key={city._id} value={city.name}>
-                  {city.name}
-                </option>
-              ))}
+              {cityList &&
+                cityList.map((city) => (
+                  <option key={city._id} value={city.name}>
+                    {city.name}
+                  </option>
+                ))}
             </select>
           </div>
           <div className="">
@@ -369,11 +379,47 @@ export const FormProfile = () => {
             >
               Mô tả chi tiết
             </label>
-            <textarea
+            {/* <textarea
               name="description"
               id="description"
               className="w-[100%] h-[350px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
               defaultValue={infoCompany.description}
+            /> */}
+
+            <Editor
+              apiKey={process.env.NEXT_PUBLIC_API_TINY}
+              onInit={(_evt, editor) => (editorRef.current = editor)}
+              initialValue={infoCompany.description}
+              init={{
+                height: 500,
+                menubar: false,
+                plugins: [
+                  "advlist",
+                  "autolink",
+                  "lists",
+                  "link",
+                  "image",
+                  "charmap",
+                  "anchor",
+                  "searchreplace",
+                  "visualblocks",
+                  "code",
+                  "fullscreen",
+                  "insertdatetime",
+                  "media",
+                  "table",
+                  "preview",
+                  "help",
+                  "wordcount",
+                ],
+                toolbar:
+                  "undo redo | blocks | " +
+                  "bold italic forecolor | alignleft aligncenter " +
+                  "alignright alignjustify | bullist numlist outdent indent | " +
+                  "removeformat | help",
+                content_style:
+                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+              }}
             />
           </div>
           <div className="sm:col-span-2">
