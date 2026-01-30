@@ -4,11 +4,12 @@ import dotenv from "dotenv";
 import AccountUser from "../models/account-user.model";
 import { AccountRequest, DecodedToken } from "../interfaces/request.interface";
 import AccountCompany from "../models/account-company.model";
+import City from "../models/city.model";
 
 const verifyTokenUser = async (
   req: AccountRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const token = req.cookies.token;
@@ -19,7 +20,7 @@ const verifyTokenUser = async (
 
     const decoded = jwt.verify(
       token,
-      `${process.env.JWT_SECRET}`
+      `${process.env.JWT_SECRET}`,
     ) as DecodedToken;
     const { id, email } = decoded;
 
@@ -42,7 +43,7 @@ const verifyTokenUser = async (
 const verifyTokenCompany = async (
   req: AccountRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const token = req.cookies.token;
@@ -53,7 +54,7 @@ const verifyTokenCompany = async (
 
     const decoded = jwt.verify(
       token,
-      `${process.env.JWT_SECRET}`
+      `${process.env.JWT_SECRET}`,
     ) as DecodedToken;
     const { id, email } = decoded;
 
@@ -69,6 +70,15 @@ const verifyTokenCompany = async (
     }
 
     req.account = existAccount;
+
+    if (existAccount.city) {
+      const city = await City.findOne({
+        name: existAccount.city,
+      });
+      if (city) {
+        req.account.companyCity = city.name;
+      }
+    }
 
     next();
   } catch (err) {

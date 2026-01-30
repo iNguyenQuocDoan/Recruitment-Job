@@ -142,9 +142,47 @@ const createJobPost = async (req: AccountRequest, res: Response) => {
   return res.json({ code: "success", message: "Create job successfully" });
 };
 
+const listJob = async (req: AccountRequest, res: Response) => {
+  try {
+    const companyId = req.account._id;
+
+    const jobs = await Job.find({ companyId: companyId }).sort({
+      createdAt: -1,
+    });
+
+    // format data response
+    const dataFinal = [];
+
+    for (const item of jobs) {
+      dataFinal.push({
+        _id: item._id,
+        companyLogo: req.account.logo,
+        title: item.title,
+        companyName: req.account.companyName,
+        salaryMin: item.salaryMin,
+        salaryMax: item.salaryMax,
+        position: item.position,
+        workingForm: item.workingForm,
+        technologies: item.technologies,
+        companyCity: req.account.companyCity || "",
+        images: item.images,
+        description: item.description,
+      });
+    }
+
+    return res.json({ code: "success", data: dataFinal });
+  } catch (error) {
+    console.error("Error during job list:", error);
+    return res
+      .status(500)
+      .json({ code: "error", message: "Internal server error" });
+  }
+};
+
 export {
   registerPostController,
   loginPostController,
   profilePatchController,
   createJobPost,
+  listJob,
 };
