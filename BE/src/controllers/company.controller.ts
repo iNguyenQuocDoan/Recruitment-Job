@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 import AccountCompany from "../models/account-company.model";
 import { AccountRequest } from "../interfaces/request.interface";
+import Job from "../models/jobs.model";
 
 dotenv.config();
 
@@ -57,7 +58,7 @@ const loginPostController = async (req: Request, res: Response) => {
 
     const isPasswordValid = await bcrypt.compare(
       password,
-      `${existAccount.password}`
+      `${existAccount.password}`,
     );
 
     if (!isPasswordValid) {
@@ -74,7 +75,7 @@ const loginPostController = async (req: Request, res: Response) => {
       `${process.env.JWT_SECRET}`,
       {
         expiresIn: "7d",
-      }
+      },
     );
 
     res.cookie("token", token, {
@@ -104,10 +105,46 @@ const profilePatchController = async (req: AccountRequest, res: Response) => {
     {
       _id: req.account._id,
     },
-    req.body
+    req.body,
   );
 
   return res.json({ code: "success", message: "Profile updated successfully" });
 };
 
-export { registerPostController, loginPostController, profilePatchController };
+const createJobPost = async (req: AccountRequest, res: Response) => {
+  try {
+    req.body.companyId = req.account._id;
+    req.body.salaryMin = req.body.salaryMin ? parseInt(req.body.salaryMin) : 0;
+    req.body.salaryMax = req.body.salaryMax ? parseInt(req.body.salaryMax) : 0;
+    req.body.technologies = req.body.technologies
+      ? req.body.technologies.split(",")
+      : [];
+    req.body.images = [];
+
+    // Xử lí mảng images
+
+    if (req.files) {
+      for (const file of req.files as any[]) {
+        req.body.images.push(file.path);
+      }
+    }
+    // Hết xử lí mảng images
+
+    const newRec = await new Job(req.body);
+    await newRec.save();
+  } catch (error) {
+    console.error("Error during job creation:", error);
+    return res
+      .status(500)
+      .json({ code: "error", message: "Internal server error" });
+  }
+
+  return res.json({ code: "success", message: "Create job successfully" });
+};
+
+export {
+  registerPostController,
+  loginPostController,
+  profilePatchController,
+  createJobPost,
+};

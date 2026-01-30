@@ -4,7 +4,7 @@ import Joi from "joi";
 const registerPost = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const schema = Joi.object({
     fullName: Joi.string().min(5).max(50).required().messages({
@@ -45,7 +45,7 @@ const registerPost = async (
   });
   const { error } = schema.validate(req.body);
   if (error) {
-    const errMessage = error.details[1].message;
+    const errMessage = error.details[0].message;
     return res.json({
       code: "error",
       message: errMessage,
@@ -89,7 +89,7 @@ const loginPost = async (req: Request, res: Response, next: NextFunction) => {
   });
   const { error } = schema.validate(req.body);
   if (error) {
-    const errMessage = error.details[1].message;
+    const errMessage = error.details[0].message;
     return res.json({
       code: "error",
       message: errMessage,
@@ -101,7 +101,7 @@ const loginPost = async (req: Request, res: Response, next: NextFunction) => {
 const profilePatch = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const schema = Joi.object({
     fullName: Joi.string().min(3).max(50).required().messages({

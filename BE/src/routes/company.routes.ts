@@ -6,8 +6,6 @@ import * as companyValidate from "../validates/company.validate";
 import * as authMiddleware from "../middleware/auth.middleware";
 
 import { storage } from "../helper/cloudinary.helper";
-import * as userValidate from "../validates/user.validate";
-import * as userController from "../controllers/user.controller";
 
 const upload = multer({ storage });
 
@@ -16,13 +14,13 @@ const router = Router();
 router.post(
   "/register",
   companyValidate.registerPost,
-  companyController.registerPostController
+  companyController.registerPostController,
 );
 
 router.post(
   "/login",
   companyValidate.loginPost,
-  companyController.loginPostController
+  companyController.loginPostController,
 );
 
 router.patch(
@@ -30,7 +28,14 @@ router.patch(
   authMiddleware.verifyTokenCompany,
   upload.single("logo"),
   companyValidate.profilePatch,
-  companyController.profilePatchController
+  companyController.profilePatchController,
+);
+
+router.patch(
+  "/job/create",
+  authMiddleware.verifyTokenCompany,
+  upload.array("images", 8),
+  companyController.createJobPost,
 );
 
 export default router;
