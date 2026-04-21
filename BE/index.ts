@@ -19,7 +19,7 @@ app.use(
   cors({
     origin: "http://localhost:3000", // chỉ định tên miền cụ thể,
     credentials: true, // cho phép gửi cookie
-  })
+  }),
 ); // Enable CORS for all routes
 
 app.use(express.json()); // Middleware to parse JSON bodies
@@ -27,6 +27,10 @@ app.use(express.json()); // Middleware to parse JSON bodies
 app.use(cookieParser()); // Middleware to parse cookies
 
 app.use("/", routes);
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 
 app.listen(Port, () => {
   console.log(`Server is running on http://localhost:${Port}`);

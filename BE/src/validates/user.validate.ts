@@ -8,39 +8,46 @@ const registerPost = async (
 ) => {
   const schema = Joi.object({
     fullName: Joi.string().min(5).max(50).required().messages({
-      "string.empty": "Vui lòng nhập họ và tên!",
-      "string.min": "Vui lòng nhập họ và tên ít nhất 5 ký tự!",
-      "string.max": "Vui lòng nhập họ và tên dưới 50 ký tự",
+      "any.required": "Please enter your full name!",
+      "string.empty": "Please enter your full name!",
+      "string.min": "Full name must be at least 5 characters!",
+      "string.max": "Full name must be under 50 characters!",
     }),
     email: Joi.string().required().email().messages({
-      "string.empty": "Vui lòng nhập email",
-      "string.email": "Vui lòng nhập đúng định dạng email",
+      "any.required": "Please enter your email!",
+      "string.empty": "Please enter your email!",
+      "string.email": "Please enter a valid email address!",
     }),
     password: Joi.string()
       .required()
       .min(8)
       .custom((value, helpers) => {
         if (!/[A-Z]/.test(value)) {
-          throw new Error("Mật khẩu phải chứa ít nhất một chữ cái in hoa!");
+          return helpers.error("password.uppercase", { value });
         }
 
         if (!/[a-z]/.test(value)) {
-          throw new Error("Mật khẩu phải chứa ít nhất một chữ cái thường!");
+          return helpers.error("password.lowercase", { value });
         }
 
         if (!/\d/.test(value)) {
-          throw new Error("Mật khẩu phải chứa ít nhất một chữ số!");
+          return helpers.error("password.digit", { value });
         }
 
         if (!/[@$!%*?&]/.test(value)) {
-          throw new Error("Mật khẩu phải chứa ít nhất một ký tự đặc biệt!");
+          return helpers.error("password.special", { value });
         }
 
         return value;
       })
       .messages({
-        "string.empty": "Vui lòng nhập mật khẩu!",
-        "string.min": "Mật khẩu phải có ít nhất 8 ký tự!",
+        "any.required": "Please enter your password!",
+        "string.empty": "Please enter your password!",
+        "string.min": "Password must be at least 8 characters!",
+        "password.uppercase": "Password must contain at least one uppercase letter!",
+        "password.lowercase": "Password must contain at least one lowercase letter!",
+        "password.digit": "Password must contain at least one number!",
+        "password.special": "Password must contain at least one special character!",
       }),
   });
   const { error } = schema.validate(req.body);
@@ -57,34 +64,40 @@ const registerPost = async (
 const loginPost = async (req: Request, res: Response, next: NextFunction) => {
   const schema = Joi.object({
     email: Joi.string().required().email().messages({
-      "string.empty": "Vui lòng nhập email",
-      "string.email": "Vui lòng nhập đúng định dạng email",
+      "any.required": "Please enter your email!",
+      "string.empty": "Please enter your email!",
+      "string.email": "Please enter a valid email address!",
     }),
     password: Joi.string()
       .required()
       .min(8)
       .custom((value, helpers) => {
         if (!/[A-Z]/.test(value)) {
-          throw new Error("Mật khẩu phải chứa ít nhất một chữ cái in hoa!");
+          return helpers.error("password.uppercase", { value });
         }
 
         if (!/[a-z]/.test(value)) {
-          throw new Error("Mật khẩu phải chứa ít nhất một chữ cái thường!");
+          return helpers.error("password.lowercase", { value });
         }
 
         if (!/\d/.test(value)) {
-          throw new Error("Mật khẩu phải chứa ít nhất một chữ số!");
+          return helpers.error("password.digit", { value });
         }
 
         if (!/[@$!%*?&]/.test(value)) {
-          throw new Error("Mật khẩu phải chứa ít nhất một ký tự đặc biệt!");
+          return helpers.error("password.special", { value });
         }
 
         return value;
       })
       .messages({
-        "string.empty": "Vui lòng nhập mật khẩu!",
-        "string.min": "Mật khẩu phải có ít nhất 8 ký tự!",
+        "any.required": "Please enter your password!",
+        "string.empty": "Please enter your password!",
+        "string.min": "Password must be at least 8 characters!",
+        "password.uppercase": "Password must contain at least one uppercase letter!",
+        "password.lowercase": "Password must contain at least one lowercase letter!",
+        "password.digit": "Password must contain at least one number!",
+        "password.special": "Password must contain at least one special character!",
       }),
   });
   const { error } = schema.validate(req.body);
@@ -105,13 +118,15 @@ const profilePatch = async (
 ) => {
   const schema = Joi.object({
     fullName: Joi.string().min(3).max(50).required().messages({
-      "string.empty": "Vui lòng nhập họ và tên!",
-      "string.min": "Vui lòng nhập họ và tên ít nhất 3 ký tự!",
-      "string.max": "Vui lòng nhập họ và tên dưới 50 ký tự",
+      "any.required": "Please enter your full name!",
+      "string.empty": "Please enter your full name!",
+      "string.min": "Full name must be at least 3 characters!",
+      "string.max": "Full name must be under 50 characters!",
     }),
     email: Joi.string().required().email().messages({
-      "string.empty": "Vui lòng nhập email",
-      "string.email": "Vui lòng nhập đúng định dạng email",
+      "any.required": "Please enter your email!",
+      "string.empty": "Please enter your email!",
+      "string.email": "Please enter a valid email address!",
     }),
     phone: Joi.string().optional().allow(""),
   }).unknown(true);

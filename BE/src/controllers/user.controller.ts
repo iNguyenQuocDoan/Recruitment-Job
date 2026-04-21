@@ -57,8 +57,14 @@ const loginPostController = async (req: Request, res: Response) => {
 
     const isPasswordValid = await bcrypt.compare(
       password,
-      `${existAccount.password}`
+      `${existAccount.password}`,
     );
+
+    if (!isPasswordValid) {
+      return res
+        .status(400)
+        .json({ code: "error", message: "Mật khẩu không đúng" });
+    }
 
     const token = jwt.sign(
       {
@@ -68,7 +74,7 @@ const loginPostController = async (req: Request, res: Response) => {
       `${process.env.JWT_SECRET}`,
       {
         expiresIn: "7d",
-      }
+      },
     );
 
     res.cookie("token", token, {
@@ -96,7 +102,7 @@ const profilePatchController = async (req: AccountRequest, res: Response) => {
     {
       _id: req.account._id,
     },
-    req.body
+    req.body,
   );
 
   return res.json({ code: "success", message: "Profile updated successfully" });
