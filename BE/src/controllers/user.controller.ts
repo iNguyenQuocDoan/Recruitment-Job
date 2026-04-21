@@ -1,43 +1,19 @@
 import { Request, Response } from "express";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
-import AccountUser from "../models/account-user.model";
 import { AccountRequest } from "../interfaces/request.interface";
+import {
+  loginUserService,
+  registerUserService,
+  updateUserProfileService,
+} from "../services/user.service";
 
 dotenv.config();
 
 const registerPostController = async (req: Request, res: Response) => {
-  console.log("Received registration data:", req.body);
-
   try {
-    const { fullName, email, password } = req.body;
-
-    const existAccount = await AccountUser.findOne({ email });
-
-    if (existAccount) {
-      return res
-        .status(400)
-        .json({ code: "error", message: "Email already in use" });
-    }
-
-    // hash pass
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const newUser = new AccountUser({
-      fullName,
-      email,
-      password: hashedPassword,
-    });
-
-    await newUser.save();
-
-    return res.json({
-      code: "success",
-      message: "User registered successfully",
-    });
+    const result = await registerUserService(req.body);
+    return res.status(result.statusCode).json(result.body);
   } catch (error) {
     console.error("Error during user registration:", error);
     return res.status(500).json({ message: "Internal server error" });
@@ -46,65 +22,26 @@ const registerPostController = async (req: Request, res: Response) => {
 
 const loginPostController = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
-    const existAccount = await AccountUser.findOne({ email });
+    const result = await loginUserService(req.body);
 
-    if (!existAccount) {
-      return res
-        .status(400)
-        .json({ code: "error", message: "Không tồn tại trong hệ thống" });
+    if (result.token) {
+      res.cookie("token", result.token, {
+        httpOnly: true,
+        secure: false,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        sameSite: "lax",
+      });
     }
 
-    const isPasswordValid = await bcrypt.compare(
-      password,
-      `${existAccount.password}`,
-    );
-
-    if (!isPasswordValid) {
-      return res
-        .status(400)
-        .json({ code: "error", message: "Mật khẩu không đúng" });
-    }
-
-    const token = jwt.sign(
-      {
-        id: existAccount._id,
-        email: existAccount.email,
-      },
-      `${process.env.JWT_SECRET}`,
-      {
-        expiresIn: "7d",
-      },
-    );
-
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false, // https = true, http = false
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      sameSite: "lax", // Cho phép gửi cookie giữa các tên miền
-    });
+    return res.status(result.statusCode).json(result.body);
   } catch (error) {
     console.error("Error during user login:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
-
-  return res.json({ code: "success", message: "Login success" });
 };
 
 const profilePatchController = async (req: AccountRequest, res: Response) => {
-  if (req.file) {
-    req.body.avatar = req.file.path;
-  } else {
-    delete req.body.avatar;
-  }
-
-  await AccountUser.updateOne(
-    {
-      _id: req.account._id,
-    },
-    req.body,
-  );
-
-  return res.json({ code: "success", message: "Profile updated successfully" });
+  const result = await updateUserProfileService(req);
+  return res.status(result.statusCode).json(result.body);
 };
 export { registerPostController, loginPostController, profilePatchController };
