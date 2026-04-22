@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 import AccountUser from "../models/account-user.model";
 import { AccountRequest } from "../interfaces/request.interface";
-import { ServiceResponse } from "./auth.service";
+import { ServiceResponse } from "../interfaces/request.interface";
 import { STATUS_CODE, RESPONSE_CODE } from "../constants/http.constant";
 
 const registerUserService = async (

@@ -10,4 +10,9 @@ interface DecodedToken extends JwtPayload {
   email: string;
 }
 
-export { AccountRequest, DecodedToken };
+interface ServiceResponse<T> {
+  statusCode: number;
+  body: T;
+}
+
+export { AccountRequest, DecodedToken, ServiceResponse };

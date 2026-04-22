@@ -1,5 +1,5 @@
 import City from "../models/city.model";
-import { ServiceResponse } from "./auth.service";
+import { ServiceResponse } from "../interfaces/request.interface";
 import { STATUS_CODE, RESPONSE_CODE } from "../constants/http.constant";
 
 const listCitiesService = async (): Promise<ServiceResponse<any>> => {

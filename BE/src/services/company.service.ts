@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import AccountCompany from "../models/account-company.model";
 import { AccountRequest } from "../interfaces/request.interface";
 import Job from "../models/jobs.model";
-import { ServiceResponse } from "./auth.service";
+import { ServiceResponse } from "../interfaces/request.interface";
 import { STATUS_CODE, RESPONSE_CODE } from "../constants/http.constant";
 
 const registerCompanyService = async (

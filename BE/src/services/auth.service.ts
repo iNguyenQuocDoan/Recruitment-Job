@@ -3,11 +3,7 @@ import jwt from "jsonwebtoken";
 import AccountUser from "../models/account-user.model";
 import AccountCompany from "../models/account-company.model";
 import { STATUS_CODE, RESPONSE_CODE } from "../constants/http.constant";
-
-interface ServiceResponse<T> {
-  statusCode: number;
-  body: T;
-}
+import { ServiceResponse } from "../interfaces/request.interface";
 
 const checkAuthService = async (
   token?: string,
@@ -107,4 +103,4 @@ const logoutService = (): ServiceResponse<any> => {
   };
 };
 
-export { checkAuthService, logoutService, ServiceResponse };
+export { checkAuthService, logoutService };
