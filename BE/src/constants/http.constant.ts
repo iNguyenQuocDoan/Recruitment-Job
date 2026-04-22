@@ -11,4 +11,5 @@ export const STATUS_CODE = {
 export const RESPONSE_CODE = {
   SUCCESS: "success",
   ERROR: "error",
+  UNAUTHORIZED: "unauthorized",
 } as const;
