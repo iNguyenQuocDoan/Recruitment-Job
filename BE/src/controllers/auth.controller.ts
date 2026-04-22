@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { checkAuthService, logoutService } from "../services/auth.service";
 
-export const check = async (req: Request, res: Response) => {
+export const checkController = async (req: Request, res: Response) => {
   const result = await checkAuthService(req.cookies.token);
 
   if (result.body.account) {
@@ -12,7 +12,7 @@ export const check = async (req: Request, res: Response) => {
   return res.status(result.statusCode).json(result.body);
 };
 
-export const logout = async (req: Request, res: Response) => {
+export const logoutController = async (req: Request, res: Response) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: false,

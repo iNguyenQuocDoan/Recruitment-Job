@@ -3,7 +3,7 @@ import * as authController from "../controllers/auth.controller";
 
 const router = Router();
 
-router.get("/check", authController.check);
+router.get("/check", authController.checkController);
 
-router.post("/logout", authController.logout);
+router.post("/logout", authController.logoutController);
 export default router;
