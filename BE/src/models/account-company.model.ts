@@ -2,26 +2,54 @@ import mongoose from "mongoose";
 
 const schema = new mongoose.Schema(
   {
-    companyName: String,
-    email: String,
-    password: String,
-    logo: String,
-    phone: String,
-    city: String,
-    address: String,
-    companyModel: String,
-    companyEmployees: String,
-    workingTime: String,
-    workOvertime: String,
-    description: String,
+    companyName: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    logo: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
+    companyModel: {
+      type: String,
+    },
+    companyEmployees: {
+      type: String,
+    },
+    workingTime: {
+      type: String,
+    },
+    workOvertime: {
+      type: String,
+    },
+    description: {
+      type: String,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const AccountCompany = mongoose.model(
   "AccountCompany",
   schema,
-  "account_company"
+  "account_company",
 );
 
 export default AccountCompany;

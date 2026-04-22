@@ -3,7 +3,7 @@ import multer from "multer";
 
 import * as companyController from "../controllers/company.controller";
 import * as companyValidate from "../validates/company.validate";
-import * as authMiddleware from "../middleware/auth.middleware";
+import { authenticate, authorize } from "../middleware/auth.middleware";
 
 import { storage } from "../helper/cloudinary.helper";
 
@@ -25,7 +25,8 @@ router.post(
 
 router.patch(
   "/profile",
-  authMiddleware.verifyTokenCompany,
+  authenticate,
+  authorize("company"),
   upload.single("logo"),
   companyValidate.profilePatch,
   companyController.updateProfileController,
@@ -33,20 +34,23 @@ router.patch(
 
 router.patch(
   "/job/create",
-  authMiddleware.verifyTokenCompany,
+  authenticate,
+  authorize("company"),
   upload.array("images", 8),
   companyController.createJobController,
 );
 
 router.get(
   "/job/list",
-  authMiddleware.verifyTokenCompany,
+  authenticate,
+  authorize("company"),
   companyController.listJobController,
 );
 
 router.delete(
   "/job/delete/:id",
-  authMiddleware.verifyTokenCompany,
+  authenticate,
+  authorize("company"),
   companyController.deleteJobController,
 );
 

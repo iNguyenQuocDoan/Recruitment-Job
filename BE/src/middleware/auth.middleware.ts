@@ -1,12 +1,12 @@
-import { NextFunction, Request, Response } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
-import dotenv from "dotenv";
+import { NextFunction, Response } from "express";
+import jwt from "jsonwebtoken";
+
 import AccountUser from "../models/account-user.model";
-import { AccountRequest, DecodedToken } from "../interfaces/request.interface";
 import AccountCompany from "../models/account-company.model";
-import City from "../models/city.model";
+import { AccountRequest, DecodedToken } from "../interfaces/request.interface";
+import { STATUS_CODE, RESPONSE_CODE } from "../constants/http.constant";
 
-const verifyTokenUser = async (
+const authenticate = async (
   req: AccountRequest,
   res: Response,
   next: NextFunction,
@@ -15,75 +15,61 @@ const verifyTokenUser = async (
     const token = req.cookies.token;
 
     if (!token) {
-      return res.redirect("/login");
-    }
-
-    const decoded = jwt.verify(
-      token,
-      `${process.env.JWT_SECRET}`,
-    ) as DecodedToken;
-    const { id, email } = decoded;
-
-    const existAccount = await AccountUser.findOne({ _id: id, email: email });
-
-    if (!existAccount) {
-      res.clearCookie("token");
-      res.redirect("/login");
-      return;
-    }
-
-    req.account = existAccount;
-
-    next();
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const verifyTokenCompany = async (
-  req: AccountRequest,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const token = req.cookies.token;
-
-    if (!token) {
-      return res.redirect("/login");
-    }
-
-    const decoded = jwt.verify(
-      token,
-      `${process.env.JWT_SECRET}`,
-    ) as DecodedToken;
-    const { id, email } = decoded;
-
-    const existAccount = await AccountCompany.findOne({
-      _id: id,
-      email: email,
-    });
-
-    if (!existAccount) {
-      res.clearCookie("token");
-      res.redirect("/login");
-      return;
-    }
-
-    req.account = existAccount;
-
-    if (existAccount.city) {
-      const city = await City.findOne({
-        name: existAccount.city,
+      return res.status(STATUS_CODE.UNAUTHORIZED).json({
+        code: RESPONSE_CODE.ERROR,
+        message: "Unauthorized",
       });
-      if (city) {
-        req.account.companyCity = city.name;
-      }
     }
 
+    const decoded = jwt.verify(
+      token,
+      `${process.env.JWT_SECRET}`,
+    ) as DecodedToken;
+
+    const { id, email, role } = decoded;
+
+    if (role === "user") {
+      const account = await AccountUser.findOne({ _id: id, email });
+      if (!account) {
+        res.clearCookie("token");
+        return res.status(STATUS_CODE.UNAUTHORIZED).json({
+          code: RESPONSE_CODE.ERROR,
+          message: "Unauthorized",
+        });
+      }
+      req.account = account;
+    } else if (role === "company") {
+      const account = await AccountCompany.findOne({ _id: id, email });
+      if (!account) {
+        res.clearCookie("token");
+        return res.status(STATUS_CODE.UNAUTHORIZED).json({
+          code: RESPONSE_CODE.ERROR,
+          message: "Unauthorized",
+        });
+      }
+      req.account = account;
+    }
+
+    req.role = role;
     next();
-  } catch (err) {
-    console.log(err);
+  } catch {
+    return res.status(STATUS_CODE.UNAUTHORIZED).json({
+      code: RESPONSE_CODE.ERROR,
+      message: "Unauthorized",
+    });
   }
 };
 
-export { verifyTokenUser, verifyTokenCompany };
+const authorize = (...roles: Array<"user" | "company" | "admin">) => {
+  return (req: AccountRequest, res: Response, next: NextFunction) => {
+    if (!req.role || !roles.includes(req.role)) {
+      return res.status(STATUS_CODE.FORBIDDEN).json({
+        code: RESPONSE_CODE.ERROR,
+        message: "Forbidden",
+      });
+    }
+    next();
+  };
+};
+
+export { authenticate, authorize };

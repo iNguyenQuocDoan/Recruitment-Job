@@ -5,7 +5,7 @@ import * as userValidate from "../validates/user.validate";
 import multer from "multer";
 
 import { storage } from "../helper/cloudinary.helper";
-import * as authMiddleware from "../middleware/auth.middleware";
+import { authenticate, authorize } from "../middleware/auth.middleware";
 
 const upload = multer({ storage: storage });
 
@@ -25,7 +25,8 @@ router.post(
 
 router.patch(
   "/profile",
-  authMiddleware.verifyTokenUser,
+  authenticate,
+  authorize("user"),
   upload.single("avatar"),
   userValidate.profilePatch,
   userController.updateProfileController

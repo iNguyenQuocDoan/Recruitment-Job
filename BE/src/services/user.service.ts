@@ -1,10 +1,10 @@
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 
 import AccountUser from "../models/account-user.model";
 import { AccountRequest } from "../interfaces/request.interface";
 import { ServiceResponse } from "../interfaces/request.interface";
 import { STATUS_CODE, RESPONSE_CODE } from "../constants/http.constant";
+import { generateToken } from "../helper/token.helper";
 
 const registerUserService = async (
   body: any,
@@ -74,16 +74,11 @@ const loginUserService = async (
     };
   }
 
-  const token = jwt.sign(
-    {
-      id: existAccount._id,
-      email: existAccount.email,
-    },
-    `${process.env.JWT_SECRET}`,
-    {
-      expiresIn: "7d",
-    },
-  );
+  const token = generateToken({
+    id: existAccount._id.toString(),
+    email: existAccount.email?.toString(),
+    role: "user",
+  });
 
   return {
     statusCode: STATUS_CODE.OK,

@@ -1,10 +1,10 @@
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 
 import AccountCompany from "../models/account-company.model";
 import { AccountRequest } from "../interfaces/request.interface";
 import Job from "../models/jobs.model";
 import { ServiceResponse } from "../interfaces/request.interface";
+import { generateToken } from "../helper/token.helper";
 import { STATUS_CODE, RESPONSE_CODE } from "../constants/http.constant";
 
 const registerCompanyService = async (
@@ -39,7 +39,7 @@ const registerCompanyService = async (
     statusCode: STATUS_CODE.OK,
     body: {
       code: RESPONSE_CODE.SUCCESS,
-      message: "User registered successfully",
+      message: "Company registered successfully",
     },
   };
 };
@@ -75,16 +75,11 @@ const loginCompanyService = async (
     };
   }
 
-  const token = jwt.sign(
-    {
-      id: existAccount._id,
-      email: existAccount.email,
-    },
-    `${process.env.JWT_SECRET}`,
-    {
-      expiresIn: "7d",
-    },
-  );
+  const token = generateToken({
+    id: existAccount._id.toString(),
+    email: existAccount.email?.toString(),
+    role: "company",
+  });
 
   return {
     statusCode: STATUS_CODE.OK,
@@ -206,7 +201,7 @@ const listCompanyJobService = async (
       position: item.position,
       workingForm: item.workingForm,
       technologies: item.technologies,
-      companyCity: accountRequest.account!.companyCity || "",
+      companyCity: accountRequest.account!.city || "",
       images: item.images,
       description: item.description,
     });
