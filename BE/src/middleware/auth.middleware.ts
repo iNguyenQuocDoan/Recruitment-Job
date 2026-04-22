@@ -4,7 +4,11 @@ import jwt from "jsonwebtoken";
 import AccountUser from "../models/account-user.model";
 import AccountCompany from "../models/account-company.model";
 import { AccountRequest, DecodedToken } from "../interfaces/request.interface";
-import { STATUS_CODE, RESPONSE_CODE, RESPONSE_MESSAGE } from "../constants/http.constant";
+import {
+  STATUS_CODE,
+  RESPONSE_CODE,
+  RESPONSE_MESSAGE,
+} from "../constants/http.constant";
 
 const authenticate = async (
   req: AccountRequest,

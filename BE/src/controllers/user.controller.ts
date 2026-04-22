@@ -2,7 +2,11 @@ import { Request, Response } from "express";
 import dotenv from "dotenv";
 
 import { AccountRequest } from "../interfaces/request.interface";
-import { STATUS_CODE, RESPONSE_CODE, RESPONSE_MESSAGE } from "../constants/http.constant";
+import {
+  STATUS_CODE,
+  RESPONSE_CODE,
+  RESPONSE_MESSAGE,
+} from "../constants/http.constant";
 import {
   loginUserService,
   registerUserService,
@@ -19,7 +23,10 @@ const registerController = async (req: Request, res: Response) => {
     console.error("Error during user registration:", error);
     return res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
-      .json({ code: RESPONSE_CODE.ERROR, message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR });
+      .json({
+        code: RESPONSE_CODE.ERROR,
+        message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR,
+      });
   }
 };
 
@@ -41,7 +48,10 @@ const loginController = async (req: Request, res: Response) => {
     console.error("Error during user login:", error);
     return res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
-      .json({ code: RESPONSE_CODE.ERROR, message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR });
+      .json({
+        code: RESPONSE_CODE.ERROR,
+        message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR,
+      });
   }
 };
 

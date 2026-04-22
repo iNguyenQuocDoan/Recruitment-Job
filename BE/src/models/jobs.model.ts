@@ -2,15 +2,35 @@ import mongoose from "mongoose";
 
 const schema = new mongoose.Schema(
   {
-    companyId: String,
-    title: String,
-    salaryMin: Number,
-    salaryMax: Number,
-    position: String,
-    workingForm: String,
-    technologies: Array,
-    description: String,
-    images: Array,
+    companyId: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    salaryMin: {
+      type: Number,
+    },
+    salaryMax: {
+      type: Number,
+    },
+    position: {
+      type: String,
+    },
+    workingForm: {
+      type: String,
+    },
+    technologies: {
+      type: [String],
+    },
+    description: {
+      type: String,
+    },
+    images: {
+      type: [String],
+    },
   },
   {
     timestamps: true,
