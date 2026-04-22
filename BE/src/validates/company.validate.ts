@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import Joi from "joi";
+import { RESPONSE_CODE } from "../constants/http.constant";
 
 const registerPost = async (
   req: Request,
@@ -48,7 +49,7 @@ const registerPost = async (
   if (error) {
     const errMessage = error.details[0].message;
     return res.json({
-      code: "error",
+      code: RESPONSE_CODE.ERROR,
       message: errMessage,
     });
   }
@@ -93,7 +94,7 @@ const loginPost = async (req: Request, res: Response, next: NextFunction) => {
   if (error) {
     const errMessage = error.details[0].message;
     return res.json({
-      code: "error",
+      code: RESPONSE_CODE.ERROR,
       message: errMessage,
     });
   }
@@ -143,7 +144,7 @@ const profilePatch = async (
   if (error) {
     const errMessage = error.details[0].message;
     return res.json({
-      code: "error",
+      code: RESPONSE_CODE.ERROR,
       message: errMessage,
     });
   }

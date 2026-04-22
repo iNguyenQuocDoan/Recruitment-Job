@@ -1,13 +1,14 @@
 import City from "../models/city.model";
 import { ServiceResponse } from "./auth.service";
+import { STATUS_CODE, RESPONSE_CODE } from "../constants/http.constant";
 
 const listCitiesService = async (): Promise<ServiceResponse<any>> => {
   const cities = await City.find({});
 
   return {
-    statusCode: 200,
+    statusCode: STATUS_CODE.OK,
     body: {
-      code: "success",
+      code: RESPONSE_CODE.SUCCESS,
       cityList: cities,
     },
   };

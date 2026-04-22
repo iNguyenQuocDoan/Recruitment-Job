@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import dotenv from "dotenv";
 
 import { AccountRequest } from "../interfaces/request.interface";
+import { RESPONSE_CODE } from "../constants/http.constant";
 import {
   createJobService,
   deleteJobService,
@@ -41,7 +42,7 @@ const loginController = async (req: Request, res: Response) => {
     console.error("Error during user login:", error);
     return res
       .status(500)
-      .json({ code: "error", message: "Internal server error" });
+      .json({ code: RESPONSE_CODE.ERROR, message: "Internal server error" });
   }
 };
 
@@ -58,7 +59,7 @@ const createJobController = async (req: AccountRequest, res: Response) => {
     console.error("Error during job creation:", error);
     return res
       .status(500)
-      .json({ code: "error", message: "Internal server error" });
+      .json({ code: RESPONSE_CODE.ERROR, message: "Internal server error" });
   }
 };
 
@@ -70,7 +71,7 @@ const deleteJobController = async (req: AccountRequest, res: Response) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ code: "error", message: "Internal server error" });
+      .json({ code: RESPONSE_CODE.ERROR, message: "Internal server error" });
   }
 };
 
@@ -82,7 +83,7 @@ const listJobController = async (req: AccountRequest, res: Response) => {
     console.error("Error during job list:", error);
     return res
       .status(500)
-      .json({ code: "error", message: "Internal server error" });
+      .json({ code: RESPONSE_CODE.ERROR, message: "Internal server error" });
   }
 };
 
