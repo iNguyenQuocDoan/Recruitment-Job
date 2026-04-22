@@ -5,6 +5,7 @@ import AccountCompany from "../models/account-company.model";
 import { AccountRequest } from "../interfaces/request.interface";
 import Job from "../models/jobs.model";
 import { ServiceResponse } from "./auth.service";
+import { STATUS_CODE, RESPONSE_CODE } from "../constants/http.constant";
 
 const registerCompanyService = async (
   body: any,
@@ -15,9 +16,9 @@ const registerCompanyService = async (
 
   if (existAccount) {
     return {
-      statusCode: 400,
+      statusCode: STATUS_CODE.BAD_REQUEST,
       body: {
-        code: "error",
+        code: RESPONSE_CODE.ERROR,
         message: "Email already in use",
       },
     };
@@ -35,9 +36,9 @@ const registerCompanyService = async (
   await newCompany.save();
 
   return {
-    statusCode: 200,
+    statusCode: STATUS_CODE.OK,
     body: {
-      code: "success",
+      code: RESPONSE_CODE.SUCCESS,
       message: "User registered successfully",
     },
   };
@@ -51,9 +52,9 @@ const loginCompanyService = async (
 
   if (!existAccount) {
     return {
-      statusCode: 400,
+      statusCode: STATUS_CODE.BAD_REQUEST,
       body: {
-        code: "error",
+        code: RESPONSE_CODE.ERROR,
         message: "Không tồn tại trong hệ thống",
       },
     };
@@ -66,9 +67,9 @@ const loginCompanyService = async (
 
   if (!isPasswordValid) {
     return {
-      statusCode: 400,
+      statusCode: STATUS_CODE.BAD_REQUEST,
       body: {
-        code: "error",
+        code: RESPONSE_CODE.ERROR,
         message: "Incorrect password",
       },
     };
@@ -86,9 +87,9 @@ const loginCompanyService = async (
   );
 
   return {
-    statusCode: 200,
+    statusCode: STATUS_CODE.OK,
     body: {
-      code: "success",
+      code: RESPONSE_CODE.SUCCESS,
       message: "Login success",
     },
     token,
@@ -112,9 +113,9 @@ const updateCompanyProfileService = async (
   );
 
   return {
-    statusCode: 200,
+    statusCode: STATUS_CODE.OK,
     body: {
-      code: "success",
+      code: RESPONSE_CODE.SUCCESS,
       message: "Profile updated successfully",
     },
   };
@@ -145,9 +146,9 @@ const createJobService = async (
   await newRec.save();
 
   return {
-    statusCode: 200,
+    statusCode: STATUS_CODE.OK,
     body: {
-      code: "success",
+      code: RESPONSE_CODE.SUCCESS,
       message: "Create job successfully",
     },
   };
@@ -161,8 +162,8 @@ const deleteJobService = async (
 
   if (!job) {
     return {
-      statusCode: 404,
-      body: { code: "error", message: "Job not found" },
+      statusCode: STATUS_CODE.NOT_FOUND,
+      body: { code: RESPONSE_CODE.ERROR, message: "Job not found" },
     };
   }
 
@@ -170,16 +171,16 @@ const deleteJobService = async (
     (job.companyId ?? "").toString() !== accountRequest.account!._id.toString()
   ) {
     return {
-      statusCode: 403,
-      body: { code: "error", message: "Forbidden" },
+      statusCode: STATUS_CODE.FORBIDDEN,
+      body: { code: RESPONSE_CODE.ERROR, message: "Forbidden" },
     };
   }
 
   await Job.deleteOne({ _id: jobId });
 
   return {
-    statusCode: 200,
-    body: { code: "success", message: "Job deleted successfully" },
+    statusCode: STATUS_CODE.OK,
+    body: { code: RESPONSE_CODE.SUCCESS, message: "Job deleted successfully" },
   };
 };
 
@@ -212,9 +213,9 @@ const listCompanyJobService = async (
   }
 
   return {
-    statusCode: 200,
+    statusCode: STATUS_CODE.OK,
     body: {
-      code: "success",
+      code: RESPONSE_CODE.SUCCESS,
       data: dataFinal,
     },
   };

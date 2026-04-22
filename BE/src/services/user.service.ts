@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import AccountUser from "../models/account-user.model";
 import { AccountRequest } from "../interfaces/request.interface";
 import { ServiceResponse } from "./auth.service";
+import { STATUS_CODE, RESPONSE_CODE } from "../constants/http.constant";
 
 const registerUserService = async (
   body: any,
@@ -14,9 +15,9 @@ const registerUserService = async (
 
   if (existAccount) {
     return {
-      statusCode: 400,
+      statusCode: STATUS_CODE.BAD_REQUEST,
       body: {
-        code: "error",
+        code: RESPONSE_CODE.ERROR,
         message: "Email already in use",
       },
     };
@@ -34,9 +35,9 @@ const registerUserService = async (
   await newUser.save();
 
   return {
-    statusCode: 200,
+    statusCode: STATUS_CODE.OK,
     body: {
-      code: "success",
+      code: RESPONSE_CODE.SUCCESS,
       message: "User registered successfully",
     },
   };
@@ -50,9 +51,9 @@ const loginUserService = async (
 
   if (!existAccount) {
     return {
-      statusCode: 400,
+      statusCode: STATUS_CODE.BAD_REQUEST,
       body: {
-        code: "error",
+        code: RESPONSE_CODE.ERROR,
         message: "Không tồn tại trong hệ thống",
       },
     };
@@ -65,9 +66,9 @@ const loginUserService = async (
 
   if (!isPasswordValid) {
     return {
-      statusCode: 400,
+      statusCode: STATUS_CODE.BAD_REQUEST,
       body: {
-        code: "error",
+        code: RESPONSE_CODE.ERROR,
         message: "Mật khẩu không đúng",
       },
     };
@@ -85,9 +86,9 @@ const loginUserService = async (
   );
 
   return {
-    statusCode: 200,
+    statusCode: STATUS_CODE.OK,
     body: {
-      code: "success",
+      code: RESPONSE_CODE.SUCCESS,
       message: "Login success",
     },
     token,
@@ -111,9 +112,9 @@ const updateUserProfileService = async (
   );
 
   return {
-    statusCode: 200,
+    statusCode: STATUS_CODE.OK,
     body: {
-      code: "success",
+      code: RESPONSE_CODE.SUCCESS,
       message: "Profile updated successfully",
     },
   };

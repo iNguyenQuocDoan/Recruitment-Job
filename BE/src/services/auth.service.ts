@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 
 import AccountUser from "../models/account-user.model";
 import AccountCompany from "../models/account-company.model";
+import { STATUS_CODE, RESPONSE_CODE } from "../constants/http.constant";
 
 interface ServiceResponse<T> {
   statusCode: number;
@@ -14,9 +15,9 @@ const checkAuthService = async (
   try {
     if (!token) {
       return {
-        statusCode: 200,
+        statusCode: STATUS_CODE.OK,
         body: {
-          code: "unauthenticated",
+          code: RESPONSE_CODE.ERROR,
           message: "User is not authenticated",
         },
       };
@@ -32,9 +33,9 @@ const checkAuthService = async (
 
     if (existUser) {
       return {
-        statusCode: 200,
+        statusCode: STATUS_CODE.OK,
         body: {
-          code: "success",
+          code: RESPONSE_CODE.SUCCESS,
           message: "User is authenticated",
           infoUser: {
             id: existUser._id,
@@ -55,9 +56,9 @@ const checkAuthService = async (
 
     if (existAccountCompany) {
       return {
-        statusCode: 200,
+        statusCode: STATUS_CODE.OK,
         body: {
-          code: "success",
+          code: RESPONSE_CODE.SUCCESS,
           message: "User is authenticated",
           infoCompany: {
             id: existAccountCompany._id,
@@ -79,17 +80,17 @@ const checkAuthService = async (
     }
 
     return {
-      statusCode: 200,
+      statusCode: STATUS_CODE.OK,
       body: {
-        code: "unauthenticated",
+        code: RESPONSE_CODE.ERROR,
         message: "User is not authenticated",
       },
     };
   } catch {
     return {
-      statusCode: 200,
+      statusCode: STATUS_CODE.OK,
       body: {
-        code: "unauthenticated",
+        code: RESPONSE_CODE.ERROR,
         message: "User is not authenticated",
       },
     };
@@ -98,9 +99,9 @@ const checkAuthService = async (
 
 const logoutService = (): ServiceResponse<any> => {
   return {
-    statusCode: 200,
+    statusCode: STATUS_CODE.OK,
     body: {
-      code: "success",
+      code: RESPONSE_CODE.SUCCESS,
       message: "User logged out successfully",
     },
   };
