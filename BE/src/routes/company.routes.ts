@@ -44,4 +44,10 @@ router.get(
   companyController.listJob,
 );
 
+router.delete(
+  "/job/delete/:id",
+  authMiddleware.verifyTokenCompany,
+  companyController.deleteJobController,
+);
+
 export default router;

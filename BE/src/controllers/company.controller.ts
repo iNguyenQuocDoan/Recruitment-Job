@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { AccountRequest } from "../interfaces/request.interface";
 import {
   createJobService,
+  deleteJobService,
   listCompanyJobService,
   loginCompanyService,
   registerCompanyService,
@@ -61,6 +62,18 @@ const createJobPost = async (req: AccountRequest, res: Response) => {
   }
 };
 
+const deleteJobController = async (req: AccountRequest, res: Response) => {
+  try {
+    const result = await deleteJobService(req, req.params.id);
+
+    return res.status(result.statusCode).json(result.body);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ code: "error", message: "Internal server error" });
+  }
+};
+
 const listJob = async (req: AccountRequest, res: Response) => {
   try {
     const result = await listCompanyJobService(req);
@@ -79,4 +92,5 @@ export {
   profilePatchController,
   createJobPost,
   listJob,
+  deleteJobController,
 };

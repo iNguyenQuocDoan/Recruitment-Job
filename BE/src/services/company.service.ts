@@ -69,7 +69,7 @@ const loginCompanyService = async (
       statusCode: 400,
       body: {
         code: "error",
-        message: "Mật khẩu không đúng",
+        message: "Incorrect password",
       },
     };
   }
@@ -153,6 +153,36 @@ const createJobService = async (
   };
 };
 
+const deleteJobService = async (
+  accountRequest: AccountRequest,
+  jobId: string,
+): Promise<ServiceResponse<any>> => {
+  const job = await Job.findById(jobId);
+
+  if (!job) {
+    return {
+      statusCode: 404,
+      body: { code: "error", message: "Job not found" },
+    };
+  }
+
+  if (
+    (job.companyId ?? "").toString() !== accountRequest.account!._id.toString()
+  ) {
+    return {
+      statusCode: 403,
+      body: { code: "error", message: "Forbidden" },
+    };
+  }
+
+  await Job.deleteOne({ _id: jobId });
+
+  return {
+    statusCode: 200,
+    body: { code: "success", message: "Job deleted successfully" },
+  };
+};
+
 const listCompanyJobService = async (
   accountRequest: AccountRequest,
 ): Promise<ServiceResponse<any>> => {
@@ -195,5 +225,6 @@ export {
   loginCompanyService,
   updateCompanyProfileService,
   createJobService,
+  deleteJobService,
   listCompanyJobService,
 };
