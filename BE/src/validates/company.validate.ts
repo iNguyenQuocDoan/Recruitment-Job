@@ -21,31 +21,32 @@ const registerPost = async (
       .min(8)
       .custom((value, helpers) => {
         if (!/[A-Z]/.test(value)) {
-          throw new Error("Password must contain at least one uppercase letter!");
+          return helpers.error("password.uppercase", { value });
         }
-
         if (!/[a-z]/.test(value)) {
-          throw new Error("Password must contain at least one lowercase letter!");
+          return helpers.error("password.lowercase", { value });
         }
-
         if (!/\d/.test(value)) {
-          throw new Error("Password must contain at least one number!");
+          return helpers.error("password.digit", { value });
         }
-
         if (!/[@$!%*?&]/.test(value)) {
-          throw new Error("Password must contain at least one special character!");
+          return helpers.error("password.special", { value });
         }
-
         return value;
       })
       .messages({
+        "any.required": "Please enter your password!",
         "string.empty": "Please enter your password!",
         "string.min": "Password must be at least 8 characters!",
+        "password.uppercase": "Password must contain at least one uppercase letter!",
+        "password.lowercase": "Password must contain at least one lowercase letter!",
+        "password.digit": "Password must contain at least one number!",
+        "password.special": "Password must contain at least one special character!",
       }),
   });
   const { error } = schema.validate(req.body);
   if (error) {
-    const errMessage = error.details[1].message;
+    const errMessage = error.details[0].message;
     return res.json({
       code: "error",
       message: errMessage,
@@ -65,31 +66,32 @@ const loginPost = async (req: Request, res: Response, next: NextFunction) => {
       .min(8)
       .custom((value, helpers) => {
         if (!/[A-Z]/.test(value)) {
-          throw new Error("Password must contain at least one uppercase letter!");
+          return helpers.error("password.uppercase", { value });
         }
-
         if (!/[a-z]/.test(value)) {
-          throw new Error("Password must contain at least one lowercase letter!");
+          return helpers.error("password.lowercase", { value });
         }
-
         if (!/\d/.test(value)) {
-          throw new Error("Password must contain at least one number!");
+          return helpers.error("password.digit", { value });
         }
-
         if (!/[@$!%*?&]/.test(value)) {
-          throw new Error("Password must contain at least one special character!");
+          return helpers.error("password.special", { value });
         }
-
         return value;
       })
       .messages({
+        "any.required": "Please enter your password!",
         "string.empty": "Please enter your password!",
         "string.min": "Password must be at least 8 characters!",
+        "password.uppercase": "Password must contain at least one uppercase letter!",
+        "password.lowercase": "Password must contain at least one lowercase letter!",
+        "password.digit": "Password must contain at least one number!",
+        "password.special": "Password must contain at least one special character!",
       }),
   });
   const { error } = schema.validate(req.body);
   if (error) {
-    const errMessage = error.details[1].message;
+    const errMessage = error.details[0].message;
     return res.json({
       code: "error",
       message: errMessage,
