@@ -16,7 +16,7 @@ const authenticate = async (
 
     if (!token) {
       return res.status(STATUS_CODE.UNAUTHORIZED).json({
-        code: RESPONSE_CODE.ERROR,
+        code: RESPONSE_CODE.UNAUTHORIZED,
         message: "Unauthorized",
       });
     }
@@ -33,7 +33,7 @@ const authenticate = async (
       if (!account) {
         res.clearCookie("token");
         return res.status(STATUS_CODE.UNAUTHORIZED).json({
-          code: RESPONSE_CODE.ERROR,
+          code: RESPONSE_CODE.UNAUTHORIZED,
           message: "Unauthorized",
         });
       }
@@ -43,7 +43,7 @@ const authenticate = async (
       if (!account) {
         res.clearCookie("token");
         return res.status(STATUS_CODE.UNAUTHORIZED).json({
-          code: RESPONSE_CODE.ERROR,
+          code: RESPONSE_CODE.UNAUTHORIZED,
           message: "Unauthorized",
         });
       }
@@ -64,7 +64,7 @@ const authorize = (...roles: Array<"user" | "company" | "admin">) => {
   return (req: AccountRequest, res: Response, next: NextFunction) => {
     if (!req.role || !roles.includes(req.role)) {
       return res.status(STATUS_CODE.FORBIDDEN).json({
-        code: RESPONSE_CODE.ERROR,
+        code: RESPONSE_CODE.FORBIDDEN,
         message: "Forbidden",
       });
     }

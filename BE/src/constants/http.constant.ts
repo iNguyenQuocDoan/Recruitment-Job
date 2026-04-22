@@ -12,4 +12,5 @@ export const RESPONSE_CODE = {
   SUCCESS: "success",
   ERROR: "error",
   UNAUTHORIZED: "unauthorized",
+  FORBIDDEN: "forbidden",
 } as const;

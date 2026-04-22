@@ -167,7 +167,7 @@ const deleteJobService = async (
   ) {
     return {
       statusCode: STATUS_CODE.FORBIDDEN,
-      body: { code: RESPONSE_CODE.ERROR, message: "Forbidden" },
+      body: { code: RESPONSE_CODE.FORBIDDEN, message: "Forbidden" },
     };
   }
 
