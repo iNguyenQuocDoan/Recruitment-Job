@@ -14,13 +14,13 @@ const router = Router();
 router.post(
   "/register",
   companyValidate.registerPost,
-  companyController.registerPostController,
+  companyController.registerController,
 );
 
 router.post(
   "/login",
   companyValidate.loginPost,
-  companyController.loginPostController,
+  companyController.loginController,
 );
 
 router.patch(
@@ -28,20 +28,20 @@ router.patch(
   authMiddleware.verifyTokenCompany,
   upload.single("logo"),
   companyValidate.profilePatch,
-  companyController.profilePatchController,
+  companyController.updateProfileController,
 );
 
 router.patch(
   "/job/create",
   authMiddleware.verifyTokenCompany,
   upload.array("images", 8),
-  companyController.createJobPost,
+  companyController.createJobController,
 );
 
 router.get(
   "/job/list",
   authMiddleware.verifyTokenCompany,
-  companyController.listJob,
+  companyController.listJobController,
 );
 
 router.delete(

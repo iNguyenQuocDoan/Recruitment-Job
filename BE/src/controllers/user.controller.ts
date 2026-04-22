@@ -10,7 +10,7 @@ import {
 
 dotenv.config();
 
-const registerPostController = async (req: Request, res: Response) => {
+const registerController = async (req: Request, res: Response) => {
   try {
     const result = await registerUserService(req.body);
     return res.status(result.statusCode).json(result.body);
@@ -20,7 +20,7 @@ const registerPostController = async (req: Request, res: Response) => {
   }
 };
 
-const loginPostController = async (req: Request, res: Response) => {
+const loginController = async (req: Request, res: Response) => {
   try {
     const result = await loginUserService(req.body);
 
@@ -40,8 +40,8 @@ const loginPostController = async (req: Request, res: Response) => {
   }
 };
 
-const profilePatchController = async (req: AccountRequest, res: Response) => {
+const updateProfileController = async (req: AccountRequest, res: Response) => {
   const result = await updateUserProfileService(req);
   return res.status(result.statusCode).json(result.body);
 };
-export { registerPostController, loginPostController, profilePatchController };
+export { registerController, loginController, updateProfileController };

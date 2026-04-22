@@ -13,7 +13,7 @@ import {
 
 dotenv.config();
 
-const registerPostController = async (req: Request, res: Response) => {
+const registerController = async (req: Request, res: Response) => {
   try {
     const result = await registerCompanyService(req.body);
     return res.status(result.statusCode).json(result.body);
@@ -23,7 +23,7 @@ const registerPostController = async (req: Request, res: Response) => {
   }
 };
 
-const loginPostController = async (req: Request, res: Response) => {
+const loginController = async (req: Request, res: Response) => {
   try {
     const result = await loginCompanyService(req.body);
 
@@ -45,12 +45,12 @@ const loginPostController = async (req: Request, res: Response) => {
   }
 };
 
-const profilePatchController = async (req: AccountRequest, res: Response) => {
+const updateProfileController = async (req: AccountRequest, res: Response) => {
   const result = await updateCompanyProfileService(req);
   return res.status(result.statusCode).json(result.body);
 };
 
-const createJobPost = async (req: AccountRequest, res: Response) => {
+const createJobController = async (req: AccountRequest, res: Response) => {
   try {
     const result = await createJobService(req);
     return res.status(result.statusCode).json(result.body);
@@ -74,7 +74,7 @@ const deleteJobController = async (req: AccountRequest, res: Response) => {
   }
 };
 
-const listJob = async (req: AccountRequest, res: Response) => {
+const listJobController = async (req: AccountRequest, res: Response) => {
   try {
     const result = await listCompanyJobService(req);
     return res.status(result.statusCode).json(result.body);
@@ -87,10 +87,10 @@ const listJob = async (req: AccountRequest, res: Response) => {
 };
 
 export {
-  registerPostController,
-  loginPostController,
-  profilePatchController,
-  createJobPost,
-  listJob,
+  registerController,
+  loginController,
+  updateProfileController,
+  createJobController,
+  listJobController,
   deleteJobController,
 };
