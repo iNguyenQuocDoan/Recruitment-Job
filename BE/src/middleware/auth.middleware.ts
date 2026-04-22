@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import AccountUser from "../models/account-user.model";
 import AccountCompany from "../models/account-company.model";
 import { AccountRequest, DecodedToken } from "../interfaces/request.interface";
-import { STATUS_CODE, RESPONSE_CODE } from "../constants/http.constant";
+import { STATUS_CODE, RESPONSE_CODE, RESPONSE_MESSAGE } from "../constants/http.constant";
 
 const authenticate = async (
   req: AccountRequest,
@@ -17,7 +17,7 @@ const authenticate = async (
     if (!token) {
       return res.status(STATUS_CODE.UNAUTHORIZED).json({
         code: RESPONSE_CODE.UNAUTHORIZED,
-        message: "Unauthorized",
+        message: RESPONSE_MESSAGE.UNAUTHORIZED,
       });
     }
 
@@ -34,7 +34,7 @@ const authenticate = async (
         res.clearCookie("token");
         return res.status(STATUS_CODE.UNAUTHORIZED).json({
           code: RESPONSE_CODE.UNAUTHORIZED,
-          message: "Unauthorized",
+          message: RESPONSE_MESSAGE.UNAUTHORIZED,
         });
       }
       req.account = account;
@@ -44,7 +44,7 @@ const authenticate = async (
         res.clearCookie("token");
         return res.status(STATUS_CODE.UNAUTHORIZED).json({
           code: RESPONSE_CODE.UNAUTHORIZED,
-          message: "Unauthorized",
+          message: RESPONSE_MESSAGE.UNAUTHORIZED,
         });
       }
       req.account = account;
@@ -55,7 +55,7 @@ const authenticate = async (
   } catch {
     return res.status(STATUS_CODE.UNAUTHORIZED).json({
       code: RESPONSE_CODE.ERROR,
-      message: "Unauthorized",
+      message: RESPONSE_MESSAGE.UNAUTHORIZED,
     });
   }
 };
@@ -65,7 +65,7 @@ const authorize = (...roles: Array<"user" | "company" | "admin">) => {
     if (!req.role || !roles.includes(req.role)) {
       return res.status(STATUS_CODE.FORBIDDEN).json({
         code: RESPONSE_CODE.FORBIDDEN,
-        message: "Forbidden",
+        message: RESPONSE_MESSAGE.FORBIDDEN,
       });
     }
     next();

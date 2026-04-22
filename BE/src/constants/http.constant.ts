@@ -14,3 +14,10 @@ export const RESPONSE_CODE = {
   UNAUTHORIZED: "unauthorized",
   FORBIDDEN: "forbidden",
 } as const;
+
+export const RESPONSE_MESSAGE = {
+  INTERNAL_SERVER_ERROR: "Internal server error",
+  UNAUTHORIZED: "Unauthorized",
+  FORBIDDEN: "Forbidden",
+  NOT_FOUND: "Not found",
+} as const;
