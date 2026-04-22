@@ -24,7 +24,7 @@ export const Header = () => {
               href="#"
               className="text-white font-[800] sm:text-[28px] text-[20px] lg:flex-none flex-1"
             >
-              28.ITJobs
+              ITJobs
             </Link>
             {/* Menu */}
             <HeaderMenu showMenu={showMenu} />
