@@ -1,5 +1,23 @@
 import mongoose from "mongoose";
 
+import { ICity } from "./city.model";
+
+export interface IAccountCompany {
+  _id: mongoose.Types.ObjectId;
+  companyName: string;
+  email: string;
+  password: string;
+  logo?: string;
+  phone?: string;
+  city?: mongoose.Types.ObjectId | ICity;
+  address?: string;
+  companyModel?: string;
+  companyEmployees?: string;
+  workingTime?: string;
+  workOvertime?: string;
+  description?: string;
+}
+
 const schema = new mongoose.Schema(
   {
     companyName: {
@@ -47,7 +65,7 @@ const schema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const AccountCompany = mongoose.model(
+const AccountCompany = mongoose.model<IAccountCompany>(
   "AccountCompany",
   schema,
   "account_company",

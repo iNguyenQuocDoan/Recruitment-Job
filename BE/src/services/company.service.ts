@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 
-import AccountCompany from "../models/account-company.model";
+import AccountCompany, { IAccountCompany } from "../models/account-company.model";
+import { ICity } from "../models/city.model";
 import { AccountRequest } from "../interfaces/request.interface";
 import Job from "../models/jobs.model";
 import { ServiceResponse } from "../interfaces/request.interface";
@@ -100,12 +101,9 @@ const updateCompanyProfileService = async (
     delete accountRequest.body.logo;
   }
 
-  await AccountCompany.updateOne(
-    {
-      _id: accountRequest.account!._id,
-    },
-    accountRequest.body,
-  );
+  const company = accountRequest.account as IAccountCompany;
+
+  await AccountCompany.updateOne({ _id: company._id }, accountRequest.body);
 
   return {
     statusCode: STATUS_CODE.OK,
@@ -119,7 +117,8 @@ const updateCompanyProfileService = async (
 const createJobService = async (
   accountRequest: AccountRequest,
 ): Promise<ServiceResponse<any>> => {
-  accountRequest.body.companyId = accountRequest.account!._id;
+  const company = accountRequest.account as IAccountCompany;
+  accountRequest.body.companyId = company._id;
   accountRequest.body.salaryMin = accountRequest.body.salaryMin
     ? parseInt(accountRequest.body.salaryMin, 10)
     : 0;
@@ -162,9 +161,9 @@ const deleteJobService = async (
     };
   }
 
-  if (
-    (job.companyId ?? "").toString() !== accountRequest.account!._id.toString()
-  ) {
+  const company = accountRequest.account as IAccountCompany;
+
+  if (!job.companyId?.equals(company._id)) {
     return {
       statusCode: STATUS_CODE.FORBIDDEN,
       body: { code: RESPONSE_CODE.FORBIDDEN, message: "Forbidden" },
@@ -182,26 +181,25 @@ const deleteJobService = async (
 const listCompanyJobService = async (
   accountRequest: AccountRequest,
 ): Promise<ServiceResponse<any>> => {
-  const companyId = accountRequest.account!._id;
+  const company = accountRequest.account as IAccountCompany;
+  const companyId = company._id;
 
-  const jobs = await Job.find({ companyId: companyId }).sort({
-    createdAt: -1,
-  });
+  const jobs = await Job.find({ companyId }).sort({ createdAt: -1 });
 
   const dataFinal = [];
 
   for (const item of jobs) {
     dataFinal.push({
       _id: item._id,
-      companyLogo: accountRequest.account!.logo,
+      companyLogo: company.logo,
       title: item.title,
-      companyName: accountRequest.account!.companyName,
+      companyName: company.companyName,
       salaryMin: item.salaryMin,
       salaryMax: item.salaryMax,
       position: item.position,
       workingForm: item.workingForm,
       technologies: item.technologies,
-      companyCity: accountRequest.account!.city || "",
+      companyCity: (company.city as ICity)?.name || "",
       images: item.images,
       description: item.description,
     });

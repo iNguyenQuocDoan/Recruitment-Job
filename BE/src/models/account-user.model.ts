@@ -1,5 +1,14 @@
 import mongoose from "mongoose";
 
+export interface IAccountUser {
+  _id: mongoose.Types.ObjectId;
+  fullName: string;
+  email: string;
+  password: string;
+  avatar?: string;
+  phone?: string;
+}
+
 const schema = new mongoose.Schema(
   {
     fullName: {
@@ -25,6 +34,10 @@ const schema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const AccountUser = mongoose.model("AccountUser", schema, "account_user");
+const AccountUser = mongoose.model<IAccountUser>(
+  "AccountUser",
+  schema,
+  "account_user",
+);
 
 export default AccountUser;

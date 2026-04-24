@@ -1,8 +1,12 @@
 import { Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
+import { HydratedDocument } from "mongoose";
+
+import { IAccountUser } from "../models/account-user.model";
+import { IAccountCompany } from "../models/account-company.model";
 
 interface AccountRequest extends Request {
-  account?: any;
+  account?: HydratedDocument<IAccountUser> | HydratedDocument<IAccountCompany>;
   role?: "user" | "company" | "admin";
 }
 

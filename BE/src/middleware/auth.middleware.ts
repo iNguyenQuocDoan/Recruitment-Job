@@ -43,7 +43,7 @@ const authenticate = async (
       }
       req.account = account;
     } else if (role === "company") {
-      const account = await AccountCompany.findOne({ _id: id, email });
+      const account = await AccountCompany.findOne({ _id: id, email }).populate("city");
       if (!account) {
         res.clearCookie("token");
         return res.status(STATUS_CODE.UNAUTHORIZED).json({

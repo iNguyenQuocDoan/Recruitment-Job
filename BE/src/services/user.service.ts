@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 
-import AccountUser from "../models/account-user.model";
+import AccountUser, { IAccountUser } from "../models/account-user.model";
 import { AccountRequest } from "../interfaces/request.interface";
 import { ServiceResponse } from "../interfaces/request.interface";
 import { STATUS_CODE, RESPONSE_CODE } from "../constants/http.constant";
@@ -99,12 +99,9 @@ const updateUserProfileService = async (
     delete accountRequest.body.avatar;
   }
 
-  await AccountUser.updateOne(
-    {
-      _id: accountRequest.account!._id,
-    },
-    accountRequest.body,
-  );
+  const user = accountRequest.account as IAccountUser;
+
+  await AccountUser.updateOne({ _id: user._id }, accountRequest.body);
 
   return {
     statusCode: STATUS_CODE.OK,

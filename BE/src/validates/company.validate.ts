@@ -5,7 +5,7 @@ import { RESPONSE_CODE } from "../constants/http.constant";
 const registerPost = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const schema = Joi.object({
     companyName: Joi.string().min(5).max(50).required().messages({
@@ -39,10 +39,13 @@ const registerPost = async (
         "any.required": "Please enter your password!",
         "string.empty": "Please enter your password!",
         "string.min": "Password must be at least 8 characters!",
-        "password.uppercase": "Password must contain at least one uppercase letter!",
-        "password.lowercase": "Password must contain at least one lowercase letter!",
+        "password.uppercase":
+          "Password must contain at least one uppercase letter!",
+        "password.lowercase":
+          "Password must contain at least one lowercase letter!",
         "password.digit": "Password must contain at least one number!",
-        "password.special": "Password must contain at least one special character!",
+        "password.special":
+          "Password must contain at least one special character!",
       }),
   });
   const { error } = schema.validate(req.body);
@@ -84,10 +87,13 @@ const loginPost = async (req: Request, res: Response, next: NextFunction) => {
         "any.required": "Please enter your password!",
         "string.empty": "Please enter your password!",
         "string.min": "Password must be at least 8 characters!",
-        "password.uppercase": "Password must contain at least one uppercase letter!",
-        "password.lowercase": "Password must contain at least one lowercase letter!",
+        "password.uppercase":
+          "Password must contain at least one uppercase letter!",
+        "password.lowercase":
+          "Password must contain at least one lowercase letter!",
         "password.digit": "Password must contain at least one number!",
-        "password.special": "Password must contain at least one special character!",
+        "password.special":
+          "Password must contain at least one special character!",
       }),
   });
   const { error } = schema.validate(req.body);
@@ -104,7 +110,7 @@ const loginPost = async (req: Request, res: Response, next: NextFunction) => {
 const profilePatch = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const schema = Joi.object({
     companyName: Joi.string().min(3).max(50).required().messages({
@@ -120,7 +126,13 @@ const profilePatch = async (
       "string.min": "Phone number must be at least 10 characters!",
       "string.max": "Phone number must not exceed 15 characters!",
     }),
-    city: Joi.string().optional().allow(""),
+    city: Joi.string()
+      .regex(/^[a-f\d]{24}$/i)
+      .optional()
+      .allow("")
+      .messages({
+        "string.pattern.base": "Invalid city ID!",
+      }),
     address: Joi.string().min(5).required().messages({
       "string.empty": "Please enter the address!",
       "string.min": "Address must be at least 5 characters!",

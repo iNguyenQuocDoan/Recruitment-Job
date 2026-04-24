@@ -48,7 +48,7 @@ const checkAuthService = async (
     const existAccountCompany = await AccountCompany.findOne({
       _id: id,
       email,
-    });
+    }).populate<{ city: { _id: string; name: string } | null }>("city");
 
     if (existAccountCompany) {
       return {
@@ -62,7 +62,7 @@ const checkAuthService = async (
             companyName: existAccountCompany.companyName,
             logo: existAccountCompany.logo,
             phone: existAccountCompany.phone,
-            city: existAccountCompany.city,
+            city: existAccountCompany.city?.name ?? null,
             address: existAccountCompany.address,
             companyModel: existAccountCompany.companyModel,
             companyEmployees: existAccountCompany.companyEmployees,
