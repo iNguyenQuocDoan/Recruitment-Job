@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const schema = new mongoose.Schema(
   {
     companyId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "AccountCompany",
       required: true,
     },
     title: {

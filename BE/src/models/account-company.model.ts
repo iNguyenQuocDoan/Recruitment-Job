@@ -22,7 +22,8 @@ const schema = new mongoose.Schema(
       type: String,
     },
     city: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "City",
     },
     address: {
       type: String,

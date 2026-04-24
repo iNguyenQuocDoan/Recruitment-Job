@@ -14,14 +14,10 @@ const router = Router();
 router.post(
   "/register",
   userValidate.registerPost,
-  userController.registerController
+  userController.registerController,
 );
 
-router.post(
-  "/login",
-  userValidate.loginPost,
-  userController.loginController
-);
+router.post("/login", userValidate.loginPost, userController.loginController);
 
 router.patch(
   "/profile",
@@ -29,7 +25,7 @@ router.patch(
   authorize("user"),
   upload.single("avatar"),
   userValidate.profilePatch,
-  userController.updateProfileController
+  userController.updateProfileController,
 );
 
 export default router;
