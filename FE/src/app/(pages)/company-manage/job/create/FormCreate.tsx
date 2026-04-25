@@ -6,11 +6,11 @@ import "filepond/dist/filepond.min.css";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 
 import { Editor } from "@tinymce/tinymce-react";
 import JustValidate from "just-validate";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { positionList, workingFormList } from "@/config/variable";
 
 // Register the FilePond plugins
@@ -130,144 +130,65 @@ export const FormCreate = () => {
   };
 
   return (
-    <>
-      <form
-        id="createForm"
-        action=""
-        className="grid sm:grid-cols-2 grid-cols-1 gap-x-[20px] gap-y-[15px]"
-        onSubmit={handleSubmit}
-      >
-        <div className="sm:col-span-2">
-          <label
-            htmlFor="title"
-            className="block font-[500] text-[14px] text-black mb-[5px]"
-          >
-            Tên công việc *
-          </label>
-          <input
-            type="text"
-            name="title"
-            id="title"
-            className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-          />
-        </div>
-        <div className="">
-          <label
-            htmlFor="salaryMin"
-            className="block font-[500] text-[14px] text-black mb-[5px]"
-          >
-            Mức lương tối thiểu ($)
-          </label>
-          <input
-            type="number"
-            name="salaryMin"
-            id="salaryMin"
-            className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-          />
-        </div>
-        <div className="">
-          <label
-            htmlFor="salaryMax"
-            className="block font-[500] text-[14px] text-black mb-[5px]"
-          >
-            Mức lương tối đa ($)
-          </label>
-          <input
-            type="number"
-            name="salaryMax"
-            id="salaryMax"
-            className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-          />
-        </div>
-        <div className="">
-          <label
-            htmlFor="position"
-            className="block font-[500] text-[14px] text-black mb-[5px]"
-          >
-            Cấp bậc *
-          </label>
-          <select
-            name="position"
-            id="position"
-            className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-          >
-            {positionList.map((pos) => (
-              <option key={pos.value} value={pos.value}>
-                {pos.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="">
-          <label
-            htmlFor="workingForm"
-            className="block font-[500] text-[14px] text-black mb-[5px]"
-          >
-            Hình thức làm việc *
-          </label>
-          <select
-            name="workingForm"
-            id="workingForm"
-            className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-          >
-            {workingFormList.map((form) => (
-              <option key={form.value} value={form.value}>
-                {form.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="sm:col-span-2">
-          <label
-            htmlFor="technologies"
-            className="block font-[500] text-[14px] text-black mb-[5px]"
-          >
-            Các công nghệ
-          </label>
-          <input
-            type="text"
-            name="technologies"
-            id="technologies"
-            className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-          />
-        </div>
-        <div className="sm:col-span-2">
-          <label
-            htmlFor="images"
-            className="block font-[500] text-[14px] text-black mb-[5px]"
-          >
-            Danh sách ảnh *
-          </label>
-          <FilePond
-            name="images"
-            allowMultiple={true}
-            allowRemove={true}
-            maxFiles={8} // số lượng file tối đa được upload
-            labelIdle="+"
-            acceptedFileTypes={["image/*"]}
-            onupdatefiles={setImages}
-            files={images}
-          />
-        </div>
-        <div className="sm:col-span-2">
-          <label
-            htmlFor="description"
-            className="block font-[500] text-[14px] text-black mb-[5px]"
-          >
-            Mô tả chi tiết
-          </label>
-          <Editor
-            apiKey={process.env.NEXT_PUBLIC_API_TINY}
-            onInit={(_evt, editor) => setEditorInstance(editor)}
-            id="description"
-          />
-        </div>
-        <div className="sm:col-span-2">
-          <button className="bg-[#0088FF] rounded-[4px] h-[48px] px-[20px] font-[700] text-[16px] text-white">
-            Tạo mới
-          </button>
-        </div>
-      </form>
-    </>
+    <form id="createForm" className="grid sm:grid-cols-2 grid-cols-1 gap-5" onSubmit={handleSubmit}>
+      <div className="sm:col-span-2">
+        <label htmlFor="title" className="label">Tên công việc *</label>
+        <input type="text" name="title" id="title" placeholder="Frontend Developer (ReactJS)" className="input" />
+      </div>
+      <div>
+        <label htmlFor="salaryMin" className="label">Mức lương tối thiểu ($)</label>
+        <input type="number" name="salaryMin" id="salaryMin" placeholder="1000" className="input" />
+      </div>
+      <div>
+        <label htmlFor="salaryMax" className="label">Mức lương tối đa ($)</label>
+        <input type="number" name="salaryMax" id="salaryMax" placeholder="2000" className="input" />
+      </div>
+      <div>
+        <label htmlFor="position" className="label">Cấp bậc *</label>
+        <select name="position" id="position" className="input">
+          {positionList.map((pos) => (
+            <option key={pos.value} value={pos.value}>{pos.label}</option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <label htmlFor="workingForm" className="label">Hình thức làm việc *</label>
+        <select name="workingForm" id="workingForm" className="input">
+          {workingFormList.map((form) => (
+            <option key={form.value} value={form.value}>{form.label}</option>
+          ))}
+        </select>
+      </div>
+      <div className="sm:col-span-2">
+        <label htmlFor="technologies" className="label">Công nghệ sử dụng</label>
+        <input type="text" name="technologies" id="technologies" placeholder="ReactJS, NextJS, TypeScript (cách nhau dấu phẩy)" className="input" />
+      </div>
+      <div className="sm:col-span-2">
+        <label className="label">Hình ảnh *</label>
+        <FilePond
+          name="images"
+          allowMultiple
+          allowRemove
+          maxFiles={8}
+          labelIdle='Kéo & thả ảnh hoặc <span class="filepond--label-action">chọn file</span>'
+          acceptedFileTypes={["image/*"]}
+          onupdatefiles={setImages}
+          files={images}
+        />
+      </div>
+      <div className="sm:col-span-2">
+        <label htmlFor="description" className="label">Mô tả chi tiết</label>
+        <Editor
+          apiKey={process.env.NEXT_PUBLIC_API_TINY}
+          onInit={(_evt, editor) => setEditorInstance(editor)}
+          id="description"
+        />
+      </div>
+      <div className="sm:col-span-2 pt-2">
+        <button type="submit" className="btn-primary btn-lg">
+          Đăng tin tuyển dụng
+        </button>
+      </div>
+    </form>
   );
 };

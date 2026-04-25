@@ -18,11 +18,6 @@ registerPlugin(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
 export const FormProfile = () => {
   const editorRef = useRef(null);
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
 
   const { infoCompany } = useAuth();
 
@@ -208,223 +203,77 @@ export const FormProfile = () => {
     <>
       <Toaster position="top-right" richColors />
       {infoCompany && (
-        <form
-          id="profileForm"
-          action=""
-          onSubmit={handleSubmit}
-          className="grid sm:grid-cols-2 grid-cols-1 gap-x-[20px] gap-y-[15px]"
-        >
+        <form id="profileForm" onSubmit={handleSubmit} className="grid sm:grid-cols-2 grid-cols-1 gap-5">
           <div className="sm:col-span-2">
-            <label
-              htmlFor="companyName"
-              className="block font-[500] text-[14px] text-black mb-[5px]"
-            >
-              Tên công ty *
-            </label>
-            <input
-              type="text"
-              name="companyName"
-              id="companyName"
-              className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-              defaultValue={infoCompany.companyName}
-            />
-          </div>
-          <div className="sm:col-span-2">
-            <label
-              htmlFor="logo"
-              className="block font-[500] text-[14px] text-black mb-[5px]"
-            >
-              Logo
-            </label>
+            <label className="label">Logo công ty</label>
             <FilePond
               name="logo"
               allowMultiple={false}
-              allowRemove={true}
-              labelIdle="+"
+              allowRemove
+              labelIdle='Kéo & thả ảnh hoặc <span class="filepond--label-action">chọn file</span>'
               acceptedFileTypes={["image/*"]}
               onupdatefiles={setLogo}
               files={logo}
             />
           </div>
-          <div className="">
-            <label
-              htmlFor="city"
-              className="block font-[500] text-[14px] text-black mb-[5px]"
-            >
-              Thành phố
-            </label>
-            <select
-              name="city"
-              id="city"
-              className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-              defaultValue={infoCompany.city}
-            >
-              {cityList &&
-                cityList.map((city) => (
-                  <option key={city._id} value={city.name}>
-                    {city.name}
-                  </option>
-                ))}
+          <div className="sm:col-span-2">
+            <label htmlFor="companyName" className="label">Tên công ty *</label>
+            <input type="text" name="companyName" id="companyName" className="input" defaultValue={infoCompany.companyName} />
+          </div>
+          <div>
+            <label htmlFor="city" className="label">Thành phố</label>
+            <select name="city" id="city" className="input" defaultValue={infoCompany.city}>
+              {cityList?.map((city) => (
+                <option key={city._id} value={city.name}>{city.name}</option>
+              ))}
             </select>
           </div>
-          <div className="">
-            <label
-              htmlFor="address"
-              className="block font-[500] text-[14px] text-black mb-[5px]"
-            >
-              Địa chỉ
-            </label>
-            <input
-              type="text"
-              name="address"
-              id="address"
-              className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-              defaultValue={infoCompany.address}
-            />
+          <div>
+            <label htmlFor="address" className="label">Địa chỉ</label>
+            <input type="text" name="address" id="address" className="input" defaultValue={infoCompany.address} />
           </div>
-          <div className="">
-            <label
-              htmlFor="companyModel"
-              className="block font-[500] text-[14px] text-black mb-[5px]"
-            >
-              Mô hình công ty
-            </label>
-            <input
-              type="text"
-              name="companyModel"
-              id="companyModel"
-              className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-              defaultValue={infoCompany.companyModel}
-            />
+          <div>
+            <label htmlFor="companyModel" className="label">Mô hình công ty</label>
+            <input type="text" name="companyModel" id="companyModel" className="input" defaultValue={infoCompany.companyModel} />
           </div>
-          <div className="">
-            <label
-              htmlFor="companyEmployees"
-              className="block font-[500] text-[14px] text-black mb-[5px]"
-            >
-              Quy mô công ty
-            </label>
-            <input
-              type="text"
-              name="companyEmployees"
-              id="companyEmployees"
-              className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-              defaultValue={infoCompany.companyEmployees}
-            />
+          <div>
+            <label htmlFor="companyEmployees" className="label">Quy mô công ty</label>
+            <input type="text" name="companyEmployees" id="companyEmployees" className="input" defaultValue={infoCompany.companyEmployees} />
           </div>
-          <div className="">
-            <label
-              htmlFor="workingTime"
-              className="block font-[500] text-[14px] text-black mb-[5px]"
-            >
-              Thời gian làm việc
-            </label>
-            <input
-              type="text"
-              name="workingTime"
-              id="workingTime"
-              className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-              defaultValue={infoCompany.workingTime}
-            />
+          <div>
+            <label htmlFor="workingTime" className="label">Thời gian làm việc</label>
+            <input type="text" name="workingTime" id="workingTime" className="input" defaultValue={infoCompany.workingTime} />
           </div>
-          <div className="">
-            <label
-              htmlFor="workOvertime"
-              className="block font-[500] text-[14px] text-black mb-[5px]"
-            >
-              Làm việc ngoài giờ
-            </label>
-            <input
-              type="text"
-              name="workOvertime"
-              id="workOvertime"
-              className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-              defaultValue={infoCompany.workOvertime}
-            />
+          <div>
+            <label htmlFor="workOvertime" className="label">Làm việc ngoài giờ</label>
+            <input type="text" name="workOvertime" id="workOvertime" className="input" defaultValue={infoCompany.workOvertime} />
           </div>
-          <div className="">
-            <label
-              htmlFor="email"
-              className="block font-[500] text-[14px] text-black mb-[5px]"
-            >
-              Email *
-            </label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-              defaultValue={infoCompany.email}
-            />
+          <div>
+            <label htmlFor="email" className="label">Email *</label>
+            <input type="email" name="email" id="email" className="input" defaultValue={infoCompany.email} />
           </div>
-          <div className="">
-            <label
-              htmlFor="phone"
-              className="block font-[500] text-[14px] text-black mb-[5px]"
-            >
-              Số điện thoại
-            </label>
-            <input
-              type="text"
-              name="phone"
-              id="phone"
-              className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-              defaultValue={infoCompany.phone}
-            />
+          <div>
+            <label htmlFor="phone" className="label">Số điện thoại</label>
+            <input type="text" name="phone" id="phone" className="input" defaultValue={infoCompany.phone} />
           </div>
           <div className="sm:col-span-2">
-            <label
-              htmlFor="description"
-              className="block font-[500] text-[14px] text-black mb-[5px]"
-            >
-              Mô tả chi tiết
-            </label>
-            {/* <textarea
-              name="description"
-              id="description"
-              className="w-[100%] h-[350px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-              defaultValue={infoCompany.description}
-            /> */}
-
+            <label htmlFor="description" className="label">Mô tả công ty</label>
             <Editor
               apiKey={process.env.NEXT_PUBLIC_API_TINY}
               onInit={(_evt, editor) => (editorRef.current = editor)}
               initialValue={infoCompany.description}
               init={{
-                height: 500,
+                height: 400,
                 menubar: false,
-                plugins: [
-                  "advlist",
-                  "autolink",
-                  "lists",
-                  "link",
-                  "image",
-                  "charmap",
-                  "anchor",
-                  "searchreplace",
-                  "visualblocks",
-                  "code",
-                  "fullscreen",
-                  "insertdatetime",
-                  "media",
-                  "table",
-                  "preview",
-                  "help",
-                  "wordcount",
-                ],
-                toolbar:
-                  "undo redo | blocks | " +
-                  "bold italic forecolor | alignleft aligncenter " +
-                  "alignright alignjustify | bullist numlist outdent indent | " +
-                  "removeformat | help",
-                content_style:
-                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                plugins: ["advlist", "autolink", "lists", "link", "image", "charmap", "anchor", "searchreplace", "visualblocks", "code", "fullscreen", "insertdatetime", "media", "table", "preview", "help", "wordcount"],
+                toolbar: "undo redo | blocks | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",
+                content_style: "body { font-family: Lexend, sans-serif; font-size: 14px }",
               }}
             />
           </div>
-          <div className="sm:col-span-2">
-            <button className="bg-[#0088FF] rounded-[4px] h-[48px] px-[20px] font-[700] text-[16px] text-white">
-              Cập nhật
+          <div className="sm:col-span-2 pt-2">
+            <button type="submit" className="btn-primary btn-lg">
+              Cập nhật thông tin
             </button>
           </div>
         </form>

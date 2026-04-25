@@ -1,88 +1,109 @@
-/* eslint-disable @next/next/no-img-element */
-import { Metadata } from "next"
-import Link from "next/link"
-import { FaBriefcase, FaCircleCheck, FaEnvelope, FaEye, FaPhone, FaUserTie } from "react-icons/fa6"
+import { Metadata } from "next";
+import Link from "next/link";
+import {
+  FaBriefcase,
+  FaEye,
+  FaPhone,
+  FaUserTie,
+  FaCheck,
+  FaXmark,
+  FaTrash,
+} from "react-icons/fa6";
 
 export const metadata: Metadata = {
   title: "Quản lý CV",
-  description: "Mô tả trang quản lý CV...",
-}
+  description: "Quản lý CV ứng viên",
+};
 
 export default function CompanyManageCVListPage() {
-  return (
-    <>
-      <div className="py-[60px]">
-        <div className="container mx-auto px-[16px]">
-          <h2 className="font-[700] sm:text-[28px] text-[24px] sm:w-auto w-[100%] text-[#121212] mb-[20px]">
-            Quản lý CV
-          </h2>
+  const items = [
+    {
+      id: 1,
+      title: "Frontend Engineer (ReactJS)",
+      candidate: "Lê Văn A",
+      email: "levana@gmail.com",
+      phone: "0123456789",
+      salary: "1.000$ - 1.500$",
+      position: "Fresher",
+      workingForm: "Tại văn phòng",
+      isViewed: false,
+      isApproved: false,
+    },
+  ];
 
-          <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-[20px]">
-            <div 
-              className="border border-[#DEDEDE] rounded-[8px] flex flex-col relative truncate"
-              style={{
-                background: "linear-gradient(180deg, #F6F6F6 2.38%, #FFFFFF 70.43%)"
-              }}
-            >
-              <img 
-                src="/assets/images/card-bg.svg" 
-                alt="" 
-                className="absolute top-[0px] left-[0px] w-[100%] h-auto" 
-              />
-              <h3 className="mt-[20px] mx-[16px] font-[700] text-[18px] text-[#121212] text-center flex-1 whitespace-normal line-clamp-2">
-                Frontend Engineer (ReactJS)
-              </h3>
-              <div className="mt-[12px] text-center font-[400] text-[14px] text-black">
-                Ứng viên: <span className="font-[700]">Lê Văn A</span>
+  return (
+    <section className="section-tight">
+      <div className="container-page">
+        <div className="mb-8">
+          <h1 className="text-heading-lg md:text-display-md font-bold text-neutral-900">
+            Quản lý CV
+          </h1>
+          <p className="text-body-sm text-neutral-500 mt-1">
+            Xem xét và phản hồi CV ứng viên
+          </p>
+        </div>
+
+        {/* Filter tabs */}
+        <div className="card p-2 mb-6 inline-flex flex-wrap gap-1">
+          <button className="px-4 h-9 rounded text-body-sm font-medium bg-accent-500 text-white">Tất cả (1)</button>
+          <button className="px-4 h-9 rounded text-body-sm font-medium text-neutral-700 hover:bg-neutral-100">Chưa xem</button>
+          <button className="px-4 h-9 rounded text-body-sm font-medium text-neutral-700 hover:bg-neutral-100">Chờ duyệt</button>
+          <button className="px-4 h-9 rounded text-body-sm font-medium text-neutral-700 hover:bg-neutral-100">Đã duyệt</button>
+          <button className="px-4 h-9 rounded text-body-sm font-medium text-neutral-700 hover:bg-neutral-100">Từ chối</button>
+        </div>
+
+        <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
+          {items.map((item) => (
+            <div key={item.id} className="card-hover p-6">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-body-lg font-bold text-neutral-900 line-clamp-1 flex-1">
+                  {item.title}
+                </h3>
+                {!item.isViewed && (
+                  <span className="ml-2 inline-block w-2 h-2 rounded-full bg-accent-500" title="Chưa xem" />
+                )}
               </div>
-              <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
-                <FaEnvelope className="" /> levana@gmail.com
+
+              <div className="flex items-center gap-3 mb-4 pb-4 border-b border-neutral-100">
+                <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-800 inline-flex items-center justify-center font-semibold">
+                  {item.candidate.charAt(0)}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-body-sm font-semibold text-neutral-900 truncate">{item.candidate}</div>
+                  <div className="text-caption text-neutral-500 truncate">{item.email}</div>
+                </div>
               </div>
-              <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
-                <FaPhone className="" /> 0123456789
+
+              <div className="flex flex-col gap-2 text-body-sm text-neutral-600 mb-4">
+                <div className="inline-flex items-center gap-2 text-accent-500 font-semibold">
+                  <FaBriefcase className="text-neutral-400" /> {item.salary}
+                </div>
+                <div className="inline-flex items-center gap-2">
+                  <FaUserTie className="text-neutral-400" /> {item.position}
+                </div>
+                <div className="inline-flex items-center gap-2">
+                  <FaPhone className="text-neutral-400" /> {item.phone}
+                </div>
               </div>
-              <div className="mt-[12px] text-center font-[600] text-[16px] text-[#0088FF]">
-                1.000$ - 1.500$
-              </div>
-              <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
-                <FaUserTie className="text-[16px]" /> Fresher
-              </div>
-              <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
-                <FaBriefcase className="text-[16px]" /> Tại văn phòng
-              </div>
-              <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#FF0000]">
-                <FaEye className="text-[16px]" /> Chưa xem
-              </div>
-              <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
-                <FaCircleCheck className="text-[16px]" /> Chưa duyệt
-              </div>
-              <div className="flex flex-wrap items-center justify-center gap-[8px] mt-[12px] mb-[20px] mx-[10px]">
-                <Link href="#" className="bg-[#0088FF] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]">
-                  Xem
+
+              <div className="pt-4 border-t border-neutral-100 flex flex-wrap gap-2">
+                <Link href="#" className="flex-1 btn-secondary btn-sm">
+                  <FaEye /> Xem CV
                 </Link>
-                <Link href="#" className="bg-[#9FDB7C] rounded-[4px] font-[400] text-[14px] text-black inline-block py-[8px] px-[20px]">
-                  Duyệt
-                </Link>
-                <Link href="#" className="bg-[#FF5100] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]">
-                  Từ chối
-                </Link>
-                <Link href="#" className="bg-[#FF0000] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]">
-                  Xóa
-                </Link>
+                <button className="btn btn-sm bg-success-500/10 text-success-600 hover:bg-success-500 hover:text-white">
+                  <FaCheck />
+                </button>
+                <button className="btn btn-sm bg-warning-500/10 text-warning-500 hover:bg-warning-500 hover:text-white">
+                  <FaXmark />
+                </button>
+                <button className="btn btn-sm bg-danger-500/10 text-danger-500 hover:bg-danger-500 hover:text-white">
+                  <FaTrash />
+                </button>
               </div>
             </div>
-          </div>
-
-          <div className="mt-[30px]">
-            <select name="" className="border border-[#DEDEDE] rounded-[8px] py-[12px] px-[18px] font-[400] text-[16px] text-[#414042]">
-              <option value="">Trang 1</option>
-              <option value="">Trang 2</option>
-              <option value="">Trang 3</option>
-            </select>
-          </div>
-
+          ))}
         </div>
       </div>
-    </>
-  )
+    </section>
+  );
 }

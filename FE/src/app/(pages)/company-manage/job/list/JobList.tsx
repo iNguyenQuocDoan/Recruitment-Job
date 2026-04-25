@@ -1,13 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { FaBriefcase, FaLocationDot, FaUserTie } from "react-icons/fa6";
+import {
+  FaBriefcase,
+  FaLocationDot,
+  FaUserTie,
+  FaPenToSquare,
+  FaTrash,
+  FaBoxOpen,
+} from "react-icons/fa6";
 import { toast } from "sonner";
 
 export const JobList = () => {
   const [jobList, setJobList] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/job/list`, {
@@ -17,114 +26,16 @@ export const JobList = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.code === "success") {
-          console.log("Job List:", data.data);
           setJobList(data.data || []);
-        }
-
-        if (data.code === "error") {
+        } else if (data.code === "error") {
           toast.error("Lấy danh sách công việc thất bại!");
         }
+        setLoading(false);
       });
   }, []);
 
-  return (
-    <>
-      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-[20px]">
-        {jobList.map((job) => (
-          <div
-            key={job._id}
-            className="border border-[#DEDEDE] rounded-[8px] flex flex-col relative truncate"
-            style={{
-              background:
-                "linear-gradient(180deg, #F6F6F6 2.38%, #FFFFFF 70.43%)",
-            }}
-          >
-            <img
-              src="/assets/images/card-bg.svg"
-              alt=""
-              className="absolute top-[0px] left-[0px] w-[100%] h-auto"
-            />
-            <div
-              className="relative mt-[20px] w-[116px] h-[116px] bg-white mx-auto rounded-[8px] p-[10px]"
-              style={{
-                boxShadow: "0px 4px 24px 0px #0000001F",
-              }}
-            >
-              <img
-                src={job.images?.[0] || "/assets/images/demo-cong-ty-1.png"}
-                alt={job.title}
-                className="w-[100%] h-[100%] object-contain"
-              />
-            </div>
-            <h3 className="mt-[20px] mx-[16px] font-[700] text-[18px] text-[#121212] text-center flex-1 whitespace-normal line-clamp-2">
-              {job.title}
-            </h3>
-            <div className="mt-[6px] text-center font-[400] text-[14px] text-[#121212]">
-              {job.companyName || "Công ty"}
-            </div>
-            <div className="mt-[12px] text-center font-[600] text-[16px] text-[#0088FF]">
-              {job.salaryMin}$ - {job.salaryMax}$
-            </div>
-            <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
-              <FaUserTie className="text-[16px]" /> {job.position}
-            </div>
-            <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
-              <FaBriefcase className="text-[16px]" />{" "}
-              {job.workingForm === "office"
-                ? "Tại văn phòng"
-                : job.workingForm === "remote"
-                  ? "Làm từ xa"
-                  : "Linh hoạt"}
-            </div>
-            <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
-              <FaLocationDot className="text-[16px]" />{" "}
-              {job.companyCity || "N/A"}
-            </div>
-            <div className="mt-[12px] mb-[20px] mx-[16px] flex flex-wrap justify-center gap-[8px]">
-              {job.technologies?.map((tech: string, index: number) => (
-                <div
-                  key={index}
-                  className="border border-[#DEDEDE] rounded-[20px] py-[6px] px-[16px] font-[400] text-[12px] text-[#414042]"
-                >
-                  {tech}
-                </div>
-              ))}
-            </div>
-            <div className="flex items-center justify-center gap-[12px] mb-[20px]">
-              <Link
-                href={`/company-manage/job/edit/${job._id}`}
-                className="bg-[#FFB200] rounded-[4px] font-[400] text-[14px] text-black inline-block py-[8px] px-[20px]"
-              >
-                Sửa
-              </Link>
-              <button
-                onClick={() => handleDelete(job._id)}
-                className="bg-[#FF0000] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]"
-              >
-                Xóa
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-[30px]">
-        <select
-          name=""
-          className="border border-[#DEDEDE] rounded-[8px] py-[12px] px-[18px] font-[400] text-[16px] text-[#414042]"
-        >
-          <option value="">Trang 1</option>
-          <option value="">Trang 2</option>
-          <option value="">Trang 3</option>
-        </select>
-      </div>
-    </>
-  );
-
-  function handleDelete(jobId: string) {
-    if (!confirm("Bạn có chắc chắn muốn xóa công việc này?")) {
-      return;
-    }
+  const handleDelete = (jobId: string) => {
+    if (!confirm("Bạn có chắc chắn muốn xóa công việc này?")) return;
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/job/delete/${jobId}`, {
       method: "DELETE",
@@ -139,8 +50,108 @@ export const JobList = () => {
           toast.error("Xóa công việc thất bại!");
         }
       })
-      .catch(() => {
-        toast.error("Đã xảy ra lỗi!");
-      });
+      .catch(() => toast.error("Đã xảy ra lỗi!"));
+  };
+
+  if (loading) {
+    return (
+      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="card p-6 animate-pulse">
+            <div className="h-32 bg-neutral-100 rounded mb-4" />
+            <div className="h-4 bg-neutral-100 rounded mb-2" />
+            <div className="h-4 bg-neutral-100 rounded w-2/3" />
+          </div>
+        ))}
+      </div>
+    );
   }
+
+  if (jobList.length === 0) {
+    return (
+      <div className="empty-state card p-12">
+        <div className="w-16 h-16 rounded-full bg-accent-50 text-accent-500 inline-flex items-center justify-center mb-4">
+          <FaBoxOpen className="text-2xl" />
+        </div>
+        <h3 className="text-heading-sm font-semibold text-neutral-900 mb-2">
+          Chưa có việc làm nào
+        </h3>
+        <p className="text-body-sm text-neutral-500 mb-6 max-w-md">
+          Bắt đầu đăng tin tuyển dụng đầu tiên của bạn để tiếp cận hàng nghìn ứng viên IT
+        </p>
+        <Link href="/company-manage/job/create" className="btn-primary">
+          Đăng tin ngay
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
+      {jobList.map((job) => (
+        <div key={job._id} className="card-hover flex flex-col overflow-hidden">
+          <div className="bg-gradient-to-br from-primary-50 to-white p-6 pb-4 border-b border-neutral-100">
+            <div className="flex items-start gap-3">
+              <div className="shrink-0 w-14 h-14 rounded-md bg-white border border-neutral-200 p-2 flex items-center justify-center">
+                <img
+                  src={job.images?.[0] || "/assets/images/demo-cong-ty-1.png"}
+                  alt={job.title}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-body-lg font-bold text-neutral-900 line-clamp-2 leading-tight">
+                  {job.title}
+                </h3>
+                <div className="text-body-sm text-neutral-500 mt-1 truncate">
+                  {job.companyName || "Công ty"}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6 pt-4 flex-1 flex flex-col">
+            <div className="text-heading-sm font-semibold text-accent-500 mb-3">
+              {job.salaryMin}$ - {job.salaryMax}$
+            </div>
+
+            <div className="flex flex-col gap-2 text-body-sm text-neutral-600 mb-4">
+              <div className="inline-flex items-center gap-2">
+                <FaUserTie className="text-neutral-400" /> {job.position}
+              </div>
+              <div className="inline-flex items-center gap-2">
+                <FaBriefcase className="text-neutral-400" /> {job.workingForm}
+              </div>
+              <div className="inline-flex items-center gap-2">
+                <FaLocationDot className="text-neutral-400" /> {job.companyCity || "N/A"}
+              </div>
+            </div>
+
+            {job.technologies && job.technologies.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-4">
+                {job.technologies.slice(0, 4).map((tech: string, idx: number) => (
+                  <span key={idx} className="tag">{tech}</span>
+                ))}
+              </div>
+            )}
+
+            <div className="mt-auto pt-4 border-t border-neutral-100 flex items-center gap-2">
+              <Link
+                href={`/company-manage/job/edit/${job._id}`}
+                className="flex-1 btn-secondary btn-sm"
+              >
+                <FaPenToSquare /> Sửa
+              </Link>
+              <button
+                onClick={() => handleDelete(job._id)}
+                className="btn btn-sm bg-danger-500/10 text-danger-500 hover:bg-danger-500 hover:text-white"
+              >
+                <FaTrash />
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 };

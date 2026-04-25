@@ -1,13 +1,97 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-* {
-  font-family: "Lexend", sans-serif;
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply font-sans bg-neutral-50 text-neutral-900;
+  }
+
+  select,
+  input,
+  textarea {
+    outline: none;
+  }
+
+  ::selection {
+    @apply bg-accent-500 text-white;
+  }
 }
 
-select, input, textarea {
-  outline: none;
+@layer components {
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-6 h-12 rounded font-medium text-body-md transition-all duration-200 focus:outline-none focus:shadow-focus disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-accent-500 text-white hover:bg-accent-600 active:bg-accent-700;
+  }
+  .btn-secondary {
+    @apply btn bg-white text-primary-800 border border-neutral-200 hover:border-primary-800 hover:text-primary-900;
+  }
+  .btn-ghost {
+    @apply btn text-primary-800 hover:bg-primary-50;
+  }
+  .btn-danger {
+    @apply btn bg-danger-500 text-white hover:bg-danger-600;
+  }
+  .btn-sm {
+    @apply h-10 px-4 text-body-sm;
+  }
+  .btn-lg {
+    @apply h-14 px-8 text-body-lg;
+  }
+
+  /* Inputs */
+  .input {
+    @apply w-full h-12 px-4 rounded bg-white border border-neutral-200 text-body-md text-neutral-900 placeholder:text-neutral-400 transition-all duration-200 focus:border-accent-500 focus:shadow-focus;
+  }
+  .input-lg {
+    @apply h-14 px-5 text-body-lg;
+  }
+  .label {
+    @apply block text-body-sm font-medium text-neutral-700 mb-2;
+  }
+
+  /* Card */
+  .card {
+    @apply bg-white border border-neutral-200 rounded-md shadow-card transition-all duration-200;
+  }
+  .card-hover {
+    @apply card hover:shadow-card-hover hover:-translate-y-1 hover:border-accent-200;
+  }
+
+  /* Tag / Chip */
+  .tag {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-caption font-medium border border-neutral-200 bg-white text-neutral-700;
+  }
+  .tag-accent {
+    @apply tag bg-accent-50 border-accent-100 text-accent-700;
+  }
+  .tag-primary {
+    @apply tag bg-primary-50 border-primary-100 text-primary-800;
+  }
+
+  /* Section */
+  .section {
+    @apply py-16;
+  }
+  .section-tight {
+    @apply py-12;
+  }
+  .container-page {
+    @apply container mx-auto px-4;
+  }
+
+  /* Empty state */
+  .empty-state {
+    @apply flex flex-col items-center justify-center py-16 text-center;
+  }
 }

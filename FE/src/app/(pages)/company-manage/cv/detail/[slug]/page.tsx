@@ -1,97 +1,117 @@
-import { Metadata } from "next"
-import Link from "next/link"
+import { Metadata } from "next";
+import Link from "next/link";
+import { FaArrowLeft, FaCheck, FaXmark, FaEnvelope, FaPhone, FaUser, FaFilePdf } from "react-icons/fa6";
 
 export const metadata: Metadata = {
   title: "Chi tiết CV",
-  description: "Mô tả trang chi tiết CV...",
-}
+  description: "Xem chi tiết CV ứng viên",
+};
 
 export default function CompanyManageCVDetailPage() {
   return (
-    <>
-      <div className="py-[60px]">
-        <div className="container mx-auto px-[16px]">
-          {/* Thông tin CV */}
-          <div className="border border-[#DEDEDE] rounded-[8px] p-[20px]">
-            <div className="flex flex-wrap gap-[20px] items-center justify-between mb-[20px]">
-              <h2 className="sm:w-auto w-[100%] font-[700] text-[20px] text-black">
-                Thông tin CV
-              </h2>
-              <Link href="#" className="font-[400] text-[14px] text-[#0088FF] underline">
-                Quay lại danh sách
+    <section className="section-tight">
+      <div className="container-page">
+        <Link
+          href="/company-manage/cv/list"
+          className="inline-flex items-center gap-2 text-body-sm text-neutral-500 hover:text-accent-500 mb-4 transition-colors"
+        >
+          <FaArrowLeft className="text-xs" /> Quay lại danh sách
+        </Link>
+
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* CV preview */}
+          <div className="lg:col-span-2 space-y-6">
+            <div className="card p-6">
+              <div className="flex items-center justify-between gap-4 flex-wrap mb-6">
+                <h1 className="text-heading-md font-bold text-neutral-900">Hồ sơ ứng viên</h1>
+                <div className="flex items-center gap-2">
+                  <button className="btn btn-sm bg-success-500 text-white hover:bg-success-600">
+                    <FaCheck /> Duyệt
+                  </button>
+                  <button className="btn btn-sm bg-warning-500 text-white hover:opacity-90">
+                    <FaXmark /> Từ chối
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-3 gap-3 mb-6">
+                <div className="flex items-center gap-3 p-3 rounded bg-neutral-50">
+                  <FaUser className="text-accent-500 text-lg" />
+                  <div className="min-w-0">
+                    <div className="text-caption text-neutral-500">Họ tên</div>
+                    <div className="text-body-sm font-semibold text-neutral-900 truncate">Lê Văn A</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-3 rounded bg-neutral-50">
+                  <FaEnvelope className="text-accent-500 text-lg" />
+                  <div className="min-w-0">
+                    <div className="text-caption text-neutral-500">Email</div>
+                    <div className="text-body-sm font-semibold text-neutral-900 truncate">levana@gmail.com</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-3 rounded bg-neutral-50">
+                  <FaPhone className="text-accent-500 text-lg" />
+                  <div className="min-w-0">
+                    <div className="text-caption text-neutral-500">Điện thoại</div>
+                    <div className="text-body-sm font-semibold text-neutral-900 truncate">0123 456 789</div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <h2 className="text-body-lg font-semibold text-neutral-900 inline-flex items-center gap-2">
+                    <FaFilePdf className="text-danger-500" /> CV.pdf
+                  </h2>
+                  <button className="btn-secondary btn-sm">Tải xuống</button>
+                </div>
+                <div className="aspect-[3/4] bg-neutral-100 rounded-md border border-neutral-200 flex items-center justify-center text-neutral-400 text-body-sm">
+                  Preview PDF
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Job info */}
+          <div className="lg:col-span-1">
+            <div className="card p-6 lg:sticky lg:top-20">
+              <h2 className="text-heading-sm font-bold text-neutral-900 mb-4">Ứng tuyển vào</h2>
+
+              <h3 className="text-body-md font-semibold text-accent-500 mb-3">
+                Frontend Engineer (ReactJS)
+              </h3>
+
+              <ul className="space-y-3 text-body-sm">
+                <li className="flex justify-between">
+                  <span className="text-neutral-500">Mức lương</span>
+                  <span className="font-semibold text-neutral-900">1.000$ - 1.500$</span>
+                </li>
+                <li className="flex justify-between">
+                  <span className="text-neutral-500">Cấp bậc</span>
+                  <span className="font-semibold text-neutral-900">Fresher</span>
+                </li>
+                <li className="flex justify-between">
+                  <span className="text-neutral-500">Hình thức</span>
+                  <span className="font-semibold text-neutral-900">Tại văn phòng</span>
+                </li>
+              </ul>
+
+              <div className="mt-4 pt-4 border-t border-neutral-100">
+                <div className="text-caption text-neutral-500 mb-2">Công nghệ</div>
+                <div className="flex flex-wrap gap-2">
+                  {["HTML5", "CSS3", "JavaScript", "ReactJS"].map((t) => (
+                    <span key={t} className="tag-accent">{t}</span>
+                  ))}
+                </div>
+              </div>
+
+              <Link href="#" className="btn-secondary w-full mt-6">
+                Xem chi tiết job
               </Link>
             </div>
-            
-            <div className="font-[400] text-[16px] text-black mb-[10px]">
-              Họ tên:
-              <span className="font-[700]">
-                Lê Văn A
-              </span>
-            </div>
-            <div className="font-[400] text-[16px] text-black mb-[10px]">
-              Email:
-              <span className="font-[700]">
-                levana@gmail.com
-              </span>
-            </div>
-            <div className="font-[400] text-[16px] text-black mb-[10px]">
-              Số điện thoại:
-              <span className="font-[700]">
-                0123456789
-              </span>
-            </div>
-            <div className="font-[400] text-[16px] text-black mb-[10px]">
-              File CV:
-            </div>
-            <div className="bg-[#D9D9D9] h-[736px]">
-              {/* Preview File CV dạng PDF tại đây */}
-            </div>
           </div>
-          {/* Hết Thông tin CV */}
-          
-          {/* Thông tin công việc */}
-          <div className="border border-[#DEDEDE] rounded-[8px] p-[20px] mt-[20px]">
-            <h2 className="sm:w-auto w-[100%] font-[700] text-[20px] text-black mb-[20px]">
-              Thông tin công việc
-            </h2>
-
-            <div className="font-[400] text-[16px] text-black mb-[10px]">
-              Tên công việc:
-              <span className="font-[700]">
-                Frontend Engineer (ReactJS)
-              </span>
-            </div>
-            <div className="font-[400] text-[16px] text-black mb-[10px]">
-              Mức lương:
-              <span className="font-[700]">
-                1.000$ - 1.500$
-              </span>
-            </div>
-            <div className="font-[400] text-[16px] text-black mb-[10px]">
-              Cấp bậc:
-              <span className="font-[700]">
-                Fresher
-              </span>
-            </div>
-            <div className="font-[400] text-[16px] text-black mb-[10px]">
-              Hình thức làm việc:
-              <span className="font-[700]">
-                Tại văn phòng
-              </span>
-            </div>
-            <div className="font-[400] text-[16px] text-black mb-[10px]">
-              Công nghệ:
-              <span className="font-[700]">
-                HTML5, CSS3, Javascript, ReactJS
-              </span>
-            </div>
-            <Link href="#" className="font-[400] text-[14px] text-[#0088FF] underline">
-              Xem chi tiết công việc
-            </Link>
-          </div>
-          {/* Hết Thông tin công việc */}
         </div>
       </div>
-    </>
-  )
+    </section>
+  );
 }

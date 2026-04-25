@@ -1,182 +1,220 @@
 /* eslint-disable @next/next/no-img-element */
-import { Metadata } from "next"
-import Link from "next/link"
-import { FaArrowRightLong, FaBriefcase, FaLocationDot, FaUserTie } from "react-icons/fa6"
+import { Metadata } from "next";
+import Link from "next/link";
+import {
+  FaArrowRight,
+  FaBriefcase,
+  FaLocationDot,
+  FaUserTie,
+  FaClock,
+  FaBuilding,
+  FaUsers,
+  FaShare,
+  FaBookmark,
+} from "react-icons/fa6";
 
 export const metadata: Metadata = {
   title: "Chi tiết công việc",
   description: "Mô tả trang chi tiết công việc...",
-}
+};
 
 export default function JobDetailPage() {
   return (
     <>
-      {/* Chi tiết công việc */}
-      <div className="pt-[30px] pb-[60px]">
-        <div className="container mx-auto px-[16px]">
-          {/* Wrap */}
-          <div className="flex flex-wrap gap-[20px]">
-            {/* Left */}
-            <div className="lg:w-[65%] w-[100%]">
-              {/* Thông tin công việc */}
-              <div className="border border-[#DEDEDE] rounded-[8px] p-[20px]">
-                <h1 className="font-[700] sm:text-[28px] text-[24px] text-[#121212] mb-[10px]">
-                  Front End Developer ( Javascript, ReactJS)
-                </h1>
-                <div className="font-[400] text-[16px] text-[#414042] mb-[10px]">
-                  LG CNS Việt Nam
+      {/* Breadcrumb */}
+      <div className="bg-white border-b border-neutral-100">
+        <div className="container-page py-4">
+          <nav className="flex items-center gap-2 text-body-sm text-neutral-500">
+            <Link href="/" className="hover:text-accent-500">Trang chủ</Link>
+            <span>/</span>
+            <Link href="/search" className="hover:text-accent-500">Việc làm</Link>
+            <span>/</span>
+            <span className="text-neutral-900 font-medium truncate">Front End Developer (ReactJS)</span>
+          </nav>
+        </div>
+      </div>
+
+      <section className="section-tight">
+        <div className="container-page">
+          <div className="grid lg:grid-cols-3 gap-6">
+            {/* Left col */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Job header */}
+              <div className="card p-6 md:p-8">
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="shrink-0 w-20 h-20 rounded-md bg-white border border-neutral-200 p-2 flex items-center justify-center">
+                    <img
+                      src="/assets/images/demo-cong-ty-2.jpg"
+                      alt="LG CNS"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h1 className="text-heading-md md:text-heading-lg font-bold text-neutral-900 leading-tight">
+                      Front End Developer (Javascript, ReactJS)
+                    </h1>
+                    <Link href="#" className="text-body-md text-neutral-600 hover:text-accent-500 mt-1 inline-block">
+                      LG CNS Việt Nam
+                    </Link>
+                  </div>
+                  <div className="hidden md:flex flex-col gap-2">
+                    <button
+                      className="w-10 h-10 rounded border border-neutral-200 hover:border-accent-500 hover:text-accent-500 inline-flex items-center justify-center transition-colors"
+                      aria-label="Save"
+                    >
+                      <FaBookmark />
+                    </button>
+                    <button
+                      className="w-10 h-10 rounded border border-neutral-200 hover:border-accent-500 hover:text-accent-500 inline-flex items-center justify-center transition-colors"
+                      aria-label="Share"
+                    >
+                      <FaShare />
+                    </button>
+                  </div>
                 </div>
-                <div className="font-[700] text-[20px] text-[#0088FF] sm:mb-[20px] mb-[10px]">
-                  1.000$ - 1.500$
+
+                <div className="flex items-center gap-3 flex-wrap mb-6">
+                  <span className="text-display-md font-bold text-accent-500">1.000$ - 1.500$</span>
                 </div>
-                <Link href="#" className="bg-[#0088FF] rounded-[4px] font-[700] text-[16px] text-white flex items-center justify-center h-[48px] mb-[20px]">
-                  Ứng tuyển
+
+                <div className="grid sm:grid-cols-3 gap-3 mb-6">
+                  <div className="flex items-center gap-3 p-3 rounded bg-neutral-50">
+                    <FaUserTie className="text-accent-500 text-lg" />
+                    <div>
+                      <div className="text-caption text-neutral-500">Cấp bậc</div>
+                      <div className="text-body-sm font-semibold text-neutral-900">Fresher</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded bg-neutral-50">
+                    <FaBriefcase className="text-accent-500 text-lg" />
+                    <div>
+                      <div className="text-caption text-neutral-500">Hình thức</div>
+                      <div className="text-body-sm font-semibold text-neutral-900">Tại văn phòng</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded bg-neutral-50">
+                    <FaLocationDot className="text-accent-500 text-lg" />
+                    <div>
+                      <div className="text-caption text-neutral-500">Địa điểm</div>
+                      <div className="text-body-sm font-semibold text-neutral-900">Hà Nội</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {["ReactJS", "NextJS", "JavaScript", "TypeScript"].map((tech) => (
+                    <span key={tech} className="tag-accent">{tech}</span>
+                  ))}
+                </div>
+
+                <Link href="#apply" className="btn-primary btn-lg w-full">
+                  Ứng tuyển ngay <FaArrowRight />
                 </Link>
-                <div className="grid grid-cols-3 sm:gap-[16px] gap-[8px] mb-[20px]">
-                  <img 
-                    src="/assets/images/demo-banner-1.jpg" 
-                    alt="" 
-                    className="aspect-[232/145] object-cover rounded-[4px]"
-                  />
-                  <img 
-                    src="/assets/images/demo-banner-2.jpg" 
-                    alt="" 
-                    className="aspect-[232/145] object-cover rounded-[4px]"
-                  />
-                  <img 
-                    src="/assets/images/demo-banner-3.jpg" 
-                    alt="" 
-                    className="aspect-[232/145] object-cover rounded-[4px]" 
-                  />
-                </div>
-                <div className="flex items-center gap-[8px] font-[400] text-[14px] text-[#121212] mb-[10px]">
-                  <FaUserTie className="text-[16px]" /> Fresher
-                </div>
-                <div className="flex items-center gap-[8px] font-[400] text-[14px] text-[#121212] mb-[10px]">
-                  <FaBriefcase className="text-[16px]" /> Tại văn phòng
-                </div>
-                <div className="flex items-center gap-[8px] font-[400] text-[14px] text-[#121212] mb-[10px]">
-                  <FaLocationDot className="text-[16px]" /> Tầng 15, tòa Keangnam Landmark 72, Mễ Trì, Nam Tu Liem, Ha Noi
-                </div>
-                <div className="flex flex-wrap gap-[8px]">
-                  <div className="border border-[#DEDEDE] rounded-[20px] font-[400] text-[12px] text-[#414042] py-[6px] px-[16px]">
-                    ReactJS
-                  </div>
-                  <div className="border border-[#DEDEDE] rounded-[20px] font-[400] text-[12px] text-[#414042] py-[6px] px-[16px]">
-                    NextJS
-                  </div>
-                  <div className="border border-[#DEDEDE] rounded-[20px] font-[400] text-[12px] text-[#414042] py-[6px] px-[16px]">
-                    Javascript
-                  </div>
+              </div>
+
+              {/* Banner images */}
+              <div className="card p-6">
+                <h2 className="text-heading-sm font-semibold text-neutral-900 mb-4">Hình ảnh công ty</h2>
+                <div className="grid grid-cols-3 gap-3">
+                  <img src="/assets/images/demo-banner-1.jpg" alt="" className="aspect-video object-cover rounded" />
+                  <img src="/assets/images/demo-banner-2.jpg" alt="" className="aspect-video object-cover rounded" />
+                  <img src="/assets/images/demo-banner-3.jpg" alt="" className="aspect-video object-cover rounded" />
                 </div>
               </div>
-              {/* Hết Thông tin công việc */}
 
-              {/* Mô tả chi tiết */}
-              <div className="border border-[#DEDEDE] rounded-[8px] p-[20px] mt-[20px]">
-                Mô tả chi tiết
+              {/* Description */}
+              <div className="card p-6 md:p-8">
+                <h2 className="text-heading-md font-bold text-neutral-900 mb-4">Mô tả công việc</h2>
+                <div className="prose text-body-md text-neutral-700 leading-relaxed space-y-3">
+                  <p>Mô tả chi tiết về công việc sẽ hiển thị tại đây — bao gồm trách nhiệm, yêu cầu kỹ năng, quyền lợi, môi trường làm việc và lộ trình phát triển nghề nghiệp.</p>
+                  <p>Phần nội dung này sẽ render từ HTML editor (TinyMCE), hỗ trợ định dạng đầy đủ: heading, danh sách, bảng, link.</p>
+                </div>
               </div>
-              {/* Hết Mô tả chi tiết */}
 
-              {/* Form ứng tuyển */}
-              <div className="border border-[#DEDEDE] rounded-[8px] p-[20px] mt-[20px]">
-                <h2 className="font-[700] text-[20px] text-black mb-[20px]">
-                  Ứng tuyển ngay
-                </h2>
-                <form action="" className="">
-                  <div className="mb-[15px]">
-                    <label htmlFor="fullName" className="block font-[500] text-[14px] text-black mb-[5px]">
-                      Họ tên *
-                    </label>
-                    <input type="text" name="" id="fullName" className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black" />
+              {/* Apply form */}
+              <div id="apply" className="card p-6 md:p-8">
+                <h2 className="text-heading-md font-bold text-neutral-900 mb-2">Ứng tuyển ngay</h2>
+                <p className="text-body-sm text-neutral-500 mb-6">Điền thông tin bên dưới để gửi CV cho nhà tuyển dụng</p>
+                <form className="grid sm:grid-cols-2 gap-4">
+                  <div className="sm:col-span-1">
+                    <label htmlFor="fullName" className="label">Họ tên *</label>
+                    <input id="fullName" type="text" className="input" placeholder="Nguyễn Văn A" />
                   </div>
-                  <div className="mb-[15px]">
-                    <label htmlFor="email" className="block font-[500] text-[14px] text-black mb-[5px]">
-                      Email *
-                    </label>
-                    <input type="email" name="" id="email" className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black" />
+                  <div className="sm:col-span-1">
+                    <label htmlFor="email" className="label">Email *</label>
+                    <input id="email" type="email" className="input" placeholder="email@example.com" />
                   </div>
-                  <div className="mb-[15px]">
-                    <label htmlFor="phone" className="block font-[500] text-[14px] text-black mb-[5px]">
-                      Số điện thoại *
-                    </label>
-                    <input type="text" name="" id="phone" className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black" />
+                  <div className="sm:col-span-1">
+                    <label htmlFor="phone" className="label">Số điện thoại *</label>
+                    <input id="phone" type="tel" className="input" placeholder="0901234567" />
                   </div>
-                  <div className="mb-[15px]">
-                    <label htmlFor="fileCV" className="block font-[500] text-[14px] text-black mb-[5px]">
-                      File CV dạng PDF *
-                    </label>
-                    <input type="file" name="" id="fileCV" accept="application/pdf" className="" />
+                  <div className="sm:col-span-1">
+                    <label htmlFor="fileCV" className="label">CV (PDF) *</label>
+                    <input id="fileCV" type="file" accept="application/pdf" className="input p-3 cursor-pointer file:mr-3 file:px-4 file:py-1 file:border-0 file:bg-accent-50 file:text-accent-700 file:rounded-full file:text-body-sm file:font-medium hover:file:bg-accent-100" />
                   </div>
-                  <button className="w-[100%] h-[48px] rounded-[4px] bg-[#0088FF] font-[700] text-[16px] text-white">
-                    Gửi CV ứng tuyển
+                  <button type="submit" className="sm:col-span-2 btn-primary btn-lg">
+                    Gửi CV ứng tuyển <FaArrowRight />
                   </button>
                 </form>
               </div>
-              {/* Hết Form ứng tuyển */}
             </div>
-            {/* Right */}
-            <div className="flex-1">
-              {/* Thông tin công ty */}
-              <div className="border border-[#DEDEDE] rounded-[8px] p-[20px]">
-                <div className="flex gap-[12px]">
-                  <div className="w-[100px]">
-                    <img 
-                      src="/assets/images/demo-cong-ty-2.jpg" 
-                      alt="LG CNS Việt Nam"
-                      className="aspect-square object-cover rounded-[4px]"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-[700] text-[18px] text-[#121212] mb-[10px]">
-                      LG CNS Việt Nam
-                    </div>
-                    <Link href="#" className="flex items-center gap-[8px] font-[400] text-[16px] text-[#0088FF]">
-                      Xem công ty <FaArrowRightLong className="" />
+
+            {/* Right col */}
+            <div className="lg:col-span-1">
+              <div className="card p-6 lg:sticky lg:top-20">
+                <div className="flex items-center gap-4 pb-6 border-b border-neutral-100">
+                  <img
+                    src="/assets/images/demo-cong-ty-2.jpg"
+                    alt="LG CNS"
+                    className="w-16 h-16 rounded-md object-cover"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-body-lg font-bold text-neutral-900 truncate">LG CNS Việt Nam</h3>
+                    <Link href="#" className="text-body-sm text-accent-500 hover:text-accent-600 inline-flex items-center gap-1 mt-1">
+                      Xem công ty <FaArrowRight className="text-xs" />
                     </Link>
                   </div>
                 </div>
-                <div className="mt-[20px] flex flex-col gap-[10px]">
-                  <div className="flex flex-wrap justify-between font-[400] text-[16px]">
-                    <div className="text-[#A6A6A6]">
-                      Mô hình công ty
+
+                <ul className="py-4 space-y-3 text-body-sm">
+                  <li className="flex items-start gap-3">
+                    <FaBuilding className="text-accent-500 mt-0.5 shrink-0" />
+                    <div className="flex-1 flex justify-between gap-2">
+                      <span className="text-neutral-500">Mô hình</span>
+                      <span className="font-medium text-neutral-900">Sản phẩm</span>
                     </div>
-                    <div className="text-[#121212]">
-                      Sản phẩm
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <FaUsers className="text-accent-500 mt-0.5 shrink-0" />
+                    <div className="flex-1 flex justify-between gap-2">
+                      <span className="text-neutral-500">Quy mô</span>
+                      <span className="font-medium text-neutral-900">151 - 300 nhân viên</span>
                     </div>
-                  </div>
-                  <div className="flex flex-wrap justify-between font-[400] text-[16px]">
-                    <div className="text-[#A6A6A6]">
-                      Quy mô công ty
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <FaClock className="text-accent-500 mt-0.5 shrink-0" />
+                    <div className="flex-1 flex justify-between gap-2">
+                      <span className="text-neutral-500">Thời gian</span>
+                      <span className="font-medium text-neutral-900">T2 - T6</span>
                     </div>
-                    <div className="text-[#121212]">
-                      151 - 300 nhân viên
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <FaLocationDot className="text-accent-500 mt-0.5 shrink-0" />
+                    <div className="flex-1 flex justify-between gap-2">
+                      <span className="text-neutral-500">Địa điểm</span>
+                      <span className="font-medium text-neutral-900 text-right">Keangnam Landmark, Hà Nội</span>
                     </div>
-                  </div>
-                  <div className="flex flex-wrap justify-between font-[400] text-[16px]">
-                    <div className="text-[#A6A6A6]">
-                      Thời gian làm việc
-                    </div>
-                    <div className="text-[#121212]">
-                      Thứ 2 - Thứ 6
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap justify-between font-[400] text-[16px]">
-                    <div className="text-[#A6A6A6]">
-                      Làm việc ngoài giờ
-                    </div>
-                    <div className="text-[#121212]">
-                      Không có OT
-                    </div>
-                  </div>
-                </div>
+                  </li>
+                </ul>
+
+                <Link href="#" className="btn-secondary w-full">
+                  Xem chi tiết công ty <FaArrowRight className="text-xs" />
+                </Link>
               </div>
-              {/* Hết Thông tin công ty */}
             </div>
           </div>
         </div>
-      </div>
-      {/* Hết Chi tiết công việc */}
+      </section>
     </>
-  )
+  );
 }

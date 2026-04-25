@@ -1,87 +1,117 @@
 /* eslint-disable @next/next/no-img-element */
-import { Metadata } from "next"
-import { FaLocationDot } from "react-icons/fa6"
-import { CardJobItem } from "@/app/components/card/CardJobItem"
+import { Metadata } from "next";
+import Link from "next/link";
+import { CardJobItem } from "@/app/components/card/CardJobItem";
+import {
+  FaLocationDot,
+  FaBuilding,
+  FaUsers,
+  FaClock,
+  FaBriefcase,
+} from "react-icons/fa6";
 
 export const metadata: Metadata = {
   title: "Chi tiết công ty",
   description: "Mô tả trang chi tiết công ty...",
-}
+};
 
 export default function CompanyDetailPage() {
   return (
     <>
-      <div className="pt-[30px] pb-[60px]">
-        <div className="container mx-auto px-[16px]">
-
-          {/* Thông tin công ty */}
-          <div className="border border-[#DEDEDE] rounded-[8px] p-[20px]">
-            <div className="flex flex-wrap items-center gap-[16px] mb-[20px]">
-              <div className="w-[100px]">
-                <img 
-                  src="/assets/images/demo-cong-ty-2.jpg" 
-                  alt="LG CNS Việt Nam" 
-                  className="w-[100%] aspect-square object-cover rounded-[4px]"
-                />
-              </div>
-              <div className="sm:flex-1">
-                <h1 className="font-[700] text-[28px] text-[#121212] mb-[10px]">
-                  LG CNS Việt Nam
-                </h1>
-                <div className="flex items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
-                  <FaLocationDot className="text-[16px]" /> Tầng 15, tòa Keangnam Landmark 72, Mễ Trì, Nam Tu Liem, Ha Noi
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col gap-[10px]">
-              <div className="font-[400] text-[16px] text-[#A6A6A6]">
-                Mô hình công ty:
-                <span className="text-[#121212]">
-                  Sản phẩm
-                </span>
-              </div>
-              <div className="font-[400] text-[16px] text-[#A6A6A6]">
-                Quy mô công ty:
-                <span className="text-[#121212]">
-                  151 - 300 nhân viên
-                </span>
-              </div>
-              <div className="font-[400] text-[16px] text-[#A6A6A6]">
-                Thời gian làm việc:
-                <span className="text-[#121212]">
-                  Thứ 2 - Thứ 6
-                </span>
-              </div>
-              <div className="font-[400] text-[16px] text-[#A6A6A6]">
-                Làm việc ngoài giờ:
-                <span className="text-[#121212]">
-                  Không có OT
-                </span>
-              </div>
-            </div>
-          </div>
-          {/* Hết Thông tin công ty */}
-
-          {/* Mô tả chi tiết */}
-          <div className="border border-[#DEDEDE] rounded-[8px] p-[20px] mt-[20px]">
-            Mô tả chi tiết
-          </div>
-          {/* Hết Mô tả chi tiết */}
-
-          {/* Việc làm */}
-          <div className="mt-[30px]">
-            <h2 className="font-[700] text-[28px] text-[#121212] mb-[20px]">
-              Công ty có 6 việc làm
-            </h2>
-      
-            <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-[20px]">
-              <CardJobItem />
-            </div>
-          </div>
-          {/* Hết Việc làm */}
-
+      {/* Cover */}
+      <div className="h-40 md:h-56 bg-gradient-to-r from-primary-900 to-primary-700 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-accent-500 rounded-full blur-3xl" />
         </div>
       </div>
+
+      <section className="container-page -mt-20 md:-mt-24 pb-16 relative">
+        {/* Profile */}
+        <div className="card p-6 md:p-8">
+          <div className="flex flex-col md:flex-row items-start gap-6">
+            <img
+              src="/assets/images/demo-cong-ty-2.jpg"
+              alt="LG CNS Việt Nam"
+              className="w-28 h-28 md:w-36 md:h-36 rounded-md object-cover border-4 border-white shadow-card -mt-16 md:-mt-20"
+            />
+            <div className="flex-1 min-w-0">
+              <h1 className="text-display-md font-bold text-neutral-900 mb-2">
+                LG CNS Việt Nam
+              </h1>
+              <div className="inline-flex items-center gap-2 text-body-sm text-neutral-500 mb-4">
+                <FaLocationDot className="text-accent-500" />
+                Tầng 15, Keangnam Landmark 72, Mễ Trì, Nam Từ Liêm, Hà Nội
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <span className="tag-primary">Sản phẩm</span>
+                <span className="tag-primary">151 - 300 nhân viên</span>
+                <span className="tag-primary">6 việc làm</span>
+              </div>
+            </div>
+            <Link href="#jobs" className="btn-primary md:self-center w-full md:w-auto">
+              Xem việc làm <FaBriefcase />
+            </Link>
+          </div>
+        </div>
+
+        {/* Info grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+          <InfoCard icon={FaBuilding} label="Mô hình" value="Sản phẩm" />
+          <InfoCard icon={FaUsers} label="Quy mô" value="151 - 300 nhân viên" />
+          <InfoCard icon={FaClock} label="Thời gian" value="Thứ 2 - Thứ 6" />
+          <InfoCard icon={FaBriefcase} label="OT" value="Không có OT" />
+        </div>
+
+        {/* About */}
+        <div className="card p-6 md:p-8 mt-6">
+          <h2 className="text-heading-md font-bold text-neutral-900 mb-4">
+            Về công ty
+          </h2>
+          <div className="text-body-md text-neutral-700 leading-relaxed space-y-3">
+            <p>Mô tả chi tiết về công ty sẽ hiển thị tại đây — sứ mệnh, văn hoá làm việc, sản phẩm chính, đối tác, thành tựu nổi bật.</p>
+            <p>Phần nội dung này render từ HTML editor (TinyMCE), hỗ trợ định dạng đầy đủ giúp công ty kể câu chuyện thương hiệu sinh động hơn.</p>
+          </div>
+        </div>
+
+        {/* Jobs */}
+        <div id="jobs" className="mt-10">
+          <div className="flex items-end justify-between mb-6 flex-wrap gap-3">
+            <div>
+              <h2 className="text-heading-lg font-bold text-neutral-900">
+                Công ty đang tuyển
+              </h2>
+              <p className="text-body-sm text-neutral-500 mt-1">
+                6 vị trí đang mở
+              </p>
+            </div>
+          </div>
+          <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
+            <CardJobItem />
+            <CardJobItem />
+            <CardJobItem />
+          </div>
+        </div>
+      </section>
     </>
-  )
+  );
 }
+
+const InfoCard = ({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  value: string;
+}) => (
+  <div className="card p-4 flex items-center gap-3">
+    <div className="w-11 h-11 rounded bg-accent-50 text-accent-500 inline-flex items-center justify-center shrink-0">
+      <Icon className="text-lg" />
+    </div>
+    <div className="min-w-0">
+      <div className="text-caption text-neutral-500">{label}</div>
+      <div className="text-body-sm font-semibold text-neutral-900 truncate">{value}</div>
+    </div>
+  </div>
+);

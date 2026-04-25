@@ -1,146 +1,89 @@
+"use client";
+
 import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
-import { FaAngleDown, FaAngleRight } from "react-icons/fa6";
+import { FaAngleDown } from "react-icons/fa6";
 
-export const HeaderMenu = (props: { showMenu: boolean }) => {
-  const { showMenu } = props;
+interface MenuItem {
+  name: string;
+  link: string;
+  isLogin?: boolean;
+  children?: MenuItem[];
+}
+
+export const HeaderMenu = (props: { showMenu: boolean; onClose?: () => void }) => {
+  const { showMenu, onClose } = props;
   const { isLogin } = useAuth();
 
-  const menuList = [
+  const menuList: MenuItem[] = [
     {
-      name: "Việc Làm IT",
-      link: "#",
+      name: "Việc làm IT",
+      link: "/search",
       children: [
-        {
-          name: "Việc làm IT theo kỹ năng",
-          link: "#",
-          children: [
-            {
-              name: "ReactJS",
-              link: "#",
-            },
-            {
-              name: "NodeJS",
-              link: "#",
-            },
-          ],
-        },
-        {
-          name: "Việc làm IT theo công ty",
-          link: "#",
-        },
-        {
-          name: "Việc làm IT theo thành phố",
-          link: "#",
-        },
+        { name: "Theo kỹ năng", link: "/search?skill=reactjs" },
+        { name: "Theo công ty", link: "/company/list" },
+        { name: "Theo thành phố", link: "/search?city=hcm" },
       ],
     },
     {
-      name: "Top Công Ty IT",
-      link: "#",
-      children: [
-        {
-          name: "FPT Software",
-          link: "#",
-        },
-        {
-          name: "Techcombank",
-          link: "#",
-        },
-        {
-          name: "MB Bank",
-          link: "#",
-        },
-      ],
+      name: "Top công ty",
+      link: "/company/list",
     },
     {
-      name: "Nhà Tuyển Dụng",
+      name: "Nhà tuyển dụng",
       link: "#",
       isLogin: false,
       children: [
-        {
-          name: "Đăng Nhập",
-          link: "/company/login",
-        },
-        {
-          name: "Đăng Ký",
-          link: "/company/register",
-        },
+        { name: "Đăng nhập", link: "/company/login" },
+        { name: "Đăng ký", link: "/company/register" },
       ],
     },
   ];
 
   return (
-    <>
-      <nav
-        className={
-          "lg:block " +
-          (showMenu
-            ? "fixed top-0 left-0 w-[280px] h-[100vh] z-[999] bg-[#000056]"
-            : "hidden")
-        }
-      >
-        <ul className="flex gap-x-[30px] flex-wrap">
-          {menuList.map((menu, index) => (
+    <nav
+      className={
+        "lg:flex lg:static lg:bg-transparent lg:w-auto lg:h-auto lg:translate-x-0 fixed top-16 left-0 w-72 h-[calc(100vh-64px)] bg-primary-900 z-50 transition-transform duration-300 lg:transition-none " +
+        (showMenu ? "translate-x-0" : "-translate-x-full lg:translate-x-0")
+      }
+    >
+      <ul className="flex lg:flex-row flex-col lg:items-center lg:gap-2 gap-0 lg:p-0 p-4">
+        {menuList.map((menu, index) => {
+          if (menu.isLogin !== undefined && menu.isLogin !== isLogin) return null;
+          return (
             <li
               key={index}
-              className={
-                "inline-flex lg:w-auto w-full lg:justify-start justify-between p-[10px] items-center gap-x-[8px] relative group/sub-1 flex-wrap" +
-                (menu.isLogin !== undefined && menu.isLogin !== isLogin
-                  ? " hidden"
-                  : "")
-              }
+              className="relative group lg:py-0 py-1"
             >
               <Link
                 href={menu.link}
-                className="text-white font-[600] text-[16px]"
+                onClick={onClose}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded text-white text-body-md font-medium hover:bg-primary-900 transition-colors"
               >
                 {menu.name}
+                {menu.children && (
+                  <FaAngleDown className="text-sm transition-transform group-hover:rotate-180" />
+                )}
               </Link>
               {menu.children && (
-                <FaAngleDown className="text-white text-[16px]" />
-              )}
-              {menu.children && (
-                <ul className="lg:absolute relative lg:top-[100%] top-0 left-[0px] lg:w-[280px] w-full bg-[#000065] hidden group-hover/sub-1:block z-[999]">
-                  {menu.children.map((menuSub1, indexSub1) => (
-                    <li
-                      key={indexSub1}
-                      className="py-[10px] px-[16px] rounded-[4px] flex items-center justify-between hover:bg-[#000096] relative group/sub-2 flex-wrap"
-                    >
+                <ul className="lg:absolute lg:top-full lg:left-0 lg:w-64 lg:mt-2 lg:bg-white lg:shadow-card-floating lg:rounded-md lg:opacity-0 lg:invisible lg:group-hover:opacity-100 lg:group-hover:visible transition-all duration-200 lg:py-2 ml-4 mt-1">
+                  {menu.children.map((sub, idx) => (
+                    <li key={idx}>
                       <Link
-                        href={menuSub1.link}
-                        className="text-white font-[600] text-[16px]"
+                        href={sub.link}
+                        onClick={onClose}
+                        className="block px-4 py-2 lg:text-neutral-700 text-white/80 lg:hover:bg-neutral-100 hover:bg-primary-900 lg:hover:text-primary-800 text-body-sm font-medium transition-colors lg:rounded"
                       >
-                        {menuSub1.name}
+                        {sub.name}
                       </Link>
-                      {menuSub1.children && (
-                        <FaAngleRight className="text-white text-[16px]" />
-                      )}
-                      {menuSub1.children && (
-                        <ul className="lg:absolute relative top-[0px] lg:left-[100%] left-0 lg:w-[280px] w-full bg-[#000065] hidden group-hover/sub-2:block z-[999]">
-                          {menu.children.map((menuSub2, indexSub2) => (
-                            <li
-                              key={indexSub2}
-                              className="py-[10px] px-[16px] rounded-[4px] flex items-center justify-between hover:bg-[#000096]"
-                            >
-                              <a
-                                href={menuSub2.link}
-                                className="text-white font-[600] text-[16px]"
-                              >
-                                {menuSub2.name}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
                     </li>
                   ))}
                 </ul>
               )}
             </li>
-          ))}
-        </ul>
-      </nav>
-    </>
+          );
+        })}
+      </ul>
+    </nav>
   );
 };

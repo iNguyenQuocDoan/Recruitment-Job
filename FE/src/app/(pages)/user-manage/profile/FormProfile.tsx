@@ -119,77 +119,34 @@ export const FormProfile = () => {
     <>
       <Toaster position="top-right" richColors />
       {infoUser && (
-        <form
-          action=""
-          className="grid sm:grid-cols-2 grid-cols-1 gap-x-[20px] gap-y-[15px]"
-          id="profileForm"
-          onSubmit={handleSubmit}
-        >
+        <form id="profileForm" onSubmit={handleSubmit} className="grid sm:grid-cols-2 grid-cols-1 gap-5">
           <div className="sm:col-span-2">
-            <label
-              htmlFor="fullName"
-              className="block font-[500] text-[14px] text-black mb-[5px]"
-            >
-              Họ tên *
-            </label>
-            <input
-              type="text"
-              name="fullName"
-              id="fullName"
-              className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-              defaultValue={infoUser.fullName}
-            />
-          </div>
-          <div className="sm:col-span-2">
-            <label
-              htmlFor="avatar"
-              className="block font-[500] text-[14px] text-black mb-[5px]"
-            >
-              Avatar
-            </label>
+            <label className="label">Avatar</label>
             <FilePond
               name="avatar"
               allowMultiple={false}
-              allowRemove={true}
-              labelIdle="+"
+              allowRemove
+              labelIdle='Kéo & thả ảnh hoặc <span class="filepond--label-action">chọn file</span>'
               acceptedFileTypes={["image/*"]}
               onupdatefiles={setAvatars}
               files={avatars}
             />
           </div>
-          <div className="">
-            <label
-              htmlFor="email"
-              className="block font-[500] text-[14px] text-black mb-[5px]"
-            >
-              Email *
-            </label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-              defaultValue={infoUser.email}
-            />
-          </div>
-          <div className="">
-            <label
-              htmlFor="phone"
-              className="block font-[500] text-[14px] text-black mb-[5px]"
-            >
-              Số điện thoại
-            </label>
-            <input
-              type="text"
-              name="phone"
-              id="phone"
-              className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-              defaultValue={infoUser.phone}
-            />
-          </div>
           <div className="sm:col-span-2">
-            <button className="bg-[#0088FF] rounded-[4px] h-[48px] px-[20px] font-[700] text-[16px] text-white">
-              Cập nhật
+            <label htmlFor="fullName" className="label">Họ tên *</label>
+            <input type="text" name="fullName" id="fullName" className="input" defaultValue={infoUser.fullName} />
+          </div>
+          <div>
+            <label htmlFor="email" className="label">Email *</label>
+            <input type="email" name="email" id="email" className="input" defaultValue={infoUser.email} />
+          </div>
+          <div>
+            <label htmlFor="phone" className="label">Số điện thoại</label>
+            <input type="text" name="phone" id="phone" className="input" defaultValue={infoUser.phone} />
+          </div>
+          <div className="sm:col-span-2 pt-2">
+            <button type="submit" className="btn-primary btn-lg">
+              Cập nhật thông tin
             </button>
           </div>
         </form>

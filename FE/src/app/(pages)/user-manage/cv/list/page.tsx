@@ -1,73 +1,82 @@
-/* eslint-disable @next/next/no-img-element */
-import { Metadata } from "next"
-import Link from "next/link"
-import { FaBriefcase, FaCircleCheck, FaUserTie } from "react-icons/fa6"
+import { Metadata } from "next";
+import Link from "next/link";
+import {
+  FaBriefcase,
+  FaUserTie,
+  FaCircleCheck,
+  FaTrash,
+  FaEye,
+} from "react-icons/fa6";
 
 export const metadata: Metadata = {
-  title: "Quản lý CV đã gửi",
-  description: "Mô tả trang quản lý CV đã gửi...",
-}
+  title: "CV đã gửi",
+  description: "Quản lý CV đã gửi",
+};
+
+const STATUS = {
+  pending: { label: "Chờ duyệt", className: "tag bg-warning-500/10 border-warning-500/20 text-warning-500" },
+  approved: { label: "Đã duyệt", className: "tag bg-success-500/10 border-success-500/20 text-success-600" },
+  rejected: { label: "Từ chối", className: "tag bg-danger-500/10 border-danger-500/20 text-danger-500" },
+};
 
 export default function UserManageCVListPage() {
-  return (
-    <>
-      <div className="py-[60px]">
-        <div className="container mx-auto px-[16px]">
-          <h2 className="font-[700] sm:text-[28px] text-[24px] sm:w-auto w-[100%] text-[#121212] mb-[20px]">
-            Quản lý CV đã gửi
-          </h2>
+  const items = [
+    { id: 1, title: "Frontend Engineer (ReactJS)", company: "Công ty ABC", salary: "1.000$ - 1.500$", position: "Fresher", workingForm: "Tại văn phòng", status: "pending" as const },
+  ];
 
-          <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-[20px]">
-            <div 
-              className="border border-[#DEDEDE] rounded-[8px] flex flex-col relative truncate"
-              style={{
-                background: "linear-gradient(180deg, #F6F6F6 2.38%, #FFFFFF 70.43%)"
-              }}
-            >
-              <img 
-                src="/assets/images/card-bg.svg" 
-                alt="" 
-                className="absolute top-[0px] left-[0px] w-[100%] h-auto"
-              />
-              <h3 className="mt-[20px] mx-[16px] font-[700] text-[18px] text-[#121212] text-center flex-1 whitespace-normal line-clamp-2">
-                Frontend Engineer (ReactJS)
-              </h3>
-              <div className="mt-[12px] text-center font-[400] text-[14px] text-black">
-                Công ty: <span className="font-[700]">Công ty ABC</span>
+  return (
+    <section className="section-tight">
+      <div className="container-page">
+        <div className="mb-8">
+          <h1 className="text-heading-lg md:text-display-md font-bold text-neutral-900">
+            CV đã gửi
+          </h1>
+          <p className="text-body-sm text-neutral-500 mt-1">
+            Theo dõi trạng thái các CV bạn đã ứng tuyển
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
+          {items.map((item) => (
+            <div key={item.id} className="card-hover p-6">
+              <div className="flex items-start justify-between gap-3 mb-4">
+                <h3 className="text-body-lg font-bold text-neutral-900 line-clamp-2 leading-tight flex-1">
+                  {item.title}
+                </h3>
+                <span className={STATUS[item.status].className}>
+                  <FaCircleCheck className="text-xs mr-1" /> {STATUS[item.status].label}
+                </span>
               </div>
-              <div className="mt-[6px] text-center font-[600] text-[16px] text-[#0088FF]">
-                1.000$ - 1.500$
+
+              <div className="text-body-sm text-neutral-500 mb-3">
+                <span className="font-medium text-neutral-900">{item.company}</span>
               </div>
-              <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
-                <FaUserTie className="text-[16px]" /> Fresher
+
+              <div className="text-heading-sm font-semibold text-accent-500 mb-3">
+                {item.salary}
               </div>
-              <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
-                <FaBriefcase className="text-[16px]" /> Tại văn phòng
+
+              <div className="flex flex-col gap-2 text-body-sm text-neutral-600 mb-4">
+                <div className="inline-flex items-center gap-2">
+                  <FaUserTie className="text-neutral-400" /> {item.position}
+                </div>
+                <div className="inline-flex items-center gap-2">
+                  <FaBriefcase className="text-neutral-400" /> {item.workingForm}
+                </div>
               </div>
-              <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
-                <FaCircleCheck className="text-[16px]" /> Chưa duyệt
-              </div>
-              <div className="flex flex-wrap items-center justify-center gap-[8px] mt-[12px] mb-[20px] mx-[10px]">
-                <Link href="#" className="bg-[#0088FF] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]">
-                  Xem
+
+              <div className="pt-4 border-t border-neutral-100 flex gap-2">
+                <Link href="#" className="flex-1 btn-secondary btn-sm">
+                  <FaEye /> Xem
                 </Link>
-                <Link href="#" className="bg-[#FF0000] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]">
-                  Xóa
-                </Link>
+                <button className="btn btn-sm bg-danger-500/10 text-danger-500 hover:bg-danger-500 hover:text-white">
+                  <FaTrash />
+                </button>
               </div>
             </div>
-          </div>
-
-          <div className="mt-[30px]">
-            <select name="" className="border border-[#DEDEDE] rounded-[8px] py-[12px] px-[18px] font-[400] text-[16px] text-[#414042]">
-              <option value="">Trang 1</option>
-              <option value="">Trang 2</option>
-              <option value="">Trang 3</option>
-            </select>
-          </div>
-
+          ))}
         </div>
       </div>
-    </>
-  )
+    </section>
+  );
 }

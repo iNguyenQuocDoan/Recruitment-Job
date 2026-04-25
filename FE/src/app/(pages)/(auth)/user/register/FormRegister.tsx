@@ -109,57 +109,22 @@ export default function FormRegister() {
   }, [router]);
 
   return (
-    <form id="registerForm" className="grid grid-cols-1 gap-y-[15px]">
-      <div className="">
-        <label
-          htmlFor="fullName"
-          className="block font-[500] text-[14px] text-black mb-[5px]"
-        >
-          Họ tên *
-        </label>
-        <input
-          type="text"
-          name="fullName"
-          id="fullName"
-          className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-        />
+    <form id="registerForm" className="space-y-4">
+      <div>
+        <label htmlFor="fullName" className="label">Họ tên</label>
+        <input type="text" name="fullName" id="fullName" placeholder="Nguyễn Văn A" className="input" />
       </div>
-      <div className="">
-        <label
-          htmlFor="email"
-          className="block font-[500] text-[14px] text-black mb-[5px]"
-        >
-          Email *
-        </label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-        />
+      <div>
+        <label htmlFor="email" className="label">Email</label>
+        <input type="email" name="email" id="email" placeholder="email@example.com" className="input" />
       </div>
-      <div className="">
-        <label
-          htmlFor="password"
-          className="block font-[500] text-[14px] text-black mb-[5px]"
-        >
-          Mật khẩu *
-        </label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-        />
+      <div>
+        <label htmlFor="password" className="label">Mật khẩu</label>
+        <input type="password" name="password" id="password" placeholder="Tối thiểu 6 ký tự" className="input" />
       </div>
-      <div className="">
-        <button
-          type="submit"
-          className="bg-[#0088FF] rounded-[4px] w-[100%] h-[48px] px-[20px] font-[700] text-[16px] text-white"
-        >
-          Đăng ký
-        </button>
-      </div>
+      <button type="submit" className="btn-primary w-full">
+        Đăng ký
+      </button>
     </form>
   );
 }

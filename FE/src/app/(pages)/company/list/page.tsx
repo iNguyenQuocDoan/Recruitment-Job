@@ -1,37 +1,82 @@
-import { Metadata } from "next"
-import { CardCompanyItem } from "@/app/components/card/CardCompanyItem"
+import { Metadata } from "next";
+import { CardCompanyItem } from "@/app/components/card/CardCompanyItem";
+import { FaMagnifyingGlass, FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 
 export const metadata: Metadata = {
   title: "Danh sách công ty",
-  description: "Mô tả trang danh sách công ty...",
-}
+  description: "Khám phá các nhà tuyển dụng IT hàng đầu",
+};
 
 export default function CompanyListPage() {
   return (
     <>
-      {/* Section 2 */}
-      <div className="py-[60px]">
-        <div className="container mx-auto px-[16px]">
-          <h2 className="font-[700] sm:text-[28px] text-[24px] text-[#121212] text-center mb-[30px]">
-            Nhà tuyển dụng hàng đầu
-          </h2>
-          {/* Wrap */}
-          <div className="grid lg:grid-cols-3 grid-cols-2 sm:gap-[20px] gap-x-[10px] gap-y-[20px]">
-            {/* Item */}
-            <CardCompanyItem />
-          </div>
+      {/* Hero header */}
+      <section className="bg-gradient-to-br from-primary-900 to-primary-700 py-12">
+        <div className="container-page text-center">
+          <h1 className="text-display-md md:text-display-lg font-bold text-white mb-3">
+            Khám phá nhà tuyển dụng
+          </h1>
+          <p className="text-body-lg text-white/80 max-w-2xl mx-auto">
+            500+ công ty IT đang tuyển dụng tích cực, từ startup đến tập đoàn đa quốc gia
+          </p>
+          <form className="bg-white rounded-md shadow-card-floating p-2 flex gap-2 mt-8 max-w-2xl mx-auto">
+            <input
+              type="text"
+              placeholder="Tìm kiếm công ty..."
+              className="flex-1 input border-transparent"
+            />
+            <button type="submit" className="btn-primary">
+              <FaMagnifyingGlass /> Tìm kiếm
+            </button>
+          </form>
+        </div>
+      </section>
 
-          <div className="mt-[30px]">
-            <select name="" className="border border-[#DEDEDE] rounded-[8px] py-[12px] px-[18px] font-[400] text-[16px] text-[#414042] outline-none">
-              <option value="">Trang 1</option>
-              <option value="">Trang 2</option>
-              <option value="">Trang 3</option>
+      <section className="section-tight">
+        <div className="container-page">
+          <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
+            <div className="text-body-md text-neutral-600">
+              <span className="font-semibold text-neutral-900">86 công ty</span> được tìm thấy
+            </div>
+            <select className="input md:w-52 h-10 text-body-sm">
+              <option>Mới nhất</option>
+              <option>Nhiều việc làm nhất</option>
+              <option>A → Z</option>
             </select>
           </div>
 
+          <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
+            <CardCompanyItem />
+            <CardCompanyItem />
+            <CardCompanyItem />
+            <CardCompanyItem />
+            <CardCompanyItem />
+            <CardCompanyItem />
+          </div>
+
+          <div className="mt-10 flex items-center justify-center gap-2">
+            <button className="w-10 h-10 inline-flex items-center justify-center rounded border border-neutral-200 bg-white text-neutral-500 hover:border-accent-500 hover:text-accent-500 transition-colors">
+              <FaAngleLeft />
+            </button>
+            {[1, 2, 3, 4].map((p) => (
+              <button
+                key={p}
+                className={
+                  "w-10 h-10 inline-flex items-center justify-center rounded text-body-sm font-medium transition-colors " +
+                  (p === 1
+                    ? "bg-accent-500 text-white"
+                    : "border border-neutral-200 bg-white text-neutral-700 hover:border-accent-500 hover:text-accent-500")
+                }
+              >
+                {p}
+              </button>
+            ))}
+            <button className="w-10 h-10 inline-flex items-center justify-center rounded border border-neutral-200 bg-white text-neutral-500 hover:border-accent-500 hover:text-accent-500 transition-colors">
+              <FaAngleRight />
+            </button>
+          </div>
         </div>
-      </div>
-      {/* End Section 2 */}
+      </section>
     </>
-  )
+  );
 }
