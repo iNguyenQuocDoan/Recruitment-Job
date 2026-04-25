@@ -2,6 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 
 import * as companyController from "../controllers/company.controller";
+
 import * as companyValidate from "../validates/company.validate";
 import { authenticate, authorize } from "../middleware/auth.middleware";
 
@@ -52,6 +53,21 @@ router.delete(
   authenticate,
   authorize("company"),
   companyController.deleteJobController,
+);
+
+router.get(
+  "/job/detail/:id",
+  authenticate,
+  authorize("company"),
+  companyController.detailJobController,
+);
+
+router.patch(
+  "/job/edit/:id",
+  authenticate,
+  authorize("company"),
+  upload.array("images", 8),
+  companyController.editJobController,
 );
 
 export default router;

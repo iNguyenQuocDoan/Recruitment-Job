@@ -2,7 +2,11 @@ import jwt from "jsonwebtoken";
 
 import AccountUser from "../models/account-user.model";
 import AccountCompany from "../models/account-company.model";
-import { STATUS_CODE, RESPONSE_CODE } from "../constants/http.constant";
+import {
+  STATUS_CODE,
+  RESPONSE_CODE,
+  RESPONSE_MESSAGE,
+} from "../constants/http.constant";
 import { ServiceResponse } from "../interfaces/request.interface";
 
 const checkAuthService = async (
@@ -14,7 +18,7 @@ const checkAuthService = async (
         statusCode: STATUS_CODE.OK,
         body: {
           code: RESPONSE_CODE.ERROR,
-          message: "User is not authenticated",
+          message: RESPONSE_MESSAGE.NOT_AUTHENTICATED,
         },
       };
     }
@@ -32,7 +36,7 @@ const checkAuthService = async (
         statusCode: STATUS_CODE.OK,
         body: {
           code: RESPONSE_CODE.SUCCESS,
-          message: "User is authenticated",
+          message: RESPONSE_MESSAGE.AUTHENTICATED,
           infoUser: {
             id: existUser._id,
             email: existUser.email,
@@ -55,7 +59,7 @@ const checkAuthService = async (
         statusCode: STATUS_CODE.OK,
         body: {
           code: RESPONSE_CODE.SUCCESS,
-          message: "User is authenticated",
+          message: RESPONSE_MESSAGE.AUTHENTICATED,
           infoCompany: {
             id: existAccountCompany._id,
             email: existAccountCompany.email,
@@ -79,7 +83,7 @@ const checkAuthService = async (
       statusCode: STATUS_CODE.OK,
       body: {
         code: RESPONSE_CODE.ERROR,
-        message: "User is not authenticated",
+        message: RESPONSE_MESSAGE.NOT_AUTHENTICATED,
       },
     };
   } catch {
@@ -87,7 +91,7 @@ const checkAuthService = async (
       statusCode: STATUS_CODE.OK,
       body: {
         code: RESPONSE_CODE.ERROR,
-        message: "User is not authenticated",
+        message: RESPONSE_MESSAGE.NOT_AUTHENTICATED,
       },
     };
   }
@@ -98,7 +102,7 @@ const logoutService = (): ServiceResponse<any> => {
     statusCode: STATUS_CODE.OK,
     body: {
       code: RESPONSE_CODE.SUCCESS,
-      message: "User logged out successfully",
+      message: RESPONSE_MESSAGE.LOGOUT_SUCCESS,
     },
   };
 };

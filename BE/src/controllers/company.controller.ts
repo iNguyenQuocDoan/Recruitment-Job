@@ -10,6 +10,8 @@ import {
 import {
   createJobService,
   deleteJobService,
+  detailJobService,
+  editJobService,
   listCompanyJobService,
   loginCompanyService,
   registerCompanyService,
@@ -24,12 +26,10 @@ const registerController = async (req: Request, res: Response) => {
     return res.status(result.statusCode).json(result.body);
   } catch (error) {
     console.error("Error during user registration:", error);
-    return res
-      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
-      .json({
-        code: RESPONSE_CODE.ERROR,
-        message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR,
-      });
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json({
+      code: RESPONSE_CODE.ERROR,
+      message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR,
+    });
   }
 };
 
@@ -49,12 +49,10 @@ const loginController = async (req: Request, res: Response) => {
     return res.status(result.statusCode).json(result.body);
   } catch (error) {
     console.error("Error during user login:", error);
-    return res
-      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
-      .json({
-        code: RESPONSE_CODE.ERROR,
-        message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR,
-      });
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json({
+      code: RESPONSE_CODE.ERROR,
+      message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR,
+    });
   }
 };
 
@@ -69,12 +67,10 @@ const createJobController = async (req: AccountRequest, res: Response) => {
     return res.status(result.statusCode).json(result.body);
   } catch (error) {
     console.error("Error during job creation:", error);
-    return res
-      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
-      .json({
-        code: RESPONSE_CODE.ERROR,
-        message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR,
-      });
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json({
+      code: RESPONSE_CODE.ERROR,
+      message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR,
+    });
   }
 };
 
@@ -84,12 +80,10 @@ const deleteJobController = async (req: AccountRequest, res: Response) => {
 
     return res.status(result.statusCode).json(result.body);
   } catch (error) {
-    return res
-      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
-      .json({
-        code: RESPONSE_CODE.ERROR,
-        message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR,
-      });
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json({
+      code: RESPONSE_CODE.ERROR,
+      message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR,
+    });
   }
 };
 
@@ -99,12 +93,34 @@ const listJobController = async (req: AccountRequest, res: Response) => {
     return res.status(result.statusCode).json(result.body);
   } catch (error) {
     console.error("Error during job list:", error);
-    return res
-      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
-      .json({
-        code: RESPONSE_CODE.ERROR,
-        message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR,
-      });
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json({
+      code: RESPONSE_CODE.ERROR,
+      message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+const detailJobController = async (req: AccountRequest, res: Response) => {
+  try {
+    const result = await detailJobService(req, req.params.id);
+    return res.status(result.statusCode).json(result.body);
+  } catch (error) {
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json({
+      code: RESPONSE_CODE.ERROR,
+      message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+const editJobController = async (req: AccountRequest, res: Response) => {
+  try {
+    const result = await editJobService(req, req.params.id);
+    return res.status(result.statusCode).json(result.body);
+  } catch (error) {
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json({
+      code: RESPONSE_CODE.ERROR,
+      message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR,
+    });
   }
 };
 
@@ -115,4 +131,6 @@ export {
   createJobController,
   listJobController,
   deleteJobController,
+  detailJobController,
+  editJobController,
 };

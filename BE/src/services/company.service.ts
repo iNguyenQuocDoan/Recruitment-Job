@@ -6,7 +6,11 @@ import { AccountRequest } from "../interfaces/request.interface";
 import Job from "../models/jobs.model";
 import { ServiceResponse } from "../interfaces/request.interface";
 import { generateToken } from "../helper/token.helper";
-import { STATUS_CODE, RESPONSE_CODE } from "../constants/http.constant";
+import {
+  STATUS_CODE,
+  RESPONSE_CODE,
+  RESPONSE_MESSAGE,
+} from "../constants/http.constant";
 
 const registerCompanyService = async (
   body: any,
@@ -20,7 +24,7 @@ const registerCompanyService = async (
       statusCode: STATUS_CODE.BAD_REQUEST,
       body: {
         code: RESPONSE_CODE.ERROR,
-        message: "Email already in use",
+        message: RESPONSE_MESSAGE.EMAIL_ALREADY_IN_USE,
       },
     };
   }
@@ -40,7 +44,7 @@ const registerCompanyService = async (
     statusCode: STATUS_CODE.OK,
     body: {
       code: RESPONSE_CODE.SUCCESS,
-      message: "Company registered successfully",
+      message: RESPONSE_MESSAGE.COMPANY_REGISTER_SUCCESS,
     },
   };
 };
@@ -56,7 +60,7 @@ const loginCompanyService = async (
       statusCode: STATUS_CODE.BAD_REQUEST,
       body: {
         code: RESPONSE_CODE.ERROR,
-        message: "Không tồn tại trong hệ thống",
+        message: RESPONSE_MESSAGE.ACCOUNT_NOT_FOUND,
       },
     };
   }
@@ -71,7 +75,7 @@ const loginCompanyService = async (
       statusCode: STATUS_CODE.BAD_REQUEST,
       body: {
         code: RESPONSE_CODE.ERROR,
-        message: "Incorrect password",
+        message: RESPONSE_MESSAGE.INVALID_PASSWORD,
       },
     };
   }
@@ -86,7 +90,7 @@ const loginCompanyService = async (
     statusCode: STATUS_CODE.OK,
     body: {
       code: RESPONSE_CODE.SUCCESS,
-      message: "Login success",
+      message: RESPONSE_MESSAGE.COMPANY_LOGIN_SUCCESS,
     },
     token,
   };
@@ -109,7 +113,7 @@ const updateCompanyProfileService = async (
     statusCode: STATUS_CODE.OK,
     body: {
       code: RESPONSE_CODE.SUCCESS,
-      message: "Profile updated successfully",
+      message: RESPONSE_MESSAGE.COMPANY_PROFILE_UPDATED,
     },
   };
 };
@@ -143,7 +147,7 @@ const createJobService = async (
     statusCode: STATUS_CODE.OK,
     body: {
       code: RESPONSE_CODE.SUCCESS,
-      message: "Create job successfully",
+      message: RESPONSE_MESSAGE.JOB_CREATE_SUCCESS,
     },
   };
 };
@@ -157,7 +161,7 @@ const deleteJobService = async (
   if (!job) {
     return {
       statusCode: STATUS_CODE.NOT_FOUND,
-      body: { code: RESPONSE_CODE.ERROR, message: "Job not found" },
+      body: { code: RESPONSE_CODE.ERROR, message: RESPONSE_MESSAGE.JOB_NOT_FOUND },
     };
   }
 
@@ -166,7 +170,7 @@ const deleteJobService = async (
   if (!job.companyId?.equals(company._id)) {
     return {
       statusCode: STATUS_CODE.FORBIDDEN,
-      body: { code: RESPONSE_CODE.FORBIDDEN, message: "Forbidden" },
+      body: { code: RESPONSE_CODE.FORBIDDEN, message: RESPONSE_MESSAGE.FORBIDDEN },
     };
   }
 
@@ -174,7 +178,7 @@ const deleteJobService = async (
 
   return {
     statusCode: STATUS_CODE.OK,
-    body: { code: RESPONSE_CODE.SUCCESS, message: "Job deleted successfully" },
+    body: { code: RESPONSE_CODE.SUCCESS, message: RESPONSE_MESSAGE.JOB_DELETE_SUCCESS },
   };
 };
 
@@ -214,6 +218,95 @@ const listCompanyJobService = async (
   };
 };
 
+const detailJobService = async (
+  accountRequest: AccountRequest,
+  jobId: string,
+): Promise<ServiceResponse<any>> => {
+  const company = accountRequest.account as IAccountCompany;
+  const job = await Job.findById(jobId);
+
+  if (!job) {
+    return {
+      statusCode: STATUS_CODE.NOT_FOUND,
+      body: { code: RESPONSE_CODE.ERROR, message: RESPONSE_MESSAGE.JOB_NOT_FOUND },
+    };
+  }
+
+  if (!job.companyId?.equals(company._id)) {
+    return {
+      statusCode: STATUS_CODE.FORBIDDEN,
+      body: { code: RESPONSE_CODE.FORBIDDEN, message: RESPONSE_MESSAGE.FORBIDDEN },
+    };
+  }
+
+  return {
+    statusCode: STATUS_CODE.OK,
+    body: {
+      code: RESPONSE_CODE.SUCCESS,
+      data: {
+        _id: job._id,
+        title: job.title,
+        salaryMin: job.salaryMin,
+        salaryMax: job.salaryMax,
+        position: job.position,
+        workingForm: job.workingForm,
+        technologies: job.technologies,
+        description: job.description,
+        images: job.images,
+      },
+    },
+  };
+};
+
+const editJobService = async (
+  accountRequest: AccountRequest,
+  jobId: string,
+): Promise<ServiceResponse<any>> => {
+  const company = accountRequest.account as IAccountCompany;
+  const job = await Job.findById(jobId);
+
+  if (!job) {
+    return {
+      statusCode: STATUS_CODE.NOT_FOUND,
+      body: { code: RESPONSE_CODE.ERROR, message: RESPONSE_MESSAGE.JOB_NOT_FOUND },
+    };
+  }
+
+  if (!job.companyId?.equals(company._id)) {
+    return {
+      statusCode: STATUS_CODE.FORBIDDEN,
+      body: { code: RESPONSE_CODE.FORBIDDEN, message: RESPONSE_MESSAGE.FORBIDDEN },
+    };
+  }
+
+  const updateData: any = {
+    title: accountRequest.body.title,
+    salaryMin: accountRequest.body.salaryMin
+      ? parseInt(accountRequest.body.salaryMin, 10)
+      : job.salaryMin,
+    salaryMax: accountRequest.body.salaryMax
+      ? parseInt(accountRequest.body.salaryMax, 10)
+      : job.salaryMax,
+    position: accountRequest.body.position,
+    workingForm: accountRequest.body.workingForm,
+    technologies: accountRequest.body.technologies
+      ? accountRequest.body.technologies.split(",")
+      : job.technologies,
+    description: accountRequest.body.description,
+  };
+
+  if (accountRequest.files && (accountRequest.files as any[]).length > 0) {
+    updateData.images = (accountRequest.files as any[]).map((f) => f.path);
+  }
+
+  await Job.updateOne({ _id: jobId }, updateData);
+
+  return {
+    statusCode: STATUS_CODE.OK,
+    body: { code: RESPONSE_CODE.SUCCESS, message: RESPONSE_MESSAGE.JOB_UPDATE_SUCCESS },
+  };
+};
+
 export {
   registerCompanyService,
   loginCompanyService,
@@ -221,4 +314,6 @@ export {
   createJobService,
   deleteJobService,
   listCompanyJobService,
+  detailJobService,
+  editJobService,
 };

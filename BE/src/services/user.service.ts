@@ -3,7 +3,11 @@ import bcrypt from "bcryptjs";
 import AccountUser, { IAccountUser } from "../models/account-user.model";
 import { AccountRequest } from "../interfaces/request.interface";
 import { ServiceResponse } from "../interfaces/request.interface";
-import { STATUS_CODE, RESPONSE_CODE } from "../constants/http.constant";
+import {
+  STATUS_CODE,
+  RESPONSE_CODE,
+  RESPONSE_MESSAGE,
+} from "../constants/http.constant";
 import { generateToken } from "../helper/token.helper";
 
 const registerUserService = async (
@@ -18,7 +22,7 @@ const registerUserService = async (
       statusCode: STATUS_CODE.BAD_REQUEST,
       body: {
         code: RESPONSE_CODE.ERROR,
-        message: "Email already in use",
+        message: RESPONSE_MESSAGE.EMAIL_ALREADY_IN_USE,
       },
     };
   }
@@ -38,7 +42,7 @@ const registerUserService = async (
     statusCode: STATUS_CODE.OK,
     body: {
       code: RESPONSE_CODE.SUCCESS,
-      message: "User registered successfully",
+      message: RESPONSE_MESSAGE.USER_REGISTER_SUCCESS,
     },
   };
 };
@@ -54,7 +58,7 @@ const loginUserService = async (
       statusCode: STATUS_CODE.BAD_REQUEST,
       body: {
         code: RESPONSE_CODE.ERROR,
-        message: "Không tồn tại trong hệ thống",
+        message: RESPONSE_MESSAGE.ACCOUNT_NOT_FOUND,
       },
     };
   }
@@ -69,7 +73,7 @@ const loginUserService = async (
       statusCode: STATUS_CODE.BAD_REQUEST,
       body: {
         code: RESPONSE_CODE.ERROR,
-        message: "Mật khẩu không đúng",
+        message: RESPONSE_MESSAGE.INVALID_PASSWORD,
       },
     };
   }
@@ -84,7 +88,7 @@ const loginUserService = async (
     statusCode: STATUS_CODE.OK,
     body: {
       code: RESPONSE_CODE.SUCCESS,
-      message: "Login success",
+      message: RESPONSE_MESSAGE.USER_LOGIN_SUCCESS,
     },
     token,
   };
@@ -107,7 +111,7 @@ const updateUserProfileService = async (
     statusCode: STATUS_CODE.OK,
     body: {
       code: RESPONSE_CODE.SUCCESS,
-      message: "Profile updated successfully",
+      message: RESPONSE_MESSAGE.USER_PROFILE_UPDATED,
     },
   };
 };
