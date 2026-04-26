@@ -13,6 +13,8 @@ import {
   approveCompanyCvService,
   rejectCompanyCvService,
   deleteCompanyCvService,
+  listUserCvService,
+  deleteUserCvService,
 } from "../services/cv.service";
 
 const submitController = async (req: AccountRequest, res: Response) => {
@@ -93,6 +95,32 @@ const deleteCompanyCvController = async (req: AccountRequest, res: Response) => 
   }
 };
 
+const listUserCvController = async (req: AccountRequest, res: Response) => {
+  try {
+    const result = await listUserCvService(req);
+    return res.status(result.statusCode).json(result.body);
+  } catch (error) {
+    console.error("Error during user CV list:", error);
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json({
+      code: RESPONSE_CODE.ERROR,
+      message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+const deleteUserCvController = async (req: AccountRequest, res: Response) => {
+  try {
+    const result = await deleteUserCvService(req, req.params.id);
+    return res.status(result.statusCode).json(result.body);
+  } catch (error) {
+    console.error("Error during user CV delete:", error);
+    return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json({
+      code: RESPONSE_CODE.ERROR,
+      message: RESPONSE_MESSAGE.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
 export {
   submitController,
   listCompanyCvController,
@@ -100,4 +128,6 @@ export {
   approveCompanyCvController,
   rejectCompanyCvController,
   deleteCompanyCvController,
+  listUserCvController,
+  deleteUserCvController,
 };

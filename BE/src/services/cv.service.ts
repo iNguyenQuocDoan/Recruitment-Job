@@ -256,6 +256,92 @@ const deleteCompanyCvService = async (
   };
 };
 
+const listUserCvService = async (
+  accountRequest: AccountRequest,
+): Promise<ServiceResponse<any>> => {
+  const user = accountRequest.account as IAccountUser;
+  const page = Math.max(parseInt(String(accountRequest.query.page || "1"), 10), 1);
+  const limit = Math.max(parseInt(String(accountRequest.query.limit || "12"), 10), 1);
+  const skip = (page - 1) * limit;
+
+  const filter = { userId: user._id, deletedAt: null };
+
+  const total = await Cv.countDocuments(filter);
+  const cvs = await Cv.find(filter)
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .populate({ path: "jobId", select: "title companyId" })
+    .lean();
+
+  const data = cvs.map((cv: any) => ({
+    _id: cv._id,
+    jobId: cv.jobId?._id || cv.jobId,
+    jobTitle: cv.jobId?.title || "",
+    fullName: cv.fullName,
+    email: cv.email,
+    phone: cv.phone,
+    fileUrl: cv.fileUrl,
+    status: cv.status,
+    note: cv.note || "",
+    createdAt: cv.createdAt,
+  }));
+
+  return {
+    statusCode: STATUS_CODE.OK,
+    body: {
+      code: RESPONSE_CODE.SUCCESS,
+      data,
+      total,
+      page,
+      limit,
+    },
+  };
+};
+
+const deleteUserCvService = async (
+  accountRequest: AccountRequest,
+  cvId: string,
+): Promise<ServiceResponse<any>> => {
+  const user = accountRequest.account as IAccountUser;
+  const cv = await Cv.findOne({ _id: cvId, deletedAt: null });
+
+  if (!cv) {
+    return {
+      statusCode: STATUS_CODE.NOT_FOUND,
+      body: { code: RESPONSE_CODE.ERROR, message: RESPONSE_MESSAGE.CV_NOT_FOUND },
+    };
+  }
+
+  if (!cv.userId?.equals(user._id)) {
+    return {
+      statusCode: STATUS_CODE.FORBIDDEN,
+      body: { code: RESPONSE_CODE.FORBIDDEN, message: RESPONSE_MESSAGE.FORBIDDEN },
+    };
+  }
+
+  if (cv.status !== "pending") {
+    return {
+      statusCode: STATUS_CODE.BAD_REQUEST,
+      body: {
+        code: RESPONSE_CODE.ERROR,
+        message: RESPONSE_MESSAGE.CV_DELETE_NOT_PENDING,
+      },
+    };
+  }
+
+  cv.deletedAt = new Date();
+  await cv.save();
+
+  return {
+    statusCode: STATUS_CODE.OK,
+    body: {
+      code: RESPONSE_CODE.SUCCESS,
+      message: RESPONSE_MESSAGE.CV_DELETE_SUCCESS,
+    },
+  };
+};
+
 export {
   submitCvService,
   listCompanyCvService,
@@ -263,4 +349,6 @@ export {
   approveCompanyCvService,
   rejectCompanyCvService,
   deleteCompanyCvService,
+  listUserCvService,
+  deleteUserCvService,
 };

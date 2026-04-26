@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import * as userController from "../controllers/user.controller";
+import * as cvController from "../controllers/cv.controller";
 import * as userValidate from "../validates/user.validate";
 import multer from "multer";
 
@@ -26,6 +27,20 @@ router.patch(
   upload.single("avatar"),
   userValidate.profilePatch,
   userController.updateProfileController,
+);
+
+router.get(
+  "/cv/list",
+  authenticate,
+  authorize("user"),
+  cvController.listUserCvController,
+);
+
+router.delete(
+  "/cv/:id",
+  authenticate,
+  authorize("user"),
+  cvController.deleteUserCvController,
 );
 
 export default router;
