@@ -42,4 +42,9 @@ export const RESPONSE_MESSAGE = {
   JOB_CREATE_SUCCESS: "Create job successfully",
   JOB_DELETE_SUCCESS: "Job deleted successfully",
   JOB_UPDATE_SUCCESS: "Job updated successfully",
+  // CV
+  CV_SUBMIT_SUCCESS: "CV submitted successfully",
+  CV_FILE_REQUIRED: "Please upload your CV file (PDF)",
+  CV_INVALID_FILE: "Only PDF files are allowed",
+  CV_JOB_NOT_FOUND: "Job not found for this CV submission",
 } as const;
