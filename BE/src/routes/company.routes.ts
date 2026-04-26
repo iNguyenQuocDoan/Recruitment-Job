@@ -2,8 +2,10 @@ import { Router } from "express";
 import multer from "multer";
 
 import * as companyController from "../controllers/company.controller";
+import * as cvController from "../controllers/cv.controller";
 
 import * as companyValidate from "../validates/company.validate";
+import * as cvValidate from "../validates/cv.validate";
 import { authenticate, authorize } from "../middleware/auth.middleware";
 
 import { storage } from "../helper/cloudinary.helper";
@@ -68,6 +70,43 @@ router.patch(
   authorize("company"),
   upload.array("images", 8),
   companyController.editJobController,
+);
+
+router.get(
+  "/cv/list",
+  authenticate,
+  authorize("company"),
+  cvController.listCompanyCvController,
+);
+
+router.get(
+  "/cv/detail/:id",
+  authenticate,
+  authorize("company"),
+  cvController.detailCompanyCvController,
+);
+
+router.patch(
+  "/cv/:id/approve",
+  authenticate,
+  authorize("company"),
+  cvValidate.decisionPatch,
+  cvController.approveCompanyCvController,
+);
+
+router.patch(
+  "/cv/:id/reject",
+  authenticate,
+  authorize("company"),
+  cvValidate.decisionPatch,
+  cvController.rejectCompanyCvController,
+);
+
+router.delete(
+  "/cv/:id",
+  authenticate,
+  authorize("company"),
+  cvController.deleteCompanyCvController,
 );
 
 export default router;

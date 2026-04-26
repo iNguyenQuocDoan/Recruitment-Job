@@ -47,4 +47,8 @@ export const RESPONSE_MESSAGE = {
   CV_FILE_REQUIRED: "Please upload your CV file (PDF)",
   CV_INVALID_FILE: "Only PDF files are allowed",
   CV_JOB_NOT_FOUND: "Job not found for this CV submission",
+  CV_NOT_FOUND: "CV not found",
+  CV_APPROVE_SUCCESS: "CV approved successfully",
+  CV_REJECT_SUCCESS: "CV rejected successfully",
+  CV_DELETE_SUCCESS: "CV deleted successfully",
 } as const;

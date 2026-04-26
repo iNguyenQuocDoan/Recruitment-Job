@@ -42,4 +42,26 @@ const submitPost = async (
   next();
 };
 
-export { submitPost };
+const decisionPatch = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const schema = Joi.object({
+    note: Joi.string().max(500).optional().allow("").messages({
+      "string.max": "Note must not exceed 500 characters!",
+    }),
+  });
+
+  const { error } = schema.validate(req.body);
+  if (error) {
+    const errMessage = error.details[0].message;
+    return res.json({
+      code: RESPONSE_CODE.ERROR,
+      message: errMessage,
+    });
+  }
+  next();
+};
+
+export { submitPost, decisionPatch };
