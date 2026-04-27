@@ -16,7 +16,65 @@ const STATS = [
   { value: "50K+", label: "Ứng viên", icon: UsersIcon },
 ];
 
-export default function Home() {
+interface CompanyDTO {
+  _id: string;
+  companyName: string;
+  logo?: string;
+  city?: string;
+}
+
+interface JobDTO {
+  _id: string;
+  title: string;
+  salaryMin?: number;
+  salaryMax?: number;
+  position?: string;
+  workingForm?: string;
+  technologies?: string[];
+  companyName?: string;
+  companyLogo?: string;
+  companyCity?: string;
+}
+
+const formatSalary = (min?: number, max?: number) => {
+  if (!min && !max) return "Thoả thuận";
+  const fmt = (v: number) =>
+    v >= 1_000_000 ? `${(v / 1_000_000).toFixed(0)}tr` : v.toLocaleString("vi-VN");
+  if (min && max) return `${fmt(min)} - ${fmt(max)}đ`;
+  return `${fmt((min ?? max)!)}đ+`;
+};
+
+async function getHomeData() {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  console.log("[home] fetching from", apiUrl);
+
+  const [companiesRes, jobsRes] = await Promise.all([
+    fetch(`${apiUrl}/job/company/list?limit=3`, { cache: "no-store" }),
+    fetch(`${apiUrl}/job/list?limit=6`, { cache: "no-store" }),
+  ]);
+
+  const companies = await companiesRes.json();
+  const jobs = await jobsRes.json();
+
+  console.log("[home] companies:", {
+    code: companies.code,
+    count: companies.data?.length,
+    total: companies.total,
+  });
+  console.log("[home] jobs:", {
+    code: jobs.code,
+    count: jobs.data?.length,
+    total: jobs.total,
+  });
+
+  return {
+    companies: (companies.data ?? []) as CompanyDTO[],
+    jobs: (jobs.data ?? []) as JobDTO[],
+  };
+}
+
+export default async function Home() {
+  const { companies, jobs } = await getHomeData();
   return (
     <>
       {/* Hero */}
@@ -106,9 +164,21 @@ export default function Home() {
             </Link>
           </div>
           <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
-            <CardCompanyItem />
-            <CardCompanyItem />
-            <CardCompanyItem />
+            {companies.length === 0 ? (
+              <p className="col-span-full text-center text-body-sm text-neutral-500 py-8">
+                Chưa có công ty nào.
+              </p>
+            ) : (
+              companies.map((c) => (
+                <CardCompanyItem
+                  key={c._id}
+                  slug={`/company/detail/${c._id}`}
+                  logo={c.logo || undefined}
+                  companyName={c.companyName}
+                  city={c.city}
+                />
+              ))
+            )}
           </div>
           <div className="md:hidden mt-6 text-center">
             <Link href="/company/list" className="btn-secondary">
@@ -138,12 +208,26 @@ export default function Home() {
             </Link>
           </div>
           <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
-            <CardJobItem />
-            <CardJobItem />
-            <CardJobItem />
-            <CardJobItem />
-            <CardJobItem />
-            <CardJobItem />
+            {jobs.length === 0 ? (
+              <p className="col-span-full text-center text-body-sm text-neutral-500 py-8">
+                Chưa có việc làm nào.
+              </p>
+            ) : (
+              jobs.map((j) => (
+                <CardJobItem
+                  key={j._id}
+                  slug={`/job/detail/${j._id}`}
+                  logo={j.companyLogo || undefined}
+                  title={j.title}
+                  companyName={j.companyName}
+                  salary={formatSalary(j.salaryMin, j.salaryMax)}
+                  position={j.position}
+                  workingForm={j.workingForm}
+                  city={j.companyCity}
+                  technologies={j.technologies}
+                />
+              ))
+            )}
           </div>
           <div className="md:hidden mt-6 text-center">
             <Link href="/search" className="btn-secondary">

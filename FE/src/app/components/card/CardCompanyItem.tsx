@@ -15,7 +15,7 @@ export const CardCompanyItem = ({
   logo = "/assets/images/demo-cong-ty-1.png",
   companyName = "LG Electronics Development Vietnam (LGEDV)",
   city = "Hồ Chí Minh",
-  jobCount = 5,
+  jobCount,
 }: CardCompanyItemProps) => {
   return (
     <Link
@@ -39,10 +39,12 @@ export const CardCompanyItem = ({
           <MapPinIcon className="w-3.5 h-3.5 text-neutral-400" />
           {city}
         </span>
-        <span className="inline-flex items-center gap-1.5 font-medium text-primary-800">
-          <UserTieIcon className="w-4 h-4 text-accent-500" />
-          {jobCount} việc làm
-        </span>
+        {typeof jobCount === "number" && (
+          <span className="inline-flex items-center gap-1.5 font-medium text-primary-800">
+            <UserTieIcon className="w-4 h-4 text-accent-500" />
+            {jobCount} việc làm
+          </span>
+        )}
       </div>
     </Link>
   );
