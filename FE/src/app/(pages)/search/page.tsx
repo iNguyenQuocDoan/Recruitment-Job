@@ -17,7 +17,7 @@ export default function SearchPage() {
     <>
       {/* Search bar */}
       <section className="bg-primary-800">
-        <div className="container-page py-8">
+        <div className="container-page py-5">
           <form className="bg-white rounded-md shadow-card-floating p-2 flex flex-col md:flex-row gap-2">
             <select className="md:w-56 input bg-neutral-50 border-transparent">
               <option value="">Tất cả thành phố</option>
@@ -39,7 +39,7 @@ export default function SearchPage() {
       </section>
 
       {/* Results */}
-      <section className="py-10">
+      <section className="pt-6 pb-10">
         <div className="container-page">
           {/* Header */}
           <div className="flex items-end justify-between gap-4 mb-6 flex-wrap">

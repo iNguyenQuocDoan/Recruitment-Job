@@ -20,9 +20,9 @@ export const CardCompanyItem = ({
   return (
     <Link
       href={slug}
-      className="card-hover group flex flex-col items-center text-center p-6 overflow-hidden"
+      className="card-hover group flex flex-col items-center text-center p-5 overflow-hidden"
     >
-      <div className="w-32 h-32 rounded-md bg-white border border-neutral-200 p-3 flex items-center justify-center mb-4">
+      <div className="w-20 h-20 rounded-md bg-white border border-neutral-200 p-2 flex items-center justify-center mb-3">
         <img
           src={logo}
           alt={companyName}
@@ -30,11 +30,11 @@ export const CardCompanyItem = ({
         />
       </div>
 
-      <h3 className="text-body-lg font-bold text-neutral-900 line-clamp-2 group-hover:text-accent-500 transition-colors mb-3">
+      <h3 className="text-body-md font-bold text-neutral-900 line-clamp-2 group-hover:text-accent-500 transition-colors mb-2 min-h-[3em]">
         {companyName}
       </h3>
 
-      <div className="mt-auto w-full pt-4 border-t border-neutral-100 flex items-center justify-between gap-3 text-body-sm text-neutral-600">
+      <div className="mt-auto w-full pt-3 border-t border-neutral-100 flex items-center justify-between gap-3 text-body-sm text-neutral-600">
         <span className="inline-flex items-center gap-1.5">
           <MapPinIcon className="w-3.5 h-3.5 text-neutral-400" />
           {city}

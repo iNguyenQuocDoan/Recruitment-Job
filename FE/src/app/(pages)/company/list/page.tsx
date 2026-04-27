@@ -15,15 +15,15 @@ export default function CompanyListPage() {
   return (
     <>
       {/* Hero header */}
-      <section className="bg-gradient-to-br from-primary-900 to-primary-700 py-12">
+      <section className="bg-gradient-to-br from-primary-900 to-primary-700 py-6 md:py-8">
         <div className="container-page text-center">
-          <h1 className="text-display-md md:text-display-lg font-bold text-white mb-3">
+          <h1 className="text-heading-lg md:text-display-sm font-bold text-white mb-1.5">
             Khám phá nhà tuyển dụng
           </h1>
-          <p className="text-body-lg text-white/80 max-w-2xl mx-auto">
+          <p className="text-body-sm md:text-body-md text-white/80 max-w-2xl mx-auto">
             500+ công ty IT đang tuyển dụng tích cực, từ startup đến tập đoàn đa quốc gia
           </p>
-          <form className="bg-white rounded-md shadow-card-floating p-2 flex gap-2 mt-8 max-w-2xl mx-auto">
+          <form className="bg-white rounded-md shadow-card-floating p-2 flex gap-2 mt-5 max-w-2xl mx-auto">
             <input
               type="text"
               placeholder="Tìm kiếm công ty..."
@@ -36,7 +36,7 @@ export default function CompanyListPage() {
         </div>
       </section>
 
-      <section className="py-10">
+      <section className="pt-6 pb-10">
         <div className="container-page">
           <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
             <div className="text-body-md text-neutral-600">
