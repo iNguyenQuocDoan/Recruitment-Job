@@ -3,12 +3,12 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { CardJobItem } from "@/app/components/card/CardJobItem";
 import {
-  FaLocationDot,
-  FaBuilding,
-  FaUsers,
-  FaClock,
-  FaBriefcase,
-} from "react-icons/fa6";
+  MapPinIcon,
+  BuildingIcon,
+  UsersIcon,
+  ClockIcon,
+  BriefcaseIcon,
+} from "@/app/components/icons/Icons";
 
 export const metadata: Metadata = {
   title: "Chi tiết công ty",
@@ -39,7 +39,7 @@ export default function CompanyDetailPage() {
                 LG CNS Việt Nam
               </h1>
               <div className="inline-flex items-center gap-2 text-body-sm text-neutral-500 mb-4">
-                <FaLocationDot className="text-accent-500" />
+                <MapPinIcon className="w-4 h-4 text-accent-500" />
                 Tầng 15, Keangnam Landmark 72, Mễ Trì, Nam Từ Liêm, Hà Nội
               </div>
               <div className="flex flex-wrap gap-2">
@@ -49,17 +49,17 @@ export default function CompanyDetailPage() {
               </div>
             </div>
             <Link href="#jobs" className="btn-primary md:self-center w-full md:w-auto">
-              Xem việc làm <FaBriefcase />
+              Xem việc làm <BriefcaseIcon className="w-4 h-4" />
             </Link>
           </div>
         </div>
 
         {/* Info grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-          <InfoCard icon={FaBuilding} label="Mô hình" value="Sản phẩm" />
-          <InfoCard icon={FaUsers} label="Quy mô" value="151 - 300 nhân viên" />
-          <InfoCard icon={FaClock} label="Thời gian" value="Thứ 2 - Thứ 6" />
-          <InfoCard icon={FaBriefcase} label="OT" value="Không có OT" />
+          <InfoCard icon={BuildingIcon} label="Mô hình" value="Sản phẩm" />
+          <InfoCard icon={UsersIcon} label="Quy mô" value="151 - 300 nhân viên" />
+          <InfoCard icon={ClockIcon} label="Thời gian" value="Thứ 2 - Thứ 6" />
+          <InfoCard icon={BriefcaseIcon} label="OT" value="Không có OT" />
         </div>
 
         {/* About */}
@@ -107,7 +107,7 @@ const InfoCard = ({
 }) => (
   <div className="card p-4 flex items-center gap-3">
     <div className="w-11 h-11 rounded bg-accent-50 text-accent-500 inline-flex items-center justify-center shrink-0">
-      <Icon className="text-lg" />
+      <Icon className="w-5 h-5" />
     </div>
     <div className="min-w-0">
       <div className="text-caption text-neutral-500">{label}</div>

@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
-import { FaAngleDown } from "react-icons/fa6";
+import { ChevronDownIcon } from "@/app/components/icons/Icons";
 
 interface MenuItem {
   name: string;
@@ -62,7 +62,7 @@ export const HeaderMenu = (props: { showMenu: boolean; onClose?: () => void }) =
               >
                 {menu.name}
                 {menu.children && (
-                  <FaAngleDown className="text-sm transition-transform group-hover:rotate-180" />
+                  <ChevronDownIcon className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
                 )}
               </Link>
               {menu.children && (

@@ -1,6 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import { FaBriefcase, FaLocationDot, FaUserTie, FaArrowRight } from "react-icons/fa6";
+import {
+  BriefcaseIcon,
+  MapPinIcon,
+  UserTieIcon,
+  ArrowRightIcon,
+} from "@/app/components/icons/Icons";
 
 interface CardJobItemProps {
   slug?: string;
@@ -55,13 +60,13 @@ export const CardJobItem = ({
 
         <div className="flex flex-col gap-2 text-body-sm text-neutral-600">
           <div className="inline-flex items-center gap-2">
-            <FaUserTie className="text-neutral-400 shrink-0" /> {position}
+            <UserTieIcon className="w-4 h-4 text-neutral-400 shrink-0" /> {position}
           </div>
           <div className="inline-flex items-center gap-2">
-            <FaBriefcase className="text-neutral-400 shrink-0" /> {workingForm}
+            <BriefcaseIcon className="w-4 h-4 text-neutral-400 shrink-0" /> {workingForm}
           </div>
           <div className="inline-flex items-center gap-2">
-            <FaLocationDot className="text-neutral-400 shrink-0" /> {city}
+            <MapPinIcon className="w-4 h-4 text-neutral-400 shrink-0" /> {city}
           </div>
         </div>
 
@@ -77,7 +82,7 @@ export const CardJobItem = ({
 
         <div className="mt-auto pt-4 inline-flex items-center gap-1.5 text-body-sm font-medium text-primary-800 group-hover:gap-2 transition-all">
           Xem chi tiết
-          <FaArrowRight className="text-xs group-hover:translate-x-0.5 transition-transform" />
+          <ArrowRightIcon className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
         </div>
       </div>
     </Link>

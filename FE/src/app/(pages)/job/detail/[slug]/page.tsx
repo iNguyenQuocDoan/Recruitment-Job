@@ -2,16 +2,16 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import {
-  FaArrowRight,
-  FaBriefcase,
-  FaLocationDot,
-  FaUserTie,
-  FaClock,
-  FaBuilding,
-  FaUsers,
-  FaShare,
-  FaBookmark,
-} from "react-icons/fa6";
+  ArrowRightIcon,
+  BriefcaseIcon,
+  MapPinIcon,
+  UserTieIcon,
+  ClockIcon,
+  BuildingIcon,
+  UsersIcon,
+  ShareIcon,
+  BookmarkIcon,
+} from "@/app/components/icons/Icons";
 
 export const metadata: Metadata = {
   title: "Chi tiết công việc",
@@ -62,13 +62,13 @@ export default function JobDetailPage() {
                       className="w-10 h-10 rounded border border-neutral-200 hover:border-accent-500 hover:text-accent-500 inline-flex items-center justify-center transition-colors"
                       aria-label="Save"
                     >
-                      <FaBookmark />
+                      <BookmarkIcon className="w-4 h-4" />
                     </button>
                     <button
                       className="w-10 h-10 rounded border border-neutral-200 hover:border-accent-500 hover:text-accent-500 inline-flex items-center justify-center transition-colors"
                       aria-label="Share"
                     >
-                      <FaShare />
+                      <ShareIcon className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
@@ -79,21 +79,21 @@ export default function JobDetailPage() {
 
                 <div className="grid sm:grid-cols-3 gap-3 mb-6">
                   <div className="flex items-center gap-3 p-3 rounded bg-neutral-50">
-                    <FaUserTie className="text-accent-500 text-lg" />
+                    <UserTieIcon className="w-5 h-5 text-accent-500" />
                     <div>
                       <div className="text-caption text-neutral-500">Cấp bậc</div>
                       <div className="text-body-sm font-semibold text-neutral-900">Fresher</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 p-3 rounded bg-neutral-50">
-                    <FaBriefcase className="text-accent-500 text-lg" />
+                    <BriefcaseIcon className="w-5 h-5 text-accent-500" />
                     <div>
                       <div className="text-caption text-neutral-500">Hình thức</div>
                       <div className="text-body-sm font-semibold text-neutral-900">Tại văn phòng</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 p-3 rounded bg-neutral-50">
-                    <FaLocationDot className="text-accent-500 text-lg" />
+                    <MapPinIcon className="w-5 h-5 text-accent-500" />
                     <div>
                       <div className="text-caption text-neutral-500">Địa điểm</div>
                       <div className="text-body-sm font-semibold text-neutral-900">Hà Nội</div>
@@ -108,7 +108,7 @@ export default function JobDetailPage() {
                 </div>
 
                 <Link href="#apply" className="btn-primary btn-lg w-full">
-                  Ứng tuyển ngay <FaArrowRight />
+                  Ứng tuyển ngay <ArrowRightIcon className="w-4 h-4" />
                 </Link>
               </div>
 
@@ -153,7 +153,7 @@ export default function JobDetailPage() {
                     <input id="fileCV" type="file" accept="application/pdf" className="input p-3 cursor-pointer file:mr-3 file:px-4 file:py-1 file:border-0 file:bg-accent-50 file:text-accent-700 file:rounded-full file:text-body-sm file:font-medium hover:file:bg-accent-100" />
                   </div>
                   <button type="submit" className="sm:col-span-2 btn-primary btn-lg">
-                    Gửi CV ứng tuyển <FaArrowRight />
+                    Gửi CV ứng tuyển <ArrowRightIcon className="w-4 h-4" />
                   </button>
                 </form>
               </div>
@@ -171,35 +171,35 @@ export default function JobDetailPage() {
                   <div className="flex-1 min-w-0">
                     <h3 className="text-body-lg font-bold text-neutral-900 truncate">LG CNS Việt Nam</h3>
                     <Link href="#" className="text-body-sm text-accent-500 hover:text-accent-600 inline-flex items-center gap-1 mt-1">
-                      Xem công ty <FaArrowRight className="text-xs" />
+                      Xem công ty <ArrowRightIcon className="w-3 h-3" />
                     </Link>
                   </div>
                 </div>
 
                 <ul className="py-4 space-y-3 text-body-sm">
                   <li className="flex items-start gap-3">
-                    <FaBuilding className="text-accent-500 mt-0.5 shrink-0" />
+                    <BuildingIcon className="w-4 h-4 text-accent-500 mt-0.5 shrink-0" />
                     <div className="flex-1 flex justify-between gap-2">
                       <span className="text-neutral-500">Mô hình</span>
                       <span className="font-medium text-neutral-900">Sản phẩm</span>
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <FaUsers className="text-accent-500 mt-0.5 shrink-0" />
+                    <UsersIcon className="w-4 h-4 text-accent-500 mt-0.5 shrink-0" />
                     <div className="flex-1 flex justify-between gap-2">
                       <span className="text-neutral-500">Quy mô</span>
                       <span className="font-medium text-neutral-900">151 - 300 nhân viên</span>
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <FaClock className="text-accent-500 mt-0.5 shrink-0" />
+                    <ClockIcon className="w-4 h-4 text-accent-500 mt-0.5 shrink-0" />
                     <div className="flex-1 flex justify-between gap-2">
                       <span className="text-neutral-500">Thời gian</span>
                       <span className="font-medium text-neutral-900">T2 - T6</span>
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <FaLocationDot className="text-accent-500 mt-0.5 shrink-0" />
+                    <MapPinIcon className="w-4 h-4 text-accent-500 mt-0.5 shrink-0" />
                     <div className="flex-1 flex justify-between gap-2">
                       <span className="text-neutral-500">Địa điểm</span>
                       <span className="font-medium text-neutral-900 text-right">Keangnam Landmark, Hà Nội</span>
@@ -208,7 +208,7 @@ export default function JobDetailPage() {
                 </ul>
 
                 <Link href="#" className="btn-secondary w-full">
-                  Xem chi tiết công ty <FaArrowRight className="text-xs" />
+                  Xem chi tiết công ty <ArrowRightIcon className="w-3 h-3" />
                 </Link>
               </div>
             </div>

@@ -1,13 +1,19 @@
 import Link from "next/link";
-import { FaMagnifyingGlass, FaArrowRight, FaBriefcase, FaUsers, FaBuilding } from "react-icons/fa6";
 import { CardCompanyItem } from "@/app/components/card/CardCompanyItem";
 import { CardJobItem } from "@/app/components/card/CardJobItem";
+import {
+  ArrowRightIcon,
+  SearchIcon,
+  BriefcaseIcon,
+  BuildingIcon,
+  UsersIcon,
+} from "@/app/components/icons/Icons";
 
 const HOT_KEYWORDS = ["ReactJS", "NodeJS", "Java", "Python", "DevOps", "AI/ML"];
 const STATS = [
-  { value: "10K+", label: "Việc làm IT", icon: FaBriefcase },
-  { value: "500+", label: "Công ty IT", icon: FaBuilding },
-  { value: "50K+", label: "Ứng viên", icon: FaUsers },
+  { value: "10K+", label: "Việc làm IT", icon: BriefcaseIcon },
+  { value: "500+", label: "Công ty IT", icon: BuildingIcon },
+  { value: "50K+", label: "Ứng viên", icon: UsersIcon },
 ];
 
 export default function Home() {
@@ -20,7 +26,7 @@ export default function Home() {
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary-500 rounded-full blur-3xl" />
         </div>
 
-        <div className="container-page relative py-20 md:py-24">
+        <div className="container-page relative py-12 md:py-16">
           <div className="max-w-3xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-body-sm text-white/90 mb-6">
               <span className="w-2 h-2 rounded-full bg-success-500 animate-pulse" />
@@ -29,7 +35,7 @@ export default function Home() {
             <h1 className="text-white font-bold md:text-display-xl text-display-md leading-tight mb-4">
               Tìm việc làm IT <span className="text-accent-400">trong mơ</span> của bạn
             </h1>
-            <p className="text-white/80 text-body-lg mb-10 max-w-2xl mx-auto">
+            <p className="text-white/80 text-body-lg mb-6 max-w-2xl mx-auto">
               Kết nối với hàng trăm nhà tuyển dụng IT hàng đầu Việt Nam. Khám phá cơ hội nghề nghiệp phù hợp chỉ trong vài cú click.
             </p>
 
@@ -47,7 +53,7 @@ export default function Home() {
                 className="flex-1 input border-transparent"
               />
               <button type="submit" className="btn-primary md:w-auto w-full">
-                <FaMagnifyingGlass /> Tìm kiếm
+                <SearchIcon className="w-4 h-4" /> Tìm kiếm
               </button>
             </form>
 
@@ -67,11 +73,11 @@ export default function Home() {
         </div>
 
         {/* Stats */}
-        <div className="container-page relative pb-12">
+        <div className="container-page relative pb-8">
           <div className="grid grid-cols-3 gap-4 md:gap-8 max-w-3xl mx-auto">
             {STATS.map((stat) => (
               <div key={stat.label} className="text-center text-white">
-                <stat.icon className="text-accent-400 text-2xl md:text-3xl mx-auto mb-2" />
+                <stat.icon className="w-8 h-8 md:w-10 md:h-10 text-accent-400 mx-auto mb-2" />
                 <div className="font-bold md:text-display-md text-heading-md">{stat.value}</div>
                 <div className="text-body-sm text-white/70 mt-1">{stat.label}</div>
               </div>
@@ -81,9 +87,9 @@ export default function Home() {
       </section>
 
       {/* Top Companies */}
-      <section className="section">
+      <section className="py-10">
         <div className="container-page">
-          <div className="flex items-end justify-between gap-4 mb-10">
+          <div className="flex items-end justify-between gap-4 mb-6">
             <div>
               <h2 className="text-heading-lg md:text-display-md text-neutral-900 font-bold">
                 Nhà tuyển dụng hàng đầu
@@ -96,7 +102,7 @@ export default function Home() {
               href="/company/list"
               className="hidden md:inline-flex items-center gap-2 text-body-md font-medium text-accent-500 hover:text-accent-600 transition-colors shrink-0"
             >
-              Xem tất cả <FaArrowRight className="text-xs" />
+              Xem tất cả <ArrowRightIcon className="w-4 h-4" />
             </Link>
           </div>
           <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
@@ -106,16 +112,16 @@ export default function Home() {
           </div>
           <div className="md:hidden mt-6 text-center">
             <Link href="/company/list" className="btn-secondary">
-              Xem tất cả công ty <FaArrowRight className="text-xs" />
+              Xem tất cả công ty <ArrowRightIcon className="w-4 h-4" />
             </Link>
           </div>
         </div>
       </section>
 
       {/* Hot Jobs */}
-      <section className="section bg-white border-t border-neutral-100">
+      <section className="py-10 bg-white border-t border-neutral-100">
         <div className="container-page">
-          <div className="flex items-end justify-between gap-4 mb-10">
+          <div className="flex items-end justify-between gap-4 mb-6">
             <div>
               <h2 className="text-heading-lg md:text-display-md text-neutral-900 font-bold">
                 Việc làm IT mới nhất
@@ -128,7 +134,7 @@ export default function Home() {
               href="/search"
               className="hidden md:inline-flex items-center gap-2 text-body-md font-medium text-accent-500 hover:text-accent-600 transition-colors shrink-0"
             >
-              Xem tất cả <FaArrowRight className="text-xs" />
+              Xem tất cả <ArrowRightIcon className="w-4 h-4" />
             </Link>
           </div>
           <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
@@ -141,14 +147,14 @@ export default function Home() {
           </div>
           <div className="md:hidden mt-6 text-center">
             <Link href="/search" className="btn-secondary">
-              Xem tất cả việc làm <FaArrowRight className="text-xs" />
+              Xem tất cả việc làm <ArrowRightIcon className="w-4 h-4" />
             </Link>
           </div>
         </div>
       </section>
 
       {/* CTA cho NTD */}
-      <section className="section">
+      <section className="py-10">
         <div className="container-page">
           <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-primary-800 to-primary-700 p-8 md:p-12">
             <div className="absolute -right-10 -top-10 w-64 h-64 bg-accent-500/20 rounded-full blur-3xl pointer-events-none" />

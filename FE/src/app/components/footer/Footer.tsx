@@ -1,5 +1,10 @@
 import Link from "next/link";
-import { FaBriefcase, FaFacebook, FaLinkedin, FaGithub } from "react-icons/fa6";
+import {
+  BriefcaseIcon,
+  FacebookIcon,
+  LinkedinIcon,
+  GithubIcon,
+} from "@/app/components/icons/Icons";
 
 export const Footer = () => {
   return (
@@ -10,7 +15,7 @@ export const Footer = () => {
           <div className="lg:col-span-1">
             <Link href="/" className="inline-flex items-center gap-2 font-extrabold text-heading-md text-white mb-4">
               <span className="inline-flex items-center justify-center w-9 h-9 rounded bg-accent-500">
-                <FaBriefcase className="text-white text-lg" />
+                <BriefcaseIcon className="w-5 h-5 text-white" />
               </span>
               ITJobs
             </Link>
@@ -50,13 +55,13 @@ export const Footer = () => {
             </ul>
             <div className="flex items-center gap-3 mt-4">
               <a href="#" className="w-9 h-9 inline-flex items-center justify-center rounded bg-white/10 hover:bg-accent-500 transition-colors" aria-label="Facebook">
-                <FaFacebook />
+                <FacebookIcon className="w-4 h-4" />
               </a>
               <a href="#" className="w-9 h-9 inline-flex items-center justify-center rounded bg-white/10 hover:bg-accent-500 transition-colors" aria-label="LinkedIn">
-                <FaLinkedin />
+                <LinkedinIcon className="w-4 h-4" />
               </a>
               <a href="#" className="w-9 h-9 inline-flex items-center justify-center rounded bg-white/10 hover:bg-accent-500 transition-colors" aria-label="GitHub">
-                <FaGithub />
+                <GithubIcon className="w-4 h-4" />
               </a>
             </div>
           </div>

@@ -1,12 +1,12 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import {
-  FaBriefcase,
-  FaUserTie,
-  FaCircleCheck,
-  FaTrash,
-  FaEye,
-} from "react-icons/fa6";
+  BriefcaseIcon,
+  UserTieIcon,
+  CircleCheckIcon,
+  TrashIcon,
+  EyeIcon,
+} from "@/app/components/icons/Icons";
 
 export const metadata: Metadata = {
   title: "CV đã gửi",
@@ -44,7 +44,7 @@ export default function UserManageCVListPage() {
                   {item.title}
                 </h3>
                 <span className={STATUS[item.status].className}>
-                  <FaCircleCheck className="text-xs mr-1" /> {STATUS[item.status].label}
+                  <CircleCheckIcon className="w-3 h-3 mr-1" /> {STATUS[item.status].label}
                 </span>
               </div>
 
@@ -58,19 +58,19 @@ export default function UserManageCVListPage() {
 
               <div className="flex flex-col gap-2 text-body-sm text-neutral-600 mb-4">
                 <div className="inline-flex items-center gap-2">
-                  <FaUserTie className="text-neutral-400" /> {item.position}
+                  <UserTieIcon className="w-4 h-4 text-neutral-400" /> {item.position}
                 </div>
                 <div className="inline-flex items-center gap-2">
-                  <FaBriefcase className="text-neutral-400" /> {item.workingForm}
+                  <BriefcaseIcon className="w-4 h-4 text-neutral-400" /> {item.workingForm}
                 </div>
               </div>
 
               <div className="pt-4 border-t border-neutral-100 flex gap-2">
                 <Link href="#" className="flex-1 btn-secondary btn-sm">
-                  <FaEye /> Xem
+                  <EyeIcon className="w-4 h-4" /> Xem
                 </Link>
                 <button className="btn btn-sm bg-danger-500/10 text-danger-500 hover:bg-danger-500 hover:text-white">
-                  <FaTrash />
+                  <TrashIcon className="w-4 h-4" />
                 </button>
               </div>
             </div>

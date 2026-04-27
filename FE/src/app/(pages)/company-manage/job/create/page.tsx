@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { FaArrowLeft } from "react-icons/fa6";
+import { ArrowLeftIcon } from "@/app/components/icons/Icons";
 import { FormCreate } from "./FormCreate";
 
 export const metadata: Metadata = {
@@ -16,7 +16,7 @@ export default function CompanyManageJobCreatePage() {
           href="/company-manage/job/list"
           className="inline-flex items-center gap-2 text-body-sm text-neutral-500 hover:text-accent-500 mb-4 transition-colors"
         >
-          <FaArrowLeft className="text-xs" /> Quay lại danh sách
+          <ArrowLeftIcon className="w-3 h-3" /> Quay lại danh sách
         </Link>
 
         <div className="card p-6 md:p-8">

@@ -5,13 +5,13 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
-  FaBriefcase,
-  FaLocationDot,
-  FaUserTie,
-  FaPenToSquare,
-  FaTrash,
-  FaBoxOpen,
-} from "react-icons/fa6";
+  BriefcaseIcon,
+  MapPinIcon,
+  UserTieIcon,
+  PenToSquareIcon,
+  TrashIcon,
+  BoxOpenIcon,
+} from "@/app/components/icons/Icons";
 import { toast } from "sonner";
 
 export const JobList = () => {
@@ -71,7 +71,7 @@ export const JobList = () => {
     return (
       <div className="empty-state card p-12">
         <div className="w-16 h-16 rounded-full bg-accent-50 text-accent-500 inline-flex items-center justify-center mb-4">
-          <FaBoxOpen className="text-2xl" />
+          <BoxOpenIcon className="w-6 h-6" />
         </div>
         <h3 className="text-heading-sm font-semibold text-neutral-900 mb-2">
           Chưa có việc làm nào
@@ -117,13 +117,13 @@ export const JobList = () => {
 
             <div className="flex flex-col gap-2 text-body-sm text-neutral-600 mb-4">
               <div className="inline-flex items-center gap-2">
-                <FaUserTie className="text-neutral-400" /> {job.position}
+                <UserTieIcon className="w-4 h-4 text-neutral-400" /> {job.position}
               </div>
               <div className="inline-flex items-center gap-2">
-                <FaBriefcase className="text-neutral-400" /> {job.workingForm}
+                <BriefcaseIcon className="w-4 h-4 text-neutral-400" /> {job.workingForm}
               </div>
               <div className="inline-flex items-center gap-2">
-                <FaLocationDot className="text-neutral-400" /> {job.companyCity || "N/A"}
+                <MapPinIcon className="w-4 h-4 text-neutral-400" /> {job.companyCity || "N/A"}
               </div>
             </div>
 
@@ -140,13 +140,13 @@ export const JobList = () => {
                 href={`/company-manage/job/edit/${job._id}`}
                 className="flex-1 btn-secondary btn-sm"
               >
-                <FaPenToSquare /> Sửa
+                <PenToSquareIcon className="w-4 h-4" /> Sửa
               </Link>
               <button
                 onClick={() => handleDelete(job._id)}
                 className="btn btn-sm bg-danger-500/10 text-danger-500 hover:bg-danger-500 hover:text-white"
               >
-                <FaTrash />
+                <TrashIcon className="w-4 h-4" />
               </button>
             </div>
           </div>

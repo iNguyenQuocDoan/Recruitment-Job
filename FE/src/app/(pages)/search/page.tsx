@@ -1,6 +1,11 @@
 import { Metadata } from "next";
 import { CardJobItem } from "@/app/components/card/CardJobItem";
-import { FaMagnifyingGlass, FaSliders, FaAngleLeft, FaAngleRight } from "react-icons/fa6";
+import {
+  SearchIcon,
+  SlidersIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@/app/components/icons/Icons";
 
 export const metadata: Metadata = {
   title: "Kết quả tìm kiếm",
@@ -27,7 +32,7 @@ export default function SearchPage() {
               className="flex-1 input border-transparent"
             />
             <button type="submit" className="btn-primary">
-              <FaMagnifyingGlass /> Tìm kiếm
+              <SearchIcon className="w-4 h-4" /> Tìm kiếm
             </button>
           </form>
         </div>
@@ -56,7 +61,7 @@ export default function SearchPage() {
           {/* Filters */}
           <div className="card p-4 mb-8 flex flex-wrap items-center gap-3">
             <div className="inline-flex items-center gap-2 text-body-sm font-medium text-neutral-700">
-              <FaSliders className="text-neutral-500" /> Bộ lọc:
+              <SlidersIcon className="w-4 h-4 text-neutral-500" /> Bộ lọc:
             </div>
             <select className="input h-9 w-auto px-4 text-body-sm rounded-full">
               <option value="">Cấp bậc</option>
@@ -96,7 +101,7 @@ export default function SearchPage() {
           {/* Pagination */}
           <div className="mt-10 flex items-center justify-center gap-2">
             <button className="w-10 h-10 inline-flex items-center justify-center rounded border border-neutral-200 bg-white text-neutral-500 hover:border-accent-500 hover:text-accent-500 transition-colors">
-              <FaAngleLeft />
+              <ChevronLeftIcon className="w-4 h-4" />
             </button>
             {[1, 2, 3, 4, 5].map((p) => (
               <button
@@ -112,7 +117,7 @@ export default function SearchPage() {
               </button>
             ))}
             <button className="w-10 h-10 inline-flex items-center justify-center rounded border border-neutral-200 bg-white text-neutral-500 hover:border-accent-500 hover:text-accent-500 transition-colors">
-              <FaAngleRight />
+              <ChevronRightIcon className="w-4 h-4" />
             </button>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { FaPlus } from "react-icons/fa6";
+import { PlusIcon } from "@/app/components/icons/Icons";
 import { JobList } from "./JobList";
 
 export const metadata: Metadata = {
@@ -22,7 +22,7 @@ export default function CompanyManageJobListPage() {
             </p>
           </div>
           <Link href="/company-manage/job/create" className="btn-primary">
-            <FaPlus /> Đăng tin mới
+            <PlusIcon className="w-4 h-4" /> Đăng tin mới
           </Link>
         </div>
 

@@ -1,14 +1,14 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import {
-  FaBriefcase,
-  FaEye,
-  FaPhone,
-  FaUserTie,
-  FaCheck,
-  FaXmark,
-  FaTrash,
-} from "react-icons/fa6";
+  BriefcaseIcon,
+  EyeIcon,
+  PhoneIcon,
+  UserTieIcon,
+  CheckIcon,
+  CloseIcon,
+  TrashIcon,
+} from "@/app/components/icons/Icons";
 
 export const metadata: Metadata = {
   title: "Quản lý CV",
@@ -76,28 +76,28 @@ export default function CompanyManageCVListPage() {
 
               <div className="flex flex-col gap-2 text-body-sm text-neutral-600 mb-4">
                 <div className="inline-flex items-center gap-2 text-accent-500 font-semibold">
-                  <FaBriefcase className="text-neutral-400" /> {item.salary}
+                  <BriefcaseIcon className="w-4 h-4 text-neutral-400" /> {item.salary}
                 </div>
                 <div className="inline-flex items-center gap-2">
-                  <FaUserTie className="text-neutral-400" /> {item.position}
+                  <UserTieIcon className="w-4 h-4 text-neutral-400" /> {item.position}
                 </div>
                 <div className="inline-flex items-center gap-2">
-                  <FaPhone className="text-neutral-400" /> {item.phone}
+                  <PhoneIcon className="w-4 h-4 text-neutral-400" /> {item.phone}
                 </div>
               </div>
 
               <div className="pt-4 border-t border-neutral-100 flex flex-wrap gap-2">
                 <Link href="#" className="flex-1 btn-secondary btn-sm">
-                  <FaEye /> Xem CV
+                  <EyeIcon className="w-4 h-4" /> Xem CV
                 </Link>
                 <button className="btn btn-sm bg-success-500/10 text-success-600 hover:bg-success-500 hover:text-white">
-                  <FaCheck />
+                  <CheckIcon className="w-4 h-4" />
                 </button>
                 <button className="btn btn-sm bg-warning-500/10 text-warning-500 hover:bg-warning-500 hover:text-white">
-                  <FaXmark />
+                  <CloseIcon className="w-4 h-4" />
                 </button>
                 <button className="btn btn-sm bg-danger-500/10 text-danger-500 hover:bg-danger-500 hover:text-white">
-                  <FaTrash />
+                  <TrashIcon className="w-4 h-4" />
                 </button>
               </div>
             </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FaBars, FaXmark, FaBriefcase } from "react-icons/fa6";
+import { BriefcaseIcon, MenuIcon, CloseIcon } from "@/app/components/icons/Icons";
 import { HeaderMenu } from "./HeaderMenu";
 import { useState } from "react";
 import { HeaderAccount } from "./HeaderAccount";
@@ -19,7 +19,7 @@ export const Header = () => {
               className="inline-flex items-center gap-2 text-white font-extrabold sm:text-heading-md text-heading-sm"
             >
               <span className="inline-flex items-center justify-center w-9 h-9 rounded bg-accent-500">
-                <FaBriefcase className="text-white text-lg" />
+                <BriefcaseIcon className="w-5 h-5 text-white" />
               </span>
               ITJobs
             </Link>
@@ -33,7 +33,7 @@ export const Header = () => {
                 className="lg:hidden text-white text-xl p-2 rounded hover:bg-primary-900 transition-colors"
                 aria-label="Toggle menu"
               >
-                {showMenu ? <FaXmark /> : <FaBars />}
+                {showMenu ? <CloseIcon className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
               </button>
             </div>
           </div>

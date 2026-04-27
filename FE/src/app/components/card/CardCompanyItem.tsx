@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import { FaLocationDot, FaUserTie } from "react-icons/fa6";
+import { MapPinIcon, UserTieIcon } from "@/app/components/icons/Icons";
 
 interface CardCompanyItemProps {
   slug?: string;
@@ -36,11 +36,11 @@ export const CardCompanyItem = ({
 
       <div className="mt-auto w-full pt-4 border-t border-neutral-100 flex items-center justify-between gap-3 text-body-sm text-neutral-600">
         <span className="inline-flex items-center gap-1.5">
-          <FaLocationDot className="text-neutral-400 text-xs" />
+          <MapPinIcon className="w-3.5 h-3.5 text-neutral-400" />
           {city}
         </span>
         <span className="inline-flex items-center gap-1.5 font-medium text-primary-800">
-          <FaUserTie className="text-accent-500" />
+          <UserTieIcon className="w-4 h-4 text-accent-500" />
           {jobCount} việc làm
         </span>
       </div>

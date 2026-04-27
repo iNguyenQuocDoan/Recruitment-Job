@@ -1,6 +1,10 @@
 import { Metadata } from "next";
 import { CardCompanyItem } from "@/app/components/card/CardCompanyItem";
-import { FaMagnifyingGlass, FaAngleLeft, FaAngleRight } from "react-icons/fa6";
+import {
+  SearchIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@/app/components/icons/Icons";
 
 export const metadata: Metadata = {
   title: "Danh sách công ty",
@@ -26,7 +30,7 @@ export default function CompanyListPage() {
               className="flex-1 input border-transparent"
             />
             <button type="submit" className="btn-primary">
-              <FaMagnifyingGlass /> Tìm kiếm
+              <SearchIcon className="w-4 h-4" /> Tìm kiếm
             </button>
           </form>
         </div>
@@ -56,7 +60,7 @@ export default function CompanyListPage() {
 
           <div className="mt-10 flex items-center justify-center gap-2">
             <button className="w-10 h-10 inline-flex items-center justify-center rounded border border-neutral-200 bg-white text-neutral-500 hover:border-accent-500 hover:text-accent-500 transition-colors">
-              <FaAngleLeft />
+              <ChevronLeftIcon className="w-4 h-4" />
             </button>
             {[1, 2, 3, 4].map((p) => (
               <button
@@ -72,7 +76,7 @@ export default function CompanyListPage() {
               </button>
             ))}
             <button className="w-10 h-10 inline-flex items-center justify-center rounded border border-neutral-200 bg-white text-neutral-500 hover:border-accent-500 hover:text-accent-500 transition-colors">
-              <FaAngleRight />
+              <ChevronRightIcon className="w-4 h-4" />
             </button>
           </div>
         </div>

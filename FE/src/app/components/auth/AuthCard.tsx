@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaBriefcase } from "react-icons/fa6";
+import { BriefcaseIcon } from "@/app/components/icons/Icons";
 
 interface AuthCardProps {
   title: string;
@@ -26,7 +26,7 @@ export const AuthCard = ({ title, subtitle, role, mode, children }: AuthCardProp
             className="inline-flex items-center gap-2 text-primary-800 font-extrabold text-heading-md mb-8"
           >
             <span className="inline-flex items-center justify-center w-10 h-10 rounded bg-accent-500">
-              <FaBriefcase className="text-white text-lg" />
+              <BriefcaseIcon className="w-5 h-5 text-white" />
             </span>
             ITJobs
           </Link>

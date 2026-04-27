@@ -1,6 +1,14 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { FaArrowLeft, FaCheck, FaXmark, FaEnvelope, FaPhone, FaUser, FaFilePdf } from "react-icons/fa6";
+import {
+  ArrowLeftIcon,
+  CheckIcon,
+  CloseIcon,
+  EnvelopeIcon,
+  PhoneIcon,
+  UserIcon,
+  FilePdfIcon,
+} from "@/app/components/icons/Icons";
 
 export const metadata: Metadata = {
   title: "Chi tiết CV",
@@ -15,7 +23,7 @@ export default function CompanyManageCVDetailPage() {
           href="/company-manage/cv/list"
           className="inline-flex items-center gap-2 text-body-sm text-neutral-500 hover:text-accent-500 mb-4 transition-colors"
         >
-          <FaArrowLeft className="text-xs" /> Quay lại danh sách
+          <ArrowLeftIcon className="w-3 h-3" /> Quay lại danh sách
         </Link>
 
         <div className="grid lg:grid-cols-3 gap-6">
@@ -26,31 +34,31 @@ export default function CompanyManageCVDetailPage() {
                 <h1 className="text-heading-md font-bold text-neutral-900">Hồ sơ ứng viên</h1>
                 <div className="flex items-center gap-2">
                   <button className="btn btn-sm bg-success-500 text-white hover:bg-success-600">
-                    <FaCheck /> Duyệt
+                    <CheckIcon className="w-4 h-4" /> Duyệt
                   </button>
                   <button className="btn btn-sm bg-warning-500 text-white hover:opacity-90">
-                    <FaXmark /> Từ chối
+                    <CloseIcon className="w-4 h-4" /> Từ chối
                   </button>
                 </div>
               </div>
 
               <div className="grid sm:grid-cols-3 gap-3 mb-6">
                 <div className="flex items-center gap-3 p-3 rounded bg-neutral-50">
-                  <FaUser className="text-accent-500 text-lg" />
+                  <UserIcon className="w-5 h-5 text-accent-500" />
                   <div className="min-w-0">
                     <div className="text-caption text-neutral-500">Họ tên</div>
                     <div className="text-body-sm font-semibold text-neutral-900 truncate">Lê Văn A</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-3 rounded bg-neutral-50">
-                  <FaEnvelope className="text-accent-500 text-lg" />
+                  <EnvelopeIcon className="w-5 h-5 text-accent-500" />
                   <div className="min-w-0">
                     <div className="text-caption text-neutral-500">Email</div>
                     <div className="text-body-sm font-semibold text-neutral-900 truncate">levana@gmail.com</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-3 rounded bg-neutral-50">
-                  <FaPhone className="text-accent-500 text-lg" />
+                  <PhoneIcon className="w-5 h-5 text-accent-500" />
                   <div className="min-w-0">
                     <div className="text-caption text-neutral-500">Điện thoại</div>
                     <div className="text-body-sm font-semibold text-neutral-900 truncate">0123 456 789</div>
@@ -61,7 +69,7 @@ export default function CompanyManageCVDetailPage() {
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <h2 className="text-body-lg font-semibold text-neutral-900 inline-flex items-center gap-2">
-                    <FaFilePdf className="text-danger-500" /> CV.pdf
+                    <FilePdfIcon className="w-4 h-4 text-danger-500" /> CV.pdf
                   </h2>
                   <button className="btn-secondary btn-sm">Tải xuống</button>
                 </div>
