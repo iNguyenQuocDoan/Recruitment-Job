@@ -34,7 +34,7 @@ export default function JobDetailPage() {
         </div>
       </div>
 
-      <section className="section-tight">
+      <section className="py-10">
         <div className="container-page">
           <div className="grid lg:grid-cols-3 gap-6">
             {/* Left col */}

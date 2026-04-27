@@ -25,7 +25,7 @@ export default function CompanyDetailPage() {
         </div>
       </div>
 
-      <section className="container-page -mt-20 md:-mt-24 pb-16 relative">
+      <section className="container-page -mt-20 md:-mt-24 pb-12 relative">
         {/* Profile */}
         <div className="card p-6 md:p-8">
           <div className="flex flex-col md:flex-row items-start gap-6">
@@ -74,7 +74,7 @@ export default function CompanyDetailPage() {
         </div>
 
         {/* Jobs */}
-        <div id="jobs" className="mt-10">
+        <div id="jobs" className="mt-8">
           <div className="flex items-end justify-between mb-6 flex-wrap gap-3">
             <div>
               <h2 className="text-heading-lg font-bold text-neutral-900">

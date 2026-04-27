@@ -39,7 +39,7 @@ export default function SearchPage() {
       </section>
 
       {/* Results */}
-      <section className="section-tight">
+      <section className="py-10">
         <div className="container-page">
           {/* Header */}
           <div className="flex items-end justify-between gap-4 mb-6 flex-wrap">
@@ -59,7 +59,7 @@ export default function SearchPage() {
           </div>
 
           {/* Filters */}
-          <div className="card p-4 mb-8 flex flex-wrap items-center gap-3">
+          <div className="card p-4 mb-6 flex flex-wrap items-center gap-3">
             <div className="inline-flex items-center gap-2 text-body-sm font-medium text-neutral-700">
               <SlidersIcon className="w-4 h-4 text-neutral-500" /> Bộ lọc:
             </div>
@@ -99,7 +99,7 @@ export default function SearchPage() {
           </div>
 
           {/* Pagination */}
-          <div className="mt-10 flex items-center justify-center gap-2">
+          <div className="mt-8 flex items-center justify-center gap-2">
             <button className="w-10 h-10 inline-flex items-center justify-center rounded border border-neutral-200 bg-white text-neutral-500 hover:border-accent-500 hover:text-accent-500 transition-colors">
               <ChevronLeftIcon className="w-4 h-4" />
             </button>

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function CompanyManageCVDetailPage() {
   return (
-    <section className="section-tight">
+    <section className="py-10">
       <div className="container-page">
         <Link
           href="/company-manage/cv/list"

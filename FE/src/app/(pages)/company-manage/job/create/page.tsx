@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function CompanyManageJobCreatePage() {
   return (
-    <section className="section-tight">
+    <section className="py-10">
       <div className="container-page max-w-4xl">
         <Link
           href="/company-manage/job/list"

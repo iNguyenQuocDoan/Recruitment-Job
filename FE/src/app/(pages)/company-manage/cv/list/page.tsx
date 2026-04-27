@@ -32,9 +32,9 @@ export default function CompanyManageCVListPage() {
   ];
 
   return (
-    <section className="section-tight">
+    <section className="py-10">
       <div className="container-page">
-        <div className="mb-8">
+        <div className="mb-6">
           <h1 className="text-heading-lg md:text-display-md font-bold text-neutral-900">
             Quản lý CV
           </h1>

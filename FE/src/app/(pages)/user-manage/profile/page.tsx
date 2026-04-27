@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function UserManageProfilePage() {
   return (
-    <section className="section-tight">
+    <section className="py-10">
       <div className="container-page max-w-3xl">
         <div className="mb-6">
           <h1 className="text-heading-lg md:text-display-md font-bold text-neutral-900">

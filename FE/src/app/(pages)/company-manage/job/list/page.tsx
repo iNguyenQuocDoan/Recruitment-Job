@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 
 export default function CompanyManageJobListPage() {
   return (
-    <section className="section-tight">
+    <section className="py-10">
       <div className="container-page">
-        <div className="flex items-center justify-between gap-4 mb-8 flex-wrap">
+        <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
           <div>
             <h1 className="text-heading-lg md:text-display-md font-bold text-neutral-900">
               Quản lý việc làm

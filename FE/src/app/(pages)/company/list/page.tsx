@@ -36,7 +36,7 @@ export default function CompanyListPage() {
         </div>
       </section>
 
-      <section className="section-tight">
+      <section className="py-10">
         <div className="container-page">
           <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
             <div className="text-body-md text-neutral-600">
@@ -58,7 +58,7 @@ export default function CompanyListPage() {
             <CardCompanyItem />
           </div>
 
-          <div className="mt-10 flex items-center justify-center gap-2">
+          <div className="mt-8 flex items-center justify-center gap-2">
             <button className="w-10 h-10 inline-flex items-center justify-center rounded border border-neutral-200 bg-white text-neutral-500 hover:border-accent-500 hover:text-accent-500 transition-colors">
               <ChevronLeftIcon className="w-4 h-4" />
             </button>
