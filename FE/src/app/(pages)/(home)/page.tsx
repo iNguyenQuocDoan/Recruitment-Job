@@ -46,7 +46,7 @@ const formatSalary = (min?: number, max?: number) => {
 
 async function getHomeData() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  console.log("[home] fetching from", apiUrl);
+  // console.log("[home] fetching from", apiUrl);
 
   const [companiesRes, jobsRes] = await Promise.all([
     fetch(`${apiUrl}/job/company/list?limit=3`, { cache: "no-store" }),
@@ -56,16 +56,16 @@ async function getHomeData() {
   const companies = await companiesRes.json();
   const jobs = await jobsRes.json();
 
-  console.log("[home] companies:", {
-    code: companies.code,
-    count: companies.data?.length,
-    total: companies.total,
-  });
-  console.log("[home] jobs:", {
-    code: jobs.code,
-    count: jobs.data?.length,
-    total: jobs.total,
-  });
+  // console.log("[home] companies:", {
+  //   code: companies.code,
+  //   count: companies.data?.length,
+  //   total: companies.total,
+  // });
+  // console.log("[home] jobs:", {
+  //   code: jobs.code,
+  //   count: jobs.data?.length,
+  //   total: jobs.total,
+  // });
 
   return {
     companies: (companies.data ?? []) as CompanyDTO[],
