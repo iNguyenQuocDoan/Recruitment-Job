@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { CardJobItem } from "@/app/components/card/CardJobItem";
 import {
   MapPinIcon,
@@ -15,7 +16,66 @@ export const metadata: Metadata = {
   description: "Mô tả trang chi tiết công ty...",
 };
 
-export default function CompanyDetailPage() {
+interface CompanyJobDTO {
+  _id: string;
+  title: string;
+  salaryMin?: number;
+  salaryMax?: number;
+  position?: string;
+  workingForm?: string;
+  technologies?: string[];
+  images?: string[];
+}
+
+interface CompanyDetailDTO {
+  _id: string;
+  companyName: string;
+  logo?: string;
+  phone?: string;
+  city?: string;
+  address?: string;
+  companyModel?: string;
+  companyEmployees?: string;
+  workingTime?: string;
+  workOvertime?: string;
+  description?: string;
+  jobs: CompanyJobDTO[];
+}
+
+const formatSalary = (min?: number, max?: number) => {
+  if (!min && !max) return "Thoả thuận";
+  const fmt = (v: number) =>
+    v >= 1_000_000 ? `${(v / 1_000_000).toFixed(0)}tr` : v.toLocaleString("vi-VN");
+  if (min && max) return `${fmt(min)} - ${fmt(max)}đ`;
+  return `${fmt((min ?? max)!)}đ+`;
+};
+
+async function getCompany(id: string): Promise<CompanyDetailDTO | null> {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  // console.log("[company-detail] fetching", `${apiUrl}/job/company/detail/${id}`);
+  const res = await fetch(`${apiUrl}/job/company/detail/${id}`, { cache: "no-store" });
+  const json = await res.json();
+  // console.log("[company-detail] response:", { status: res.status, code: json.code, jobs: json.data?.jobs?.length });
+
+  if (res.status === 404 || json.code !== "success") return null;
+  return json.data as CompanyDetailDTO;
+}
+
+export default async function CompanyDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const company = await getCompany(slug);
+  if (!company) notFound();
+
+  const logo = company.logo || "/assets/images/demo-cong-ty-1.png";
+  const fullAddress = company.address
+    ? `${company.address}${company.city ? `, ${company.city}` : ""}`
+    : company.city || "—";
+  const jobCount = company.jobs?.length ?? 0;
+
   return (
     <>
       {/* Cover */}
@@ -30,22 +90,28 @@ export default function CompanyDetailPage() {
         <div className="card p-6 md:p-8">
           <div className="flex flex-col md:flex-row items-start gap-6">
             <img
-              src="/assets/images/demo-cong-ty-2.jpg"
-              alt="LG CNS Việt Nam"
-              className="w-28 h-28 md:w-36 md:h-36 rounded-md object-cover border-4 border-white shadow-card -mt-16 md:-mt-20"
+              src={logo}
+              alt={company.companyName}
+              className="w-28 h-28 md:w-36 md:h-36 rounded-md object-contain bg-white border-4 border-white shadow-card -mt-16 md:-mt-20"
             />
             <div className="flex-1 min-w-0">
               <h1 className="text-display-md font-bold text-neutral-900 mb-2">
-                LG CNS Việt Nam
+                {company.companyName}
               </h1>
-              <div className="inline-flex items-center gap-2 text-body-sm text-neutral-500 mb-4">
-                <MapPinIcon className="w-4 h-4 text-accent-500" />
-                Tầng 15, Keangnam Landmark 72, Mễ Trì, Nam Từ Liêm, Hà Nội
-              </div>
+              {fullAddress !== "—" && (
+                <div className="inline-flex items-center gap-2 text-body-sm text-neutral-500 mb-4">
+                  <MapPinIcon className="w-4 h-4 text-accent-500" />
+                  {fullAddress}
+                </div>
+              )}
               <div className="flex flex-wrap gap-2">
-                <span className="tag-primary">Sản phẩm</span>
-                <span className="tag-primary">151 - 300 nhân viên</span>
-                <span className="tag-primary">6 việc làm</span>
+                {company.companyModel && (
+                  <span className="tag-primary">{company.companyModel}</span>
+                )}
+                {company.companyEmployees && (
+                  <span className="tag-primary">{company.companyEmployees} nhân viên</span>
+                )}
+                <span className="tag-primary">{jobCount} việc làm</span>
               </div>
             </div>
             <Link href="#jobs" className="btn-primary md:self-center w-full md:w-auto">
@@ -56,10 +122,10 @@ export default function CompanyDetailPage() {
 
         {/* Info grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-          <InfoCard icon={BuildingIcon} label="Mô hình" value="Sản phẩm" />
-          <InfoCard icon={UsersIcon} label="Quy mô" value="151 - 300 nhân viên" />
-          <InfoCard icon={ClockIcon} label="Thời gian" value="Thứ 2 - Thứ 6" />
-          <InfoCard icon={BriefcaseIcon} label="OT" value="Không có OT" />
+          <InfoCard icon={BuildingIcon} label="Mô hình" value={company.companyModel || "—"} />
+          <InfoCard icon={UsersIcon} label="Quy mô" value={company.companyEmployees || "—"} />
+          <InfoCard icon={ClockIcon} label="Thời gian" value={company.workingTime || "—"} />
+          <InfoCard icon={BriefcaseIcon} label="OT" value={company.workOvertime || "—"} />
         </div>
 
         {/* About */}
@@ -67,10 +133,14 @@ export default function CompanyDetailPage() {
           <h2 className="text-heading-md font-bold text-neutral-900 mb-4">
             Về công ty
           </h2>
-          <div className="text-body-md text-neutral-700 leading-relaxed space-y-3">
-            <p>Mô tả chi tiết về công ty sẽ hiển thị tại đây — sứ mệnh, văn hoá làm việc, sản phẩm chính, đối tác, thành tựu nổi bật.</p>
-            <p>Phần nội dung này render từ HTML editor (TinyMCE), hỗ trợ định dạng đầy đủ giúp công ty kể câu chuyện thương hiệu sinh động hơn.</p>
-          </div>
+          {company.description ? (
+            <div
+              className="prose text-body-md text-neutral-700 leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: company.description }}
+            />
+          ) : (
+            <p className="text-body-sm text-neutral-500">Chưa có mô tả.</p>
+          )}
         </div>
 
         {/* Jobs */}
@@ -81,15 +151,32 @@ export default function CompanyDetailPage() {
                 Công ty đang tuyển
               </h2>
               <p className="text-body-sm text-neutral-500 mt-1">
-                6 vị trí đang mở
+                {jobCount} vị trí đang mở
               </p>
             </div>
           </div>
-          <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
-            <CardJobItem />
-            <CardJobItem />
-            <CardJobItem />
-          </div>
+          {jobCount === 0 ? (
+            <p className="text-body-sm text-neutral-500 text-center py-8">
+              Công ty chưa đăng tin tuyển dụng nào.
+            </p>
+          ) : (
+            <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
+              {company.jobs.map((j) => (
+                <CardJobItem
+                  key={j._id}
+                  slug={`/job/detail/${j._id}`}
+                  logo={company.logo || undefined}
+                  title={j.title}
+                  companyName={company.companyName}
+                  salary={formatSalary(j.salaryMin, j.salaryMax)}
+                  position={j.position}
+                  workingForm={j.workingForm}
+                  city={company.city}
+                  technologies={j.technologies}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </>
