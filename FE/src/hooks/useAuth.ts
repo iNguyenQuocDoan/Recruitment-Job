@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export const useAuth = () => {
-  console.log("useAuth hook");
+  // console.log("useAuth hook");
   const [isLogin, setIsLogin] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [infoUser, setInfoUser] = useState<any>(null);
