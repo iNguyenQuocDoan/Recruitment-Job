@@ -13,6 +13,7 @@ import {
   ShareIcon,
   BookmarkIcon,
 } from "@/app/components/icons/Icons";
+import { ApplyForm } from "./ApplyForm";
 
 export const metadata: Metadata = {
   title: "Chi tiết công việc",
@@ -205,31 +206,11 @@ export default async function JobDetailPage({
                 )}
               </div>
 
-              {/* Apply form (placeholder — sẽ wire POST /cv/submit ở Phase 5) */}
+              {/* Apply form */}
               <div id="apply" className="card p-6 md:p-8">
                 <h2 className="text-heading-md font-bold text-neutral-900 mb-2">Ứng tuyển ngay</h2>
                 <p className="text-body-sm text-neutral-500 mb-6">Điền thông tin bên dưới để gửi CV cho nhà tuyển dụng</p>
-                <form className="grid sm:grid-cols-2 gap-4">
-                  <div className="sm:col-span-1">
-                    <label htmlFor="fullName" className="label">Họ tên *</label>
-                    <input id="fullName" type="text" className="input" placeholder="Nguyễn Văn A" />
-                  </div>
-                  <div className="sm:col-span-1">
-                    <label htmlFor="email" className="label">Email *</label>
-                    <input id="email" type="email" className="input" placeholder="email@example.com" />
-                  </div>
-                  <div className="sm:col-span-1">
-                    <label htmlFor="phone" className="label">Số điện thoại *</label>
-                    <input id="phone" type="tel" className="input" placeholder="0901234567" />
-                  </div>
-                  <div className="sm:col-span-1">
-                    <label htmlFor="fileCV" className="label">CV (PDF) *</label>
-                    <input id="fileCV" type="file" accept="application/pdf" className="input p-3 cursor-pointer file:mr-3 file:px-4 file:py-1 file:border-0 file:bg-accent-50 file:text-accent-700 file:rounded-full file:text-body-sm file:font-medium hover:file:bg-accent-100" />
-                  </div>
-                  <button type="submit" className="sm:col-span-2 btn-primary btn-lg">
-                    Gửi CV ứng tuyển <ArrowRightIcon className="w-4 h-4" />
-                  </button>
-                </form>
+                <ApplyForm jobId={job._id} />
               </div>
             </div>
 
