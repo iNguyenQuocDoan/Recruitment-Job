@@ -113,8 +113,11 @@ const listCompanyCvService = async (
   };
 
   if (jobId && typeof jobId === "string" && /^[a-f\d]{24}$/i.test(jobId)) {
-    // Chỉ áp filter nếu jobId thuộc company (đã có trong companyJobIds)
-    filter.jobId = jobId;
+    // Verify jobId thực sự thuộc company hiện tại — chống IDOR.
+    // Nếu attacker truyền jobId của company khác, fallback empty kết quả
+    // thay vì leak CV thuộc company khác.
+    const ownedJobId = companyJobIds.find((id) => id.toString() === jobId);
+    filter.jobId = ownedJobId ?? { $in: [] };
   }
 
   if (status && ["pending", "approved", "rejected"].includes(String(status))) {
