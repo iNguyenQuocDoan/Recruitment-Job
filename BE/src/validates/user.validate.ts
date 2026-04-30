@@ -63,43 +63,19 @@ const registerPost = async (
 };
 
 const loginPost = async (req: Request, res: Response, next: NextFunction) => {
+  // Login chỉ cần email hợp lệ + password tồn tại; KHÔNG enforce password
+  // policy ở login vì password trong DB có thể được tạo dưới policy cũ.
+  // Policy strength chỉ áp ở register / change-password.
   const schema = Joi.object({
     email: Joi.string().required().email().messages({
       "any.required": "Please enter your email!",
       "string.empty": "Please enter your email!",
       "string.email": "Please enter a valid email address!",
     }),
-    password: Joi.string()
-      .required()
-      .min(8)
-      .custom((value, helpers) => {
-        if (!/[A-Z]/.test(value)) {
-          return helpers.error("password.uppercase", { value });
-        }
-
-        if (!/[a-z]/.test(value)) {
-          return helpers.error("password.lowercase", { value });
-        }
-
-        if (!/\d/.test(value)) {
-          return helpers.error("password.digit", { value });
-        }
-
-        if (!/[@$!%*?&]/.test(value)) {
-          return helpers.error("password.special", { value });
-        }
-
-        return value;
-      })
-      .messages({
-        "any.required": "Please enter your password!",
-        "string.empty": "Please enter your password!",
-        "string.min": "Password must be at least 8 characters!",
-        "password.uppercase": "Password must contain at least one uppercase letter!",
-        "password.lowercase": "Password must contain at least one lowercase letter!",
-        "password.digit": "Password must contain at least one number!",
-        "password.special": "Password must contain at least one special character!",
-      }),
+    password: Joi.string().required().messages({
+      "any.required": "Please enter your password!",
+      "string.empty": "Please enter your password!",
+    }),
   });
   const { error } = schema.validate(req.body);
   if (error) {
