@@ -6,32 +6,45 @@ import cookieParser from "cookie-parser";
 import routes from "./src/routes/index.routes";
 import { connectDb } from "./src/config/database.config";
 
-// load environment variables TRƯỚC KHI sử dụng
+// Load env BEFORE reading any process.env values below.
 dotenv.config();
 
-const app = express();
-const Port = 3001;
+const PORT = parseInt(process.env.PORT || "3001", 10);
+const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:3000";
 
-// kết nối db
-connectDb();
+// Boot-time config validation: fail fast instead of running with broken env.
+if (!process.env.JWT_SECRET) {
+  console.error("JWT_SECRET env is required");
+  process.exit(1);
+}
+
+const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // chỉ định tên miền cụ thể,
-    credentials: true, // cho phép gửi cookie
+    origin: CORS_ORIGIN,
+    credentials: true,
   }),
-); // Enable CORS for all routes
+);
 
-app.use(express.json()); // Middleware to parse JSON bodies
-
-app.use(cookieParser()); // Middleware to parse cookies
+app.use(express.json());
+app.use(cookieParser());
 
 app.use("/", routes);
 
-app.get("/", (req, res) => {
+app.get("/", (_req, res) => {
   res.send("Hello World!");
 });
 
-app.listen(Port, () => {
-  console.log(`Server is running on http://localhost:${Port}`);
-});
+// Connect DB first, only listen if it succeeds. Avoids the "server is up
+// but every request 500s because Mongo never came back" footgun.
+connectDb()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Failed to connect to database, exiting:", err);
+    process.exit(1);
+  });
