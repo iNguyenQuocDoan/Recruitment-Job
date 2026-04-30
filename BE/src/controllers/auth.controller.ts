@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { checkAuthService, logoutService } from "../services/auth.service";
+import { clearAuthCookieOptions } from "../helper/cookie.helper";
 
 export const checkController = async (req: Request, res: Response) => {
   const result = await checkAuthService(req.cookies.token);
@@ -12,13 +13,8 @@ export const checkController = async (req: Request, res: Response) => {
   return res.status(result.statusCode).json(result.body);
 };
 
-export const logoutController = async (req: Request, res: Response) => {
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: false,
-    sameSite: "lax",
-  });
-
+export const logoutController = async (_req: Request, res: Response) => {
+  res.clearCookie("token", clearAuthCookieOptions);
   const result = logoutService();
   return res.status(result.statusCode).json(result.body);
 };

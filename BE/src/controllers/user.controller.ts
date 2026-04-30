@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import dotenv from "dotenv";
 
 import { AccountRequest } from "../interfaces/request.interface";
 import {
@@ -12,8 +11,7 @@ import {
   registerUserService,
   updateUserProfileService,
 } from "../services/user.service";
-
-dotenv.config();
+import { authCookieOptions } from "../helper/cookie.helper";
 
 const registerController = async (req: Request, res: Response) => {
   try {
@@ -33,12 +31,7 @@ const loginController = async (req: Request, res: Response) => {
     const result = await loginUserService(req.body);
 
     if (result.token) {
-      res.cookie("token", result.token, {
-        httpOnly: true,
-        secure: false,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-        sameSite: "lax",
-      });
+      res.cookie("token", result.token, authCookieOptions);
     }
 
     return res.status(result.statusCode).json(result.body);
