@@ -60,8 +60,8 @@ const registerPost = async (
 };
 
 const loginPost = async (req: Request, res: Response, next: NextFunction) => {
-  // Login chi can email hop le + password ton tai; KHONG enforce policy
-  // o login vi password trong DB co the duoc tao duoi policy cu.
+  // Login chỉ cần email hợp lệ + password tồn tại; KHÔNG enforce password
+  // policy ở login vì password trong DB có thể được tạo dưới policy cũ.
   const schema = Joi.object({
     email: Joi.string().required().email().messages({
       "string.empty": "Please enter your email!",

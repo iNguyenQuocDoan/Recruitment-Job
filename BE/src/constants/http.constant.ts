@@ -52,4 +52,6 @@ export const RESPONSE_MESSAGE = {
   CV_REJECT_SUCCESS: "CV rejected successfully",
   CV_DELETE_SUCCESS: "CV deleted successfully",
   CV_DELETE_NOT_PENDING: "Only pending CV can be deleted",
+  // Rate limit
+  TOO_MANY_REQUESTS: "Too many requests, try again later",
 } as const;

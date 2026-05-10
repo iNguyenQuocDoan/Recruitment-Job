@@ -9,6 +9,7 @@ import {
   RESPONSE_CODE,
   RESPONSE_MESSAGE,
 } from "../constants/http.constant";
+import { clearAuthCookieOptions } from "../helper/cookie.helper";
 
 const authenticate = async (
   req: AccountRequest,
@@ -35,7 +36,7 @@ const authenticate = async (
     if (role === "user") {
       const account = await AccountUser.findOne({ _id: id, email });
       if (!account) {
-        res.clearCookie("token");
+        res.clearCookie("token", clearAuthCookieOptions);
         return res.status(STATUS_CODE.UNAUTHORIZED).json({
           code: RESPONSE_CODE.UNAUTHORIZED,
           message: RESPONSE_MESSAGE.UNAUTHORIZED,
@@ -45,7 +46,7 @@ const authenticate = async (
     } else if (role === "company") {
       const account = await AccountCompany.findOne({ _id: id, email }).populate("city");
       if (!account) {
-        res.clearCookie("token");
+        res.clearCookie("token", clearAuthCookieOptions);
         return res.status(STATUS_CODE.UNAUTHORIZED).json({
           code: RESPONSE_CODE.UNAUTHORIZED,
           message: RESPONSE_MESSAGE.UNAUTHORIZED,

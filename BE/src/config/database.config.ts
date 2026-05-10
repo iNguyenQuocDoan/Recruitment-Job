@@ -5,5 +5,4 @@ export const connectDb = async () => {
     throw new Error("DB_CONNECTION_STRING env is required");
   }
   await mongoose.connect(process.env.DB_CONNECTION_STRING);
-  console.log("Database connected successfully");
 };

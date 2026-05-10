@@ -67,6 +67,9 @@ const schema = new mongoose.Schema(
   { timestamps: true },
 );
 
+schema.index({ jobId: 1, deletedAt: 1, createdAt: -1 });
+schema.index({ userId: 1, deletedAt: 1, createdAt: -1 });
+
 const Cv = mongoose.model<ICV>("Cv", schema, "cvs");
 
 export default Cv;

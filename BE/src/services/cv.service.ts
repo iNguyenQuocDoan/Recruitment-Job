@@ -103,7 +103,6 @@ const listCompanyCvService = async (
   const limit = Math.max(parseInt(String(accountRequest.query.limit || "12"), 10), 1);
   const skip = (page - 1) * limit;
 
-  // Lấy danh sách jobId của company hiện tại
   const companyJobs = await Job.find({ companyId: company._id }).select("_id").lean();
   const companyJobIds = companyJobs.map((j) => j._id);
 
@@ -124,15 +123,17 @@ const listCompanyCvService = async (
     filter.status = status;
   }
 
-  const total = await Cv.countDocuments(filter);
-  const cvs = await Cv.find(filter)
-    .sort({ createdAt: -1 })
-    .skip(skip)
-    .limit(limit)
-    .populate({ path: "jobId", select: "title" })
-    .lean();
+  const [total, cvs] = await Promise.all([
+    Cv.countDocuments(filter),
+    Cv.find(filter)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate({ path: "jobId", select: "title" })
+      .lean(),
+  ]);
 
-  const data = cvs.map((cv: any) => ({
+  const data = (cvs as any[]).map((cv) => ({
     _id: cv._id,
     jobId: cv.jobId?._id || cv.jobId,
     jobTitle: cv.jobId?.title || "",
@@ -166,7 +167,6 @@ const detailCompanyCvService = async (
   const { cv, error } = await loadCvForCompany(cvId, company);
   if (error) return error;
 
-  // Đánh dấu đã xem nếu chưa
   if (!cv.viewed) {
     cv.viewed = true;
     await cv.save();
@@ -193,15 +193,16 @@ const detailCompanyCvService = async (
   };
 };
 
-const approveCompanyCvService = async (
+const updateCvStatusService = async (
   accountRequest: AccountRequest,
   cvId: string,
+  status: "approved" | "rejected",
 ): Promise<ServiceResponse<any>> => {
   const company = accountRequest.account as IAccountCompany;
   const { cv, error } = await loadCvForCompany(cvId, company);
   if (error) return error;
 
-  cv.status = "approved";
+  cv.status = status;
   if (typeof accountRequest.body.note === "string") {
     cv.note = accountRequest.body.note;
   }
@@ -211,33 +212,19 @@ const approveCompanyCvService = async (
     statusCode: STATUS_CODE.OK,
     body: {
       code: RESPONSE_CODE.SUCCESS,
-      message: RESPONSE_MESSAGE.CV_APPROVE_SUCCESS,
+      message:
+        status === "approved"
+          ? RESPONSE_MESSAGE.CV_APPROVE_SUCCESS
+          : RESPONSE_MESSAGE.CV_REJECT_SUCCESS,
     },
   };
 };
 
-const rejectCompanyCvService = async (
-  accountRequest: AccountRequest,
-  cvId: string,
-): Promise<ServiceResponse<any>> => {
-  const company = accountRequest.account as IAccountCompany;
-  const { cv, error } = await loadCvForCompany(cvId, company);
-  if (error) return error;
+const approveCompanyCvService = (accountRequest: AccountRequest, cvId: string) =>
+  updateCvStatusService(accountRequest, cvId, "approved");
 
-  cv.status = "rejected";
-  if (typeof accountRequest.body.note === "string") {
-    cv.note = accountRequest.body.note;
-  }
-  await cv.save();
-
-  return {
-    statusCode: STATUS_CODE.OK,
-    body: {
-      code: RESPONSE_CODE.SUCCESS,
-      message: RESPONSE_MESSAGE.CV_REJECT_SUCCESS,
-    },
-  };
-};
+const rejectCompanyCvService = (accountRequest: AccountRequest, cvId: string) =>
+  updateCvStatusService(accountRequest, cvId, "rejected");
 
 const deleteCompanyCvService = async (
   accountRequest: AccountRequest,
@@ -269,15 +256,17 @@ const listUserCvService = async (
 
   const filter = { userId: user._id, deletedAt: null };
 
-  const total = await Cv.countDocuments(filter);
-  const cvs = await Cv.find(filter)
-    .sort({ createdAt: -1 })
-    .skip(skip)
-    .limit(limit)
-    .populate({ path: "jobId", select: "title companyId" })
-    .lean();
+  const [total, cvs] = await Promise.all([
+    Cv.countDocuments(filter),
+    Cv.find(filter)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate({ path: "jobId", select: "title companyId" })
+      .lean(),
+  ]);
 
-  const data = cvs.map((cv: any) => ({
+  const data = (cvs as any[]).map((cv) => ({
     _id: cv._id,
     jobId: cv.jobId?._id || cv.jobId,
     jobTitle: cv.jobId?.title || "",
